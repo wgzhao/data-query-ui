@@ -40,7 +40,6 @@ const save = () => {
 onMounted(() => {
   //generate a new sign
   SignService.gen().then(res => {form.value = res.data});
-  console.log(form.value)
 
 })
 </script>

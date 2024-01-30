@@ -23,13 +23,13 @@ const signs = ref([])
 const headers = ref([
   {title: "App Id", value: "appId"},
   {title: "App Secret", value: "appKey"},
-  {titlt: "申请人", value: "applier"},
+  {title: "申请人", value: "applier"},
   {title: "申请时间", value: "createdAt"}
 ])
 
-const add = () => {
-  this.$router.push({name: "admin-signs-new"})
-}
+// const add = () => {
+//   this.$router.push({name: "admin-signs-new"})
+// }
 onMounted(() => {
   SignService.list().then(res => signs.value = res.data);
 });
