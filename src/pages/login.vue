@@ -42,11 +42,13 @@
   </v-sheet>
 </template>
 <script setup>
+  import axios from "axios";
   import { ref } from 'vue'
-  import { useAuthStore } from "@/stores";
-  import {get, post} from '@/util/request'
+  import { useAuthStore } from "@/store";
 
-  const authStore = useAuthStore();
+  import authService from '@/services/auth.service'
+  import AuthHeader from '@/services/auth.header'
+
   const form = ref(false)
   const username = ref(null)
   const password = ref(null)
@@ -63,62 +65,37 @@
   }
 
   async function login() {
-  try {
+
     // reset the error message
     // clearMessages();
+    const authStore = useAuthStore();
+    const user = {
+      username: username.value,
+      password: password.value,
+    };
+    authService.login(user).then(res => {
+      if (res.data.accessToken == null) {
+        alert("登录失败")
+      } else {
+        alert("登录成功")
+        authStore.login(res.data);
+        localStorage.setItem("user", JSON.stringify(res.data));
+            // // update the authorization header
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${res.data.accessToken}`;
+      }
+    });
 
-    // send the login request to the server
-    const response = await post(
-      "/login", // the endpoint
-      form.value, // the request body
-      { withCredentials: true },
-    );
 
-    console.log(response.data)
-
-    // get the token from the response
-    const accessToken = response.data.access_token;
-    const refreshToken = response.data.refresh_token;
-
-    // set the token in local storage
-    localStorage.setItem("access_token", accessToken);
-    localStorage.setItem("refresh_token", refreshToken);
-
-    // update the authorization header
-    axiosInstance.defaults.headers.common[
-      "Authorization"
-    ] = `Bearer ${accessToken}`;
 
     // extract the user role from the token
-    const userRole = extractUserRoleFromToken(accessToken);
+    // const userRole = extractUserRoleFromToken(accessToken);
 
     // call the stores login method this will update the stores state
-    authStore.login(userRole);
+    // authStore.login(userRole);
 
     // redirect to the home page
-    await router.push("/");
-  } catch (error) {
-    if (error.response) {
-      // An error response was received from the server
-      showErrorMessage(error.response.data.message);
-    } else if (error.request) {
-      // The request was made but no response was received.
-      // For example, a CORS error
-      showErrorMessage(
-        "Unable to connect to the server. Please try again later.",
-      );
-    } else {
-      // Something else went wrong
-      showErrorMessage("An error occurred while processing your request.");
-    }
-  }
-}
-function extractUserRoleFromToken(token) {
-  const decodedToken = JSON.parse(atob(token.split(".")[1]));
-  return decodedToken.role;
-}
-
-if (router.currentRoute.value.query.sessionExpired) {
-  sessionExpired.value = true;
+    // await router.push("/");
 }
 </script>

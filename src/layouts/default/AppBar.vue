@@ -10,9 +10,9 @@
     <v-btn flat to="/admin">Home</v-btn>
     <v-toolbar-items class="hidden-sm-and-down">
     <v-btn flat to="/admin/data_sources">数据源管理</v-btn>
-    <v-btn flat to="/admin/query_config">查询配置管理</v-btn>
+    <v-btn flat to="/admin/query_configs">查询配置管理</v-btn>
     <v-btn flat to="/admin/signs">签名管理</v-btn>
-    <v-btn flat to="/discount">查询日志管理</v-btn>
+    <v-btn flat to="/admin/query_logs">查询日志管理</v-btn>
   </v-toolbar-items>
   </template>
 

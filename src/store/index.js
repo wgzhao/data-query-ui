@@ -5,6 +5,7 @@ export const useAuthStore = defineStore("auth", {
   state: () => ({
     isAuthenticated: false,
     userRole: null,
+    token: null,
   }),
   persist: {
     enabled: true,
@@ -21,13 +22,15 @@ export const useAuthStore = defineStore("auth", {
     isUser: (state) => state.userRole === "ROLE_USER",
   },
   actions: {
-    login(userRole) {
+    login(user) {
       this.isAuthenticated = true;
-      this.userRole = userRole;
+      this.userRole = user.role;
+      this.token = user.accessToken;
     },
     logout() {
       this.isAuthenticated = false;
       this.userRole = null;
+      this.token = null;
     },
   },
 });

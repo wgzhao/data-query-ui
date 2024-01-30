@@ -1,0 +1,106 @@
+<template>
+<div>
+  <v-card flat class="mt-5">
+    <v-card-title>
+      <v-icon>mdi-database</v-icon>
+      数据源
+    </v-card-title>
+    <v-card-text>
+      <v-sheet max-width="800" class="mx-auto">
+      <v-form ref="form" v-model="valid" fast-fail @submit.prevent>
+
+        <v-text-field :rules="[rules.required]" v-model="data.no" label="编号" required></v-text-field>
+        <v-text-field :rules="[rules.required]" v-model="data.name" label="名称"  required></v-text-field>
+        <v-text-field :rules="[rules.required]" v-model="data.url" label="地址"  required :append-inner-icon="connFlag"></v-text-field>
+        <v-btn button @click="testConn">测试</v-btn>
+        <v-text-field :rules="[rules.required]" v-model="data.username" label="用户名" required></v-text-field>
+        <v-text-field v-model="data.password" label="密码" ></v-text-field>
+        <v-text-field :rules="[rules.required]" v-model="data.driver" label="驱动类" required></v-text-field>
+
+        <v-btn type="reset" block class="mt-2" @click="reset">取消</v-btn>
+        <v-btn type="submit" :disabled="!valid" block class="mt-2" @click="save" >保存</v-btn>
+      </v-form>
+    </v-sheet>
+    </v-card-text>
+    </v-card>
+</div>
+</template>
+<script setup>
+import { ref, onMounted } from 'vue';
+import DataSourcesService from '@/services/datasources';
+import { useRouter, useRoute } from 'vue-router'
+const data = ref({})
+const route = useRoute()
+const router = useRouter()
+const connFlag=ref()
+const valid = ref(false)
+
+const rules = ref({
+        required: value => !!value || 'Field is required',
+      })
+
+const testConn = () => {
+  if (data.value.url == null ||  data.value.url == "") {
+    alert("地址不能为空")
+    return
+  }
+  DataSourcesService.testConnection(data.value)
+    .then(res => {
+      if (res.data.success == false) {
+        connFlag.value = "mdi-close";
+        alert("连接失败:\n" + res.data.message)
+      } else {
+        connFlag.value = "mdi-check";
+        alert("连接成功")
+      }
+    })
+    .catch(err => {
+      connFlag.value = "mdi-close";
+      alert("连接失败" + err);
+    })
+}
+const checkNo = (no) => {
+  if (no == "") {
+    alert("编号不能为空")
+    return
+  }
+  if (DataSourcesService.exists(no)) {
+    alert("编号已存在");
+  }
+}
+
+const reset =  () => {
+    this.$refs.form.reset()
+}
+
+const save = () => {
+  if (valid.value == false) {
+    alert("请检查输入")
+    return
+  }
+
+  DataSourcesService.save(data.value)
+    .then(res => {
+      if (res.data.success == false) {
+        alert("保存失败:\n" + res.data.message)
+      } else {
+        alert("保存成功")
+        router.push("/admin/data_sources")
+      }
+    })
+    .catch(err => alert("保存失败" + err))
+}
+
+onMounted(() => {
+  console.log("route id " + route.params.id);
+  if (route.params.id === "new") {
+    // create new data source
+    console.log("create a new data source");
+  } else {
+  DataSourcesService.get(route.params.id)
+    .then(res => data.value = res.data)
+    .catch(err =>alert("failed to get data source with id: " + this.$route.params.id + err))
+  }
+});
+
+</script>
