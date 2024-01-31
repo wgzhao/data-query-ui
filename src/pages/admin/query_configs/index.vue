@@ -1,10 +1,10 @@
 <template>
 <v-card flag title="查询配置">
   <v-card-title>
-       <a type="button" class="btn btn-ms btn-primary" variant="outlined" href="/admin/query_configs/new">
+       <router-link type="button" class="btn btn-ms btn-primary" variant="outlined" to="/admin/query_configs/new">
         <v-icon>mdi-plus</v-icon>
         新增
-      </a>
+       </router-link>
   </v-card-title>
   <v-card-text>
     <v-data-table :headers="headers" :items="data">

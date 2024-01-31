@@ -30,5 +30,9 @@ class Request {
     return axios.delete(url, { params })
   }
 
+  put(url, data) {
+    return axios.put(url, data)
+  }
+
 }
 export default new Request();

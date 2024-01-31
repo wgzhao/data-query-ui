@@ -13,6 +13,10 @@ class QueryconfigService {
     return Request.get(`${baseURL.value}/${id}`)
   }
 
+  getDbSources() {
+    return Request.get(`${baseURL.value}/datasources`)
+  }
+
   testConnection(item) {
     return Request.post(`${baseURL.value}/testConnection`, item)
   }
@@ -32,6 +36,11 @@ class QueryconfigService {
       .catch(err => console.log(err))
     return flag;
   }
+
+  saveParams(params) {
+    return Request.put(`${baseURL.value}/params`, params)
+  }
+
 }
 
 export default new QueryconfigService();
