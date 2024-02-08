@@ -13,12 +13,14 @@
   </v-card>
 
 </template>
-<script setup>
+<script setup lang="ts">
 import {ref, onMounted} from 'vue'
+import { useRouter, Router } from 'vue-router';
 import SignService from '@/services/sign';
 const form=ref({})
-const valid = ref(false)
+const valid = ref<boolean>(false)
 
+const router: Router = useRouter()
 const rules = ref({
         required: value => !!value || 'Field is required',
       })

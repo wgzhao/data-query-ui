@@ -6,7 +6,7 @@
         @submit.prevent="login"
       >
         <v-text-field
-          v-model="username"
+          v-model="auth.username"
           :readonly="loading"
           :rules="[required]"
           class="mb-2"
@@ -16,7 +16,7 @@
 
         <v-text-field
           type="password"
-          v-model="password"
+          v-model="auth.password"
           :readonly="loading"
           :rules="[required]"
           clearable
@@ -41,26 +41,28 @@
     </v-card>
   </v-sheet>
 </template>
-<script setup>
+<script setup lang="ts">
   import axios from "axios";
   import { ref } from 'vue'
   import { useAuthStore } from "@/store";
 
   import authService from '@/services/auth.service'
-  import AuthHeader from '@/services/auth.header'
 
   const form = ref(false)
-  const username = ref(null)
-  const password = ref(null)
-  const loading = ref(false)
-  const sessionExpired = ref(false);
+  const auth = ref({
+    username: '',
+    password: ''
+  })
+
+  const loading = ref<boolean>(false)
+  const sessionExpired = ref<boolean>(false);
 
   function onSubmit () {
     if (!form.value) return
     loading.value = true
     setTimeout(() => (loading.value = false), 2000)
   }
-  function required (v) {
+  function required (v: string): boolean | string {
     return !!v || 'Field is required'
   }
 
@@ -69,11 +71,8 @@
     // reset the error message
     // clearMessages();
     const authStore = useAuthStore();
-    const user = {
-      username: username.value,
-      password: password.value,
-    };
-    authService.login(user).then(res => {
+
+    authService.login(auth).then(res => {
       if (res.data.accessToken == null) {
         alert("登录失败")
       } else {

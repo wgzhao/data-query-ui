@@ -37,6 +37,10 @@ class QueryconfigService {
     return flag;
   }
 
+  getParams(id) {
+    return Request.get(`${baseURL.value}/params/${id}`)
+  }
+
   saveParams(params) {
     return Request.put(`${baseURL.value}/params`, params)
   }
