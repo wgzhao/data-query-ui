@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
-
+axios.defaults.headers.common['token'] = import.meta.env.VITE_API_TOKEN;
 // const  user = JSON.parse(localStorage.getItem('user'));
 
 // const axiosInstance = axios.create({
