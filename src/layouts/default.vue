@@ -10,7 +10,7 @@
   </v-app>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import AppBar from './default/AppBar.vue';
 </script>
 <style>

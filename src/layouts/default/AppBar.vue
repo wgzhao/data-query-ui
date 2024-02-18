@@ -6,7 +6,7 @@
 
   <!-- link -->
   <template v-slot:default>
-    <v-app-bar-title>Application Bar</v-app-bar-title>
+    <v-app-bar-title>数据查询管理后台</v-app-bar-title>
     <v-btn flat to="/admin">Home</v-btn>
     <v-toolbar-items class="hidden-sm-and-down">
     <v-btn flat to="/admin/data_sources">数据源管理</v-btn>
@@ -26,6 +26,6 @@
 </v-app-bar>
 </template>
 
-<script setup>
+<script setup lang="ts">
   //
 </script>
