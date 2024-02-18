@@ -1,7 +1,7 @@
 import {ref} from 'vue'
 
 import Request from '@/util/request'
-const baseURL = ref("/datasources")
+const baseURL = ref("/dataSource")
 class DataSourcesService {
 
   list() {

@@ -1,7 +1,7 @@
 import {ref} from 'vue'
 import Request from '@/util/request'
 
-const apiPrefix = ref("/querylogs")
+const apiPrefix = ref("/queryLog")
 
 const list = (page, pageSize) => {
   return Request.get(`${apiPrefix.value}`,

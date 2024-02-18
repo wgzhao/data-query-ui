@@ -1,7 +1,7 @@
 import {ref} from 'vue'
 
 import Request from '@/util/request'
-const baseURL = ref("/queryconfig")
+const baseURL = ref("/queryConfig")
 class QueryconfigService {
 
   list() {
