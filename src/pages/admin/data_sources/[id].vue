@@ -11,10 +11,14 @@
 
         <v-text-field :rules="[rules.required]" v-model="data.no" label="编号" required></v-text-field>
         <v-text-field :rules="[rules.required]" v-model="data.name" label="名称"  required></v-text-field>
-        <v-text-field :rules="[rules.required]" v-model="data.url" label="地址"  required :append-inner-icon="connFlag"></v-text-field>
+        <v-text-field :rules="[rules.required]" v-model="data.url" label="地址" required :append-inner-icon="connFlag"></v-text-field>
         <v-btn button @click="testConn">测试</v-btn>
         <v-text-field :rules="[rules.required]" v-model="data.username" label="用户名" required></v-text-field>
-        <v-text-field v-model="data.password" label="密码" ></v-text-field>
+        <v-text-field v-model="data.password" label="密码"
+          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="showPassword ? 'text' : 'password'"
+          @click:append="showPassword = !showPassword"
+        ></v-text-field>
         <v-text-field :rules="[rules.required]" v-model="data.driver" label="驱动类" required></v-text-field>
 
         <v-btn type="reset" block class="mt-2" @click="reset">取消</v-btn>
@@ -25,15 +29,25 @@
     </v-card>
 </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import DataSourcesService from '@/services/datasources';
+import DataSource from '@/types/data-source'
+
 import { useRouter, useRoute } from 'vue-router'
-const data = ref({})
+const data = ref<DataSource>({
+  no: "",
+  name: "",
+  url: "",
+  username: "",
+  password: "",
+  driver: ""
+})
 const route = useRoute()
 const router = useRouter()
-const connFlag=ref()
-const valid = ref(false)
+const connFlag=ref<string>()
+const valid = ref<boolean>(false)
+const showPassword = ref<boolean>(false)
 
 const rules = ref({
         required: value => !!value || 'Field is required',
@@ -41,7 +55,7 @@ const rules = ref({
 
 const testConn = () => {
   if (data.value.url == null ||  data.value.url == "") {
-    alert("地址不能为空")
+    alert("地址不能为空");
     return
   }
   DataSourcesService.testConnection(data.value)
@@ -59,7 +73,7 @@ const testConn = () => {
       alert("连接失败" + err);
     })
 }
-const checkNo = (no) => {
+const checkNo = (no: string) => {
   if (no == "") {
     alert("编号不能为空")
     return
@@ -99,7 +113,7 @@ onMounted(() => {
   } else {
   DataSourcesService.get(route.params.id)
     .then(res => data.value = res.data)
-    .catch(err =>alert("failed to get data source with id: " + this.$route.params.id + err))
+    .catch(err =>alert("failed to get data source with id: " + route.params.id + err))
   }
 });
 

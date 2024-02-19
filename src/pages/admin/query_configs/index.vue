@@ -37,8 +37,9 @@
 <script setup lang="ts">
 import {ref, onMounted} from 'vue'
 import QueryconfigService from '@/services/queryconfig'
+import QueryConfig from '@/types/query-config'
 
-const data = ref([])
+const data = ref<QueryConfig[]>([])
 
 const headers = ref([
   {title: "查询ID", key: "selectId"},
@@ -52,7 +53,7 @@ const headers = ref([
   {title: "备注", key:"note"},
   {title: "操作", key:"action"}
 ])
-const deleteItem = (id) => {
+const deleteItem = (id: string) => {
   if (confirm("确认删除？")) {
     QueryconfigService.remove(id).then(res => {
       data.value = data.value.filter(item => item.selectId !== id);

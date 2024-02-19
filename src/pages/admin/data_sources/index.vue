@@ -11,7 +11,7 @@
         <v-text-field density="compact" v-model="search" label="搜索" single-line hide-details></v-text-field>
       </template>
       <template v-slot:item.actions="{ item }">
-        <router-link :to="$route.name + item.no">
+        <router-link :to="route.name + item.no">
         <v-icon small >mdi-pencil</v-icon>
         </router-link>
         <v-icon small @click="remove(item)">mdi-delete</v-icon>
@@ -20,34 +20,31 @@
   </v-card-text>
 </v-card>
 </template>
-<script setup>
+<script setup lang="ts">
 
 import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router'
 import DataSourcesService from '@/services/datasources';
+import DataSource from '@/types/data-source';
 
 const router = useRouter()
 const route = useRoute()
 const search = ref('');
-const data = ref([]);
+const data = ref<DataSource[]>([]);
 
 const headers = ref([
-  { title: '#', value: 'no'},
-  { title: '名称', value: 'name' },
-  { title: '地址', value: 'url' },
-  { title: '用户名', value: 'username' },
-  { title: '密码', value: 'password' },
-  // { title: "驱动类", value: 'driver'},
-  // { title: "创建时间", value: 'createdAt'},
-  // { title: "更新时间", value: 'updatedAt'},
-  { title: '操作', value: 'actions', sortable: false },
+  { title: '#', value: 'no', width: "5%"},
+  { title: '名称', value: 'name', width: "5%" },
+  { title: '地址', value: 'url', width: "20%" },
+  { title: '用户名', value: 'username', width: "5%" },
+  { title: '操作', value: 'actions', sortable: false, width: "5%" },
 ]);
 
 const add = () => {
   router.push(route.name + 'new');
 };
 
-const remove = (item) => {
+const remove = (item: DataSource) => {
   // remove from data
   const index = data.value.indexOf(item);
   if (index > -1) {
