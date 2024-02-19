@@ -42,7 +42,7 @@ const data = ref<DataSource>({
   username: "",
   password: "",
   driver: ""
-})
+} as DataSource)
 const route = useRoute()
 const router = useRouter()
 const connFlag=ref<string>()
