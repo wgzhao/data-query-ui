@@ -1,0 +1,28 @@
+include:
+  project: 'grp-arch/sp-push'
+  ref: main
+  file:
+    - argocd-nodejs-ci-new.yml
+build:
+  stage: build
+  image: "nexus.gp51.com/library/node:18-alpine"
+  script: |
+    rm -rf dist
+    npm install --registry=https://registry.npmmirror.com
+    if [ -n  "${CI_COMMIT_TAG}" ];then
+      npm run build
+    elif [ "$CI_COMMIT_REF_NAME" == "test" ];then
+      npm run build
+    elif [ "$CI_COMMIT_REF_NAME" == "uat" ]; then
+      npm run build
+    fi
+  artifacts:
+    paths:
+    - dist
+    expire_in: 20 minutes
+  tags:
+    - node
+  only:
+    - test
+    - uat
+    - tags
