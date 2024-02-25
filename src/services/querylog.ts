@@ -3,7 +3,7 @@ import Request from '@/util/request'
 
 const apiPrefix = ref("/queryLog")
 
-const list = (page, pageSize) => {
+const list = (page: number, pageSize: number) => {
   return Request.get(`${apiPrefix.value}`,
     {
       page: page,
@@ -11,7 +11,7 @@ const list = (page, pageSize) => {
     }
   )}
 
-const searchAppId = (appId, page, pageSize) => {
+const searchAppId = (appId: string, page: number, pageSize: number) => {
   return Request.get(`${apiPrefix.value}/by/appId/${appId}`,
      {
       page: page,
@@ -19,7 +19,7 @@ const searchAppId = (appId, page, pageSize) => {
     }
   )}
 
-const searchSelectId = (selectId, page, pageSize) => {
+const searchSelectId = (selectId: string, page: number, pageSize: number) => {
   return Request.get(`${apiPrefix.value}/by/selectId/${selectId}`,
     {
       page: page,

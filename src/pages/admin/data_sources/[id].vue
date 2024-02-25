@@ -8,7 +8,6 @@
     <v-card-text>
       <v-sheet max-width="800" class="mx-auto">
       <v-form ref="form" v-model="valid" fast-fail @submit.prevent>
-
         <v-text-field :rules="[rules.required]" v-model="data.no" label="编号" required></v-text-field>
         <v-text-field :rules="[rules.required]" v-model="data.name" label="名称"  required></v-text-field>
         <v-text-field :rules="[rules.required]" v-model="data.url" label="地址" required :append-inner-icon="connFlag"></v-text-field>
