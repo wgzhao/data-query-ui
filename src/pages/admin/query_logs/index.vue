@@ -67,14 +67,14 @@ const loadItems =  ({page, itemsPerPage, sortBy}) => {
       if (selected.value == "appId") {
         QueryLogService.searchAppId(search.value, page -1, itemsPerPage).then(res => {
           logs.value = res.data["content"];
-          totalItems.value = res.data["totalPages"];
+          totalItems.value = res.data["totalElements"];
           loading.value = false;
         });
         return;
       } else if (selected.value == "selectId") {
         QueryLogService.searchSelectId(search.value, page -1, itemsPerPage).then(res => {
           logs.value = res.data["content"];
-          totalItems.value = res.data["totalPages"];
+          totalItems.value = res.data["totalElements"];
           loading.value = false;
         });
         return;

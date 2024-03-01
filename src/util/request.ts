@@ -18,19 +18,19 @@ axios.defaults.headers.common['token'] = import.meta.env.VITE_API_TOKEN;
 
 
 class Request {
-  get(url, params) {
+  get(url: string, params) {
     return axios.get(url, {params})
   }
 
-  post(url, data) {
+  post(url: string, data) {
     return axios.post(url, data)
   }
 
-  delete(url, params) {
+  delete(url: string, params) {
     return axios.delete(url, { params })
   }
 
-  put(url, data) {
+  put(url: string, data) {
     return axios.put(url, data)
   }
 
