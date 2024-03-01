@@ -1,7 +1,8 @@
 import axios from 'axios'
-
+import stringify from 'qs'
 axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
 axios.defaults.headers.common['token'] = import.meta.env.VITE_API_TOKEN;
+
 // const  user = JSON.parse(localStorage.getItem('user'));
 
 // const axiosInstance = axios.create({
@@ -19,7 +20,7 @@ axios.defaults.headers.common['token'] = import.meta.env.VITE_API_TOKEN;
 
 class Request {
   get(url: string, params) {
-    return axios.get(url, {params})
+    return axios.get(url, {params: params, paramsSerializer: p => {return stringify(p)}} )
   }
 
   post(url: string, data) {

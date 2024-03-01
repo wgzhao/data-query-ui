@@ -20,7 +20,6 @@
   </div>
   <v-card-text>
   <v-data-table-server
-    v-model:sort-by="sortBy"
     v-model:items-per-page="itemsPerPage"
     :headers="headers"
     :items-length="totalItems"
@@ -44,7 +43,7 @@ const totalItems = ref()
 const itemsPerPage = ref(10)
 const loading = ref(false)
 const search = ref('')
-const sortBy =  ref([{ key: 'createdAt', order: 'desc' }])
+// const sortBy =  ref([{ key: 'createdAt', order: 'desc' }])
 const headers = ref([
   {title: "应用ID", key: "appId"},
   {title: "查询ID", key: "selectId"},
@@ -63,18 +62,27 @@ const searchType = ref([
   }
 ])
 
+const createSort = (sortBy) => {
+  return sortBy.map(s => {
+    return {
+      key: s.key,
+      order: s.order
+    }
+  })
+}
 const loadItems =  ({page, itemsPerPage, sortBy}) => {
+   const sorts = createSort(sortBy)
     loading.value = true;
     if (selected.value != "" && search.value != "") {
       if (selected.value == "appId") {
-        QueryLogService.searchAppId(search.value, page -1, itemsPerPage).then(res => {
+        QueryLogService.searchAppId(search.value, page -1, itemsPerPage, sorts).then(res => {
           logs.value = res.data["content"];
           totalItems.value = res.data["totalElements"];
           loading.value = false;
         });
         return;
       } else if (selected.value == "selectId") {
-        QueryLogService.searchSelectId(search.value, page -1, itemsPerPage).then(res => {
+        QueryLogService.searchSelectId(search.value, page -1, itemsPerPage, sorts).then(res => {
           logs.value = res.data["content"];
           totalItems.value = res.data["totalElements"];
           loading.value = false;
@@ -83,7 +91,7 @@ const loadItems =  ({page, itemsPerPage, sortBy}) => {
       }
       return;
     }
-    QueryLogService.list(page -1, itemsPerPage).then(res => {
+    QueryLogService.list(page -1, itemsPerPage, sorts).then(res => {
       logs.value = res.data["content"];
         totalItems.value = res.data["totalElements"];
         loading.value = false;
