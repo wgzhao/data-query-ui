@@ -20,6 +20,7 @@
   </div>
   <v-card-text>
   <v-data-table-server
+    v-model:sort-by="sortBy"
     v-model:items-per-page="itemsPerPage"
     :headers="headers"
     :items-length="totalItems"
@@ -39,10 +40,11 @@
 import QueryLogService from '@/services/querylog'
 import {ref} from 'vue'
 const logs = ref([])
-const totalItems = ref(10)
+const totalItems = ref()
 const itemsPerPage = ref(10)
 const loading = ref(false)
 const search = ref('')
+const sortBy =  ref([{ key: 'createdAt', order: 'desc' }])
 const headers = ref([
   {title: "应用ID", key: "appId"},
   {title: "查询ID", key: "selectId"},
@@ -83,7 +85,7 @@ const loadItems =  ({page, itemsPerPage, sortBy}) => {
     }
     QueryLogService.list(page -1, itemsPerPage).then(res => {
       logs.value = res.data["content"];
-        totalItems.value = res.data["totalPages"];
+        totalItems.value = res.data["totalElements"];
         loading.value = false;
     });
 

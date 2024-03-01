@@ -5,13 +5,16 @@ import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 import ViteFonts from 'unplugin-fonts/vite'
 import Layouts from 'vite-plugin-vue-layouts'
 import VueRouter from 'unplugin-vue-router/vite'
+import { loadEnv } from 'vite'
 
 // Utilities
 import { defineConfig } from 'vite'
 import { fileURLToPath, URL } from 'node:url'
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({mode}) => {
+  const env = loadEnv(mode, process.cwd());
+  return {
   plugins: [
     VueRouter(),
     Layouts(),
@@ -51,6 +54,14 @@ export default defineConfig({
     ],
   },
   server: {
-    port: 3000
+    port: 3000,
+    proxy: {
+      [env.VITE_API_BASE_URL]: {
+        target: env.VITE_API_HOST,
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }
   }
-})
+}}
+)
