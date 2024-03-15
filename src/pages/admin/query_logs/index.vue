@@ -63,15 +63,20 @@ const searchType = ref([
 ])
 
 const createSort = (sortBy) => {
-  return sortBy.map(s => {
-    return {
-      key: s.key,
-      order: s.order
+  let sortKey = []
+  let sortOrder = []
+  if (sortBy.length) {
+    for (let i = 0; i < sortBy.length; i++) {
+      sortKey.push(sortBy[i].key)
+      sortOrder.push(sortBy[i].order)
     }
-  })
+  }
+  // merge sorkKey and sortOrder a dict
+  return {"sortKey": sortKey.join(), "sortOrder": sortOrder.join()}
 }
 const loadItems =  ({page, itemsPerPage, sortBy}) => {
    const sorts = createSort(sortBy)
+   console.log(sorts)
     loading.value = true;
     if (selected.value != "" && search.value != "") {
       if (selected.value == "appId") {

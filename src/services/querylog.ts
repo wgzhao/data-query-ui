@@ -9,7 +9,8 @@ const list = (page: number, pageSize: number, sortBy) => {
     {
       page: page,
       size: pageSize,
-      sort: [sortBy]
+      sortKey: sortBy['sortKey'],
+      sortOrder: sortBy['sortOrder']
     }
   )}
 
@@ -18,7 +19,8 @@ const searchAppId = (appId: string, page: number, pageSize: number, sortBy) => {
      {
       page: page,
       size: pageSize,
-      sort: sortBy
+      sortKey: sortBy['sortKey'],
+      sortOrder: sortBy['sortOrder']
     }
   )}
 
@@ -27,7 +29,8 @@ const searchSelectId = (selectId: string, page: number, pageSize: number, sortBy
     {
       page: page,
       size: pageSize,
-      sort: sortBy
+      sortKey: sortBy['sortKey'],
+      sortOrder: sortBy['sortOrder']
     }
   )}
 export default {list, searchAppId, searchSelectId}

@@ -20,7 +20,7 @@ axios.defaults.headers.common['token'] = import.meta.env.VITE_API_TOKEN;
 
 class Request {
   get(url: string, params) {
-    return axios.get(url, {params: params, paramsSerializer: p => {return stringify(p)}} )
+    return axios.get(url, {params: params} )
   }
 
   post(url: string, data) {
