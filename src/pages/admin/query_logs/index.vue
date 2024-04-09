@@ -63,13 +63,18 @@ const searchType = ref([
 ])
 
 const createSort = (sortBy) => {
-  let sortKey = []
-  let sortOrder = []
+  let sortKey: Array<string> = []
+  let sortOrder: Array<string> = []
   if (sortBy.length) {
     for (let i = 0; i < sortBy.length; i++) {
       sortKey.push(sortBy[i].key)
       sortOrder.push(sortBy[i].order)
     }
+  }
+  else {
+    // add createdAt as default sort
+    sortKey.push("createdAt");
+    sortOrder.push("desc");
   }
   // merge sorkKey and sortOrder a dict
   return {"sortKey": sortKey.join(), "sortOrder": sortOrder.join()}

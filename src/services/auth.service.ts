@@ -1,12 +1,12 @@
 import axios from 'axios';
 import User from '@/types/user'
 
-const API_URL = import.meta.env.VITE_API_BASE_URL;
+const API_URL = "http://localhost:9090/api/v1/auth";
 
 class AuthService {
   login(user: User) {
     return axios
-      .post(API_URL + '/auth/login', {
+      .post(API_URL + '/login', {
         username: user.username,
         password: user.password
       });
@@ -17,7 +17,7 @@ class AuthService {
   }
 
   register(user: User) {
-    return axios.post(API_URL + 'auth/register', {
+    return axios.post(API_URL + '/register', {
       username: user.username,
       email: user.email,
       password: user.password

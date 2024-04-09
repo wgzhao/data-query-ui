@@ -45,6 +45,7 @@
   import axios from "axios";
   import { ref } from 'vue'
   import { useAuthStore } from "@/store";
+  import router from "@/router";
 
   import authService from '@/services/auth.service'
 
@@ -66,24 +67,24 @@
     return !!v || 'Field is required'
   }
 
-  async function login() {
+ function login() {
 
     // reset the error message
     // clearMessages();
     const authStore = useAuthStore();
-
-    authService.login(auth).then(res => {
+    console.log(auth.value);
+    authService.login(auth.value).then(res => {
       if (res.data.accessToken == null) {
         alert("登录失败")
       } else {
-        alert("登录成功")
         authStore.login(res.data);
-        localStorage.setItem("user", JSON.stringify(res.data));
+        localStorage.setItem("token", res.data.accessToken);
             // // update the authorization header
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${res.data.accessToken}`;
       }
+      router.push("/");
     });
 
 
