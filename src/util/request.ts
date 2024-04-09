@@ -14,7 +14,6 @@ if (token !== null) {
 axios.interceptors.response.use(function (response) {
   return response
 }, function (error) {
-  console.log(error.response.data)
   if (error.response.status === 401) {
     router.push('/login')
   }
