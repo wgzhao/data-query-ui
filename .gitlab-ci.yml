@@ -2,7 +2,7 @@ include:
   project: 'grp-arch/sp-push'
   ref: main
   file:
-    - argocd-nodejs-ci-new.yml
+    - argocd-nodejs-ci-new-bak.yml
 build:
   stage: build
   image: "nexus.gp51.com/library/node:18-alpine"
