@@ -58,11 +58,7 @@ export default defineConfig(({mode}) => {
     proxy: {
       [env.VITE_API_BASE_URL]: {
         target: env.VITE_API_HOST,
-        changeOrigin: true
-      },
-      [env.VITE_API_AUTH_URL]: {
-        target: env.VITE_API_HOST,
-        changeOrigin: true
+        changeOrigin: false
       }
     }
   }

@@ -72,7 +72,6 @@
     // reset the error message
     // clearMessages();
     const authStore = useAuthStore();
-    console.log(auth.value);
     authService.login(auth.value).then(res => {
       if (res.data.accessToken == null) {
         alert("登录失败")
