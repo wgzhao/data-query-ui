@@ -56,7 +56,7 @@ export default defineConfig(({mode}) => {
   server: {
     port: 3000,
     proxy: {
-      [VITE_API_BASE_URL]: {
+      [env.VITE_API_BASE_URL]: {
         target: env.VITE_API_HOST,
         changeOrigin: false
       }
