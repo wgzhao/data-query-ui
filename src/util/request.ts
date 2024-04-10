@@ -1,7 +1,7 @@
 import axios from 'axios'
 import router from '@/router';
 axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
-
+console.log("mode = " + import.meta.env.MODE)
 const token = localStorage.getItem('token');
 if (token !== null) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;

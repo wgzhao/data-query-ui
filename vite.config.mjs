@@ -56,11 +56,11 @@ export default defineConfig(({mode}) => {
   server: {
     port: 3000,
     proxy: {
-      [env.VITE_API_BASE_URL]: {
+      '/api/v1/auth': {
         target: env.VITE_API_HOST,
         changeOrigin: true
       },
-      [env.VITE_API_AUTH_URL]: {
+      '/admin/api/v1': {
         target: env.VITE_API_HOST,
         changeOrigin: true
       }

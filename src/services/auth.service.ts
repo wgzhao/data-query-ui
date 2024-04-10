@@ -1,15 +1,18 @@
 import axios from 'axios';
 import User from '@/types/user'
-
-const API_URL = "http://localhost:9090/api/v1/auth";
+import Request from '@/util/request'
 
 class AuthService {
   login(user: User) {
-    return axios
-      .post(API_URL + '/login', {
-        username: user.username,
-        password: user.password
-      });
+    return Request.post('/auth/login', {
+      username: user.username,
+      password: user.password
+    });
+    // return axios
+    //   .post(API_URL + '/login', {
+    //     username: user.username,
+    //     password: user.password
+    //   });
   }
 
   logout() {
@@ -17,9 +20,8 @@ class AuthService {
   }
 
   register(user: User) {
-    return axios.post(API_URL + '/register', {
+    return Request.post('/auth/register', {
       username: user.username,
-      email: user.email,
       password: user.password
     });
   }
