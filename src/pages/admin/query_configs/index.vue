@@ -42,16 +42,16 @@ import QueryConfig from '@/types/query-config'
 const data = ref<QueryConfig[]>([])
 
 const headers = ref([
-  {title: "查询ID", key: "selectId"},
-  {title: "数据源", key: "dataSource"},
-  {title: "是否启用缓存", key: "enableCache"},
-  {title: "缓存时间", key: "cacheTime"},
-  {title: "查询语句", key: "querySql", width: "50%"},
-  {title: "是否启用", key: "enabled"},
-  {title: "创建时间", key: "createdAt"},
-  {title: "最后修改时间", key: "updatedAt"},
-  {title: "备注", key:"note"},
-  {title: "操作", key:"action"}
+  {title: "查询ID", key: "selectId", width: "100px"},
+  {title: "数据源", key: "dataSource", width: "100px"},
+  {title: "是否启用缓存", key: "enableCache", width: "100px"},
+  {title: "缓存时间", key: "cacheTime", width: "100px"},
+  {title: "查询语句", key: "querySql", width: "60%"},
+  {title: "是否启用", key: "enabled", width: "100px"},
+  {title: "创建时间", key: "createdAt", width: "100px"},
+  {title: "最后修改时间", key: "updatedAt", width: "100px"},
+  {title: "备注", key:"note", width: "100px"},
+  {title: "操作", key:"action", width: '200px', fixed: true}
 ])
 const deleteItem = (id: string) => {
   if (confirm("确认删除？")) {
