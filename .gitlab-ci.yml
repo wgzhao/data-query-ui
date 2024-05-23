@@ -8,15 +8,15 @@ build:
   image: "nexus.gp51.com/library/node:18-alpine"
   script: |
     rm -rf dist
-    npm config set registry https://registry.npmmirror.com
-    npm install 
-    npm install -g vite@latest
+    yarn config set registry https://registry.npmmirror.com
+    yarn install
+    yarn global add vite@latest
     if [ -n  "${CI_COMMIT_TAG}" ];then
-      vite build
+      yarn build
     elif [ "$CI_COMMIT_REF_NAME" == "test" ];then
-      vite build --mode staging
+      yarn build --mode staging
     elif [ "$CI_COMMIT_REF_NAME" == "uat" ]; then
-      vite build --mode staging
+      yarn build --mode staging
     fi
   artifacts:
     paths:

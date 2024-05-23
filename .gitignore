@@ -22,3 +22,8 @@ pnpm-debug.log*
 *.sw?
 package-lock.json
 yarn.lock
+package-lock.json
+auto-imports.d.ts
+components.d.ts
+yarn.lock
+components.d.ts
