@@ -26,6 +26,11 @@
             <v-icon >mdi-pencil</v-icon>
             </router-link>
             <v-icon @click="deleteItem(item.selectId)">mdi-delete</v-icon>
+            <v-icon @click="deleteCache(item.selectId)">mdi-cash-remove
+            <v-tooltip activator="parent" location="top">
+              删除缓存
+              </v-tooltip>
+            </v-icon>
             </td>
         </tr>
         </template>
@@ -60,6 +65,13 @@ const deleteItem = (id: string) => {
       //QueryconfigService.list().then(res => data.value = res.data);
     })
   }
+}
+
+const deleteCache = (id: string) => {
+    QueryconfigService.deleteCache(id).then(res => {
+      alert("缓存已删除, 删除数量:" + res.data);
+    })
+
 }
 
 onMounted(() => {

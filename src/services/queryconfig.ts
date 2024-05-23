@@ -44,6 +44,10 @@ class QueryconfigService {
   saveParams(params) {
     return Request.put(`${baseURL.value}/params`, params)
   }
+  
+  deleteCache(selectId) {
+    return Request.delete(`${baseURL.value}/cache/${selectId}`)
+  }
 
 }
 
