@@ -69,16 +69,17 @@ function login() {
     // clearMessages();
     const authStore = useAuthStore();
     authService.login(auth.value).then((res) => {
-        if (res.data.token == null) {
-            alert("登录失败");
+        console.log(res.data);
+        if (res.data.code != 200) {
+            alert("登录失败: " + res.data.message);
         } else {
             authStore.login(res.data);
-            localStorage.setItem("token", res.data.token);
+            localStorage.setItem("token", res.data.result.token);
             // // update the authorization header
             axios.defaults.headers.common["Authorization"] =
-                `Bearer ${res.data.token}`;
+                `Bearer ${res.data.result.token}`;
         }
-        router.push("/");
+        router.push("/admin/home");
     });
 
     // extract the user role from the token
