@@ -74,6 +74,15 @@
                         </td>
                     </tr>
                 </template>-->
+                <template v-slot:item.dataSource="{ item }">
+                    <router-link
+                        :to="`/admin/data_sources/${item.dataSource}`"
+                        type="button"
+                        target="_blank"
+                    >
+                        {{ item.dataSource }} <v-icon>mdi-open-in-new</v-icon>
+                    </router-link>
+                </template>
                 <template v-slot:expanded-row="{ columns, item }">
                     <tr>
                         <td :colspan="columns.length">
