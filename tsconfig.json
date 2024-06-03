@@ -23,7 +23,10 @@
     "noFallthroughCasesInSwitch": true,
     "types": [
       "unplugin-vue-router/client"
-    ]
+    ],
+    "paths": {
+        "@/*": ["src/*"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }]

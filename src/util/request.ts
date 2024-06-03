@@ -20,7 +20,7 @@ axios.interceptors.response.use(function (response) {
 })
 
 class Request {
-  get(url: string, params) {
+  get(url: string, params?: any) {
     return axios.get(url, {params: params} )
   }
 
@@ -28,7 +28,7 @@ class Request {
     return axios.post(url, data)
   }
 
-  delete(url: string, params) {
+  delete(url: string, params?: any) {
     return axios.delete(url, { params })
   }
 

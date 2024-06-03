@@ -1,4 +1,3 @@
-import axios from 'axios';
 import User from '@/types/user'
 import Request from '@/util/request'
 
