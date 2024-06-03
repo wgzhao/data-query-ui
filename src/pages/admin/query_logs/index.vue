@@ -18,11 +18,20 @@
                 :items-length="totalItems"
                 :items="logs"
                 :loading="loading"
-                item-value="name"
+                item-value="id"
                 @update:options="loadItems"
+                :expanded="expanded"
+                show-expand
             >
-                <template v-slot:item.querySql="{ item }">
+                <!-- <template v-slot:item.querySql="{ item }">
                     <pre>{{ item.querySql }}</pre>
+                </template> -->
+                <template v-slot:expanded-row="{ columns, item }">
+                    <tr>
+                        <td :colspan="columns.length">
+                            <pre>{{ item.querySql }}</pre>
+                        </td>
+                    </tr>
                 </template>
             </v-data-table-server>
         </v-card-text>
@@ -38,11 +47,14 @@ const loading = ref(false);
 const q = ref("");
 // const sortBy =  ref([{ key: 'createdAt', order: 'desc' }])
 const headers = ref([
+    { title: "编号", key: "id" },
     { title: "应用ID", key: "appId" },
     { title: "查询ID", key: "selectId" },
-    { title: "查询SQL", key: "querySql" },
+    // { title: "查询SQL", key: "querySql" },
     { title: "查询时间", key: "createdAt" },
+    { title: "查询SQL", key: "data-table-expand" },
 ]);
+const expanded = ref([]);
 
 const createSort = (sortBy) => {
     let sortKey: Array<string> = [];

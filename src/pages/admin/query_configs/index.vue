@@ -18,6 +18,9 @@
                 :search="search"
                 :items="data"
                 density="compact"
+                :expanded="expanded"
+                item-value="selectId"
+                show-expand
             >
                 <template v-slot:top>
                     <v-text-field
@@ -28,7 +31,7 @@
                         hide-details
                     ></v-text-field>
                 </template>
-                <template v-slot:item="{ item }">
+                <!-- <template v-slot:item="{ item }">
                     <tr>
                         <td>{{ item.selectId }}</td>
                         <td>{{ item.dataSource }}</td>
@@ -70,6 +73,24 @@
                             </v-icon>
                         </td>
                     </tr>
+                </template>-->
+                <template v-slot:expanded-row="{ columns, item }">
+                    <tr>
+                        <td :colspan="columns.length">
+                            <pre>{{ item.querySql }}</pre>
+                        </td>
+                    </tr>
+                </template>
+                <template v-slot:item.actions="{ item }">
+                    <router-link :to="`/admin/query_configs/${item.selectId}`">
+                        <v-icon>mdi-pencil</v-icon>
+                    </router-link>
+                    <v-icon @click="deleteItem(item.selectId)"
+                        >mdi-delete</v-icon
+                    >
+                    <v-icon @click="deleteCache(item.selectId)"
+                        >mdi-cached
+                    </v-icon>
                 </template>
             </v-data-table>
         </v-card-text>
@@ -81,18 +102,19 @@ import QueryconfigService from "@/services/queryconfig";
 import QueryConfig from "@/types/query-config";
 
 const data = ref<QueryConfig[]>([]);
-
+const expanded = ref([]);
 const headers = ref([
-    { title: "查询ID", key: "selectId", width: "100px" },
-    { title: "数据源", key: "dataSource", width: "100px" },
-    { title: "启用缓存", key: "enableCache", width: "100px" },
-    { title: "缓存时间(s)", key: "cacheTime", width: "100px" },
-    { title: "查询语句", key: "querySql", width: "60%" },
-    { title: "启用", key: "enabled", width: "100px" },
-    { title: "创建时间", key: "createdAt", width: "100px" },
-    { title: "修改时间", key: "updatedAt", width: "100px" },
-    { title: "备注", key: "note", width: "100px" },
-    { title: "操作", key: "action", width: "300px", fixed: true },
+    { title: "查询ID", key: "selectId" },
+    { title: "数据源", key: "dataSource" },
+    { title: "启用缓存", key: "enableCache" },
+    { title: "缓存时间(s)", key: "cacheTime" },
+    // { title: "查询语句", key: "querySql", width: "60%" },
+    { title: "启用", key: "enabled" },
+    { title: "创建时间", key: "createdAt" },
+    { title: "修改时间", key: "updatedAt" },
+    { title: "备注", key: "note" },
+    { title: "操作", key: "actions", fixed: true },
+    { title: "SQL", key: "data-table-expand" },
 ]);
 const search = ref();
 
