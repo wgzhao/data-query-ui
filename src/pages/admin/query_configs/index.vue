@@ -86,7 +86,7 @@
                 <template v-slot:expanded-row="{ columns, item }">
                     <tr>
                         <td :colspan="columns.length">
-                            <pre>{{ item.querySql }}</pre>
+                            <highlightjs language="sql" :code="item.querySql" />
                         </td>
                     </tr>
                 </template>

@@ -9,9 +9,11 @@
     "lint": "eslint . --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@highlightjs/vue-plugin": "highlightjs/vue-plugin",
     "@mdi/font": "7.4.47",
     "axios": "^1.6.8",
     "core-js": "^3.37.0",
+    "highlight.js": "^11.9.0",
     "qs": "^6.12.1",
     "roboto-fontface": "*",
     "vue": "^3.4.27",
@@ -21,15 +23,15 @@
     "yarn": "^1.22.22"
   },
   "devDependencies": {
-    "eslint":"^8.23.0",
     "@vitejs/plugin-vue": "^5.0.4",
+    "eslint": "^8.23.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-n": "^16.0.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.1.1",
-    "eslint-plugin-vuetify": "^2.4.0",
     "eslint-plugin-vue": "^9.25.0",
+    "eslint-plugin-vuetify": "^2.4.0",
     "pinia": "^2.1.7",
     "sass": "^1.69.0",
     "typescript": "^5.4.5",
