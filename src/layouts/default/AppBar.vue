@@ -15,7 +15,7 @@
             </template>
             <!-- </v-toolbar-items> -->
 
-            <div v-if="user">
+            <div v-if="isLogin">
                 <v-btn flat to="/logout">注销</v-btn>
             </div>
             <div v-else>
@@ -46,10 +46,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref, watch, computed } from "vue";
 import parseJwt from "@/util/jwt-util";
-
-const user: boolean = ref(false);
 
 const urls = ref([
     {
@@ -80,10 +78,12 @@ const group = ref(null);
 watch(group, () => {
     drawer.value = false;
 });
-onMounted(() => {
+
+const isLogin = computed(() => {
     const token = localStorage.getItem("token");
     if (token && parseJwt(token)) {
-        user.value = true;
+        return true;
     }
+    return false;
 });
 </script>

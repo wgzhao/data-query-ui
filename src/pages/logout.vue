@@ -2,11 +2,9 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import router from "@/router";
-
 const logout = () => {
     localStorage.removeItem("token");
-    router.push("/login");
+    location.href = "/login";
 };
 onMounted(() => {
     // logout
