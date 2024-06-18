@@ -5,13 +5,14 @@
  */
 
 // Plugins
-import vuetify from './vuetify'
+// import vuetify from './vuetify'
 import {createPinia} from 'pinia'
 import router from '@/router'
+import '@/styles/index.css'
+
 const pinia = createPinia()
 export function registerPlugins (app) {
   app
-    .use(vuetify)
     .use(router)
     .use(pinia)
 }
