@@ -79,7 +79,7 @@ function login() {
             axios.defaults.headers.common["Authorization"] =
                 `Bearer ${res.data.result.token}`;
         }
-        router.push("/admin/home");
+        location.href = "/admin/home";
     });
 
     // extract the user role from the token

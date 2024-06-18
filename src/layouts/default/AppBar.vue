@@ -21,6 +21,12 @@
               {{ item.name}}
             </router-link>
           </li>
+          <div v-if="isLogin">
+            <v-btn flat to="/logout">注销</v-btn>
+          </div>
+          <div v-else>
+            <v-btn flat to="/login">登录</v-btn>
+          </div>
         </ul>
       </div>
     </div>
@@ -28,13 +34,44 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue";
+import { onMounted, ref, watch, computed } from "vue";
+import parseJwt from "@/util/jwt-util";
 
 const urls = ref([
-  { name: 'Home', url: '/admin/home' },
-  { name: '数据源管理', url: '/admin/data_sources' },
-  { name: '查询配置管理', url: '/admin/query_configs' },
-  { name: '签名管理', url: '/admin/signs' },
-  { name: '查询日志管理', url: '/admin/query_logs' },
-])
+    {
+        title: "首页",
+        url: "/admin/home",
+    },
+    {
+        title: "数据源管理",
+        url: "/admin/data_sources",
+    },
+    {
+        title: "查询配置管理",
+        url: "/admin/query_configs",
+    },
+    {
+        title: "签名管理",
+        url: "/admin/signs",
+    },
+    {
+        title: "查询日志管理",
+        url: "/admin/query_logs",
+    },
+]);
+
+const drawer = ref(false);
+const group = ref(null);
+
+watch(group, () => {
+    drawer.value = false;
+});
+
+const isLogin = computed(() => {
+    const token = localStorage.getItem("token");
+    if (token && parseJwt(token)) {
+        return true;
+    }
+    return false;
+});
 </script>

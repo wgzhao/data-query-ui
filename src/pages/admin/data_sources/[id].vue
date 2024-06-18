@@ -55,17 +55,22 @@
                             :items="drivers"
                             required
                         ></v-select>
-
-                        <v-btn type="reset" block class="mt-2" @click="reset"
-                            >取消</v-btn
-                        >
                         <v-btn
                             type="submit"
                             :disabled="!valid"
-                            block
                             class="mt-2"
                             @click="save"
                             >保存</v-btn
+                        >
+                        <v-btn type="reset" class="mt-2 ml-2" @click="reset"
+                            >取消</v-btn
+                        >
+                        <v-btn
+                            type="button"
+                            color="secondary"
+                            class="mt-2 ml-2"
+                            @click="$router.go(-1)"
+                            >返回</v-btn
                         >
                     </v-form>
                 </v-sheet>
