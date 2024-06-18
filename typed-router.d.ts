@@ -22,6 +22,7 @@ declare module 'vue-router/auto-routes' {
     '/[...all]': RouteRecordInfo<'/[...all]', '/:all(.*)', { all: ParamValue<true> }, { all: ParamValue<false> }>,
     '/admin/data_sources/': RouteRecordInfo<'/admin/data_sources/', '/admin/data_sources', Record<never, never>, Record<never, never>>,
     '/admin/data_sources/[id]': RouteRecordInfo<'/admin/data_sources/[id]', '/admin/data_sources/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/admin/demo': RouteRecordInfo<'/admin/demo', '/admin/demo', Record<never, never>, Record<never, never>>,
     '/admin/home': RouteRecordInfo<'/admin/home', '/admin/home', Record<never, never>, Record<never, never>>,
     '/admin/query_configs/': RouteRecordInfo<'/admin/query_configs/', '/admin/query_configs', Record<never, never>, Record<never, never>>,
     '/admin/query_configs/[id]': RouteRecordInfo<'/admin/query_configs/[id]', '/admin/query_configs/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
@@ -29,5 +30,6 @@ declare module 'vue-router/auto-routes' {
     '/admin/signs/': RouteRecordInfo<'/admin/signs/', '/admin/signs', Record<never, never>, Record<never, never>>,
     '/admin/signs/new': RouteRecordInfo<'/admin/signs/new', '/admin/signs/new', Record<never, never>, Record<never, never>>,
     '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
+    '/logout': RouteRecordInfo<'/logout', '/logout', Record<never, never>, Record<never, never>>,
   }
 }

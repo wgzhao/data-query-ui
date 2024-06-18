@@ -1,13 +1,11 @@
 <template>
-  <v-app>
-    <div id="wrapper">
-    <AppBar />
-  <!-- content-->
-  <v-main>
-    <router-view></router-view>
-  </v-main>
+  <div class="bg-gray-200 dark:bg-gray-600">
+    <AppBar/>
+    <!-- content-->
+    <section class="bg-gray-50 dark:bg-gray-900 p-5 mt-1">
+      <router-view></router-view>
+    </section>
   </div>
-  </v-app>
 </template>
 
 <script setup lang="ts">
