@@ -9,11 +9,11 @@
     "lint": "eslint . --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@highlightjs/vue-plugin": "^2.1.0",
     "@mdi/font": "7.4.47",
     "axios": "^1.6.8",
     "core-js": "^3.37.0",
-    "flowbite": "^2.3.0",
-    "flowbite-vue": "^0.1.5",
+    "highlight.js": "^11.9.0",
     "qs": "^6.12.1",
     "roboto-fontface": "*",
     "vue": "^3.4.27",

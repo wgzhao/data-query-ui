@@ -33,29 +33,31 @@
           </button>
         </div>
       </div>
-      <fwb-table striped>
-        <fwb-table-head>
-          <fwb-table-head-cell v-for="item in headers">{{ item.title }}</fwb-table-head-cell>
-        </fwb-table-head>
-        <fwb-table-body>
-        <fwb-table-row v-for="item in data">
-          <fwb-table-cell>{{ item.no }}</fwb-table-cell>
-          <fwb-table-cell>{{ item.name }}</fwb-table-cell>
-          <fwb-table-cell>{{ item.url }}</fwb-table-cell>
-          <fwb-table-cell>{{ item.username }}</fwb-table-cell>
-          <fwb-table-cell>
-            <fwb-button
+      <table>
+        <thead>
+        <tr>
+          <th v-for="item in headers">{{ item.title }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="item in data">
+          <td>{{ item.no }}</td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.url }}</td>
+          <td>{{ item.username }}</td>
+          <td>
+            <a
               href="#"
-            >编辑</fwb-button>&nbsp;
-            <fwb-button
+            >编辑</a>&nbsp;
+            <a
               id="deleteButton"
               data-modal-target="deleteModal" data-modal-toggle="deleteModal"
             >删除
-            </fwb-button>
-          </fwb-table-cell>
-        </fwb-table-row>
-        </fwb-table-body>
-      </fwb-table>
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
@@ -101,15 +103,6 @@
 import {onMounted, ref} from "vue";
 import DataSourcesService from "@/services/datasources.ts";
 import DataSource from "@/types/data-source.ts";
-import {
-  FwbButton,
-  FwbTable,
-  FwbTableBody,
-  FwbTableCell,
-  FwbTableHead,
-  FwbTableHeadCell,
-  FwbTableRow
-} from "flowbite-vue";
 
 const headers = ref([
   {title: "#", value: "no", width: "5%"},

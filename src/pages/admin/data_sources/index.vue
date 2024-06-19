@@ -1,29 +1,27 @@
 <template>
   <!-- data sources-->
-  <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
-    <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
-      <v-card flat>
-        <v-card-title>
-          数据源
-          <v-btn small class="btn btn-primary" variant="outlined" prepend-icon="mdi-plus" @click="add">新增</v-btn>
-        </v-card-title>
-        <v-card-text>
-          <v-data-table :headers="headers" :search="search" :items="data" density="compact"
-                        class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <template v-slot:top>
-              <v-text-field density="compact" v-model="search" label="搜索" single-line hide-details></v-text-field>
-            </template>
-            <template v-slot:item.actions="{ item }">
-              <router-link :to="route.name + item.no">
-                <v-icon small>mdi-pencil</v-icon>
-              </router-link>
-              <v-icon small @click="remove(item)">mdi-delete</v-icon>
-            </template>
-          </v-data-table>
-        </v-card-text>
-      </v-card>
-    </div>
-  </section>
+  <v-data-table :headers="headers" :search="search" :items="data" density="compact" class="bg-grey-darken-5">
+    <template v-slot:top>
+      <v-toolbar density="compact">
+        <v-toolbar-title>数据源</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-text-field density="compact" v-model="search" label="搜索" single-line hide-details></v-text-field>
+        <v-spacer></v-spacer>
+        <v-btn small class="btn btn-primary" variant="outlined" prepend-icon="mdi-plus" @click="add" v-bind="props">
+          新增
+        </v-btn>
+      </v-toolbar>
+    </template>
+    <template v-slot:activator="{props}">
+      <v-btn small class="flex btn btn-primary" variant="outlined" prepend-icon="mdi-plus" @click="add" v-bind="props">
+        新增
+      </v-btn>
+    </template>
+    <template v-slot:item.actions="{ item }">
+      <v-icon size="small" class="me-2" @click="edit(item)">mdi-pencil</v-icon>
+      <v-icon small @click="remove(item)">mdi-delete</v-icon>
+    </template>
+  </v-data-table>
 </template>
 <script setup lang="ts">
 
@@ -49,6 +47,9 @@ const add = () => {
   router.push(route.name + 'new');
 };
 
+const edit = (item: DataSource) => {
+  router.push(route.name + item.no);
+}
 const remove = (item: DataSource) => {
   // remove from data
   const index = data.value.indexOf(item);

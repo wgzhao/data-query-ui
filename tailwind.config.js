@@ -3,11 +3,10 @@ const colors = require('tailwindcss/colors')
 
 module.exports = {
   darkMode: 'media',
+  prefix: 'tw-',
   content: [
     "./index.html",
-    "./src/**/*.{vue,js,ts,jsx,tsx}",
-    "./node_modules/flowbite/**/*.{js,jsx,ts,tsx}",
-    "./node_modules/flowbite-vue/**/*.{js,jsx,ts,tsx,vue}",
+    "./src/**/*.{vue,js,ts,jsx,tsx}"
   ],
   theme: {
     screens: {
@@ -82,7 +81,6 @@ module.exports = {
     },
   },
   plugins: [
-    require('flowbite/plugin'),
   ],
 }
 
