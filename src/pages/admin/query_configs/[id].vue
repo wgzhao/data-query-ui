@@ -104,22 +104,6 @@ onMounted(async () => {
         form.value = res.data;
     });
 });
-
-// const parserSql = (sql) => {
-//   // parser sql , extract all params with ${} format
-//   // return params
-//   const pattern = /\$\{(.*?)\}/gm
-//   const params = []
-//   let m;
-//   while ((m = pattern.exec(sql)) !== null) {
-//     // This is necessary to avoid infinite loops with zero-width matches
-//     params.push(m[1])
-//     if (m.index === pattern.lastIndex) {
-//       pattern.lastIndex++;
-//     }
-//   }
-//   return params;
-// }
 </script>
 <style scoped>
 pre {
