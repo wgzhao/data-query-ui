@@ -1,5 +1,5 @@
 include:
-  project: 'grp-arch/sp-push'
+  project: "grp-arch/sp-push"
   ref: main
   file:
     - argocd-nodejs-ci-new-bak.yml
@@ -20,7 +20,7 @@ build:
     fi
   artifacts:
     paths:
-    - dist
+      - dist
     expire_in: 20 minutes
   tags:
     - node

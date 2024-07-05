@@ -3,11 +3,11 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 const logout = () => {
-    localStorage.removeItem("token");
-    location.href = "/login";
+  localStorage.removeItem("token");
+  location.href = "/login";
 };
 onMounted(() => {
-    // logout
-    logout();
+  // logout
+  logout();
 });
 </script>

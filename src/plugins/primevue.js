@@ -1,1 +1,1 @@
-import PrimeVue from 'primevue/config';
+import PrimeVue from "primevue/config";

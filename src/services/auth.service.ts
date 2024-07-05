@@ -1,9 +1,9 @@
-import User from '@/types/user'
-import Request from '@/util/request'
+import User from "@/types/user";
+import Request from "@/util/request";
 
 class AuthService {
   login(user: User) {
-    return Request.post('/auth/login', {
+    return Request.post("/auth/login", {
       username: user.username,
       password: user.password
     });
@@ -15,11 +15,11 @@ class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('user');
+    localStorage.removeItem("user");
   }
 
   register(user: User) {
-    return Request.post('/auth/register', {
+    return Request.post("/auth/register", {
       username: user.username,
       password: user.password
     });

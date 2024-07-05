@@ -1,17 +1,16 @@
 <template>
-  <v-app>
-    <div id="wrapper">
-      <AppBar />
-      <!-- content-->
-      <v-main class="mt-1">
-        <router-view></router-view>
-      </v-main>
-    </div>
+  <v-app :theme="theme">
+    <AppBar v-model="theme" />
+    <!-- content-->
+    <v-main>
+      <router-view></router-view>
+    </v-main>
   </v-app>
 </template>
 
 <script setup lang="ts">
-import AppBar from './default/AppBar.vue';
+import { ref } from "vue";
+import AppBar from "./default/AppBar.vue";
+const theme = ref("dark");
 </script>
-<style>
-</style>
+<style></style>

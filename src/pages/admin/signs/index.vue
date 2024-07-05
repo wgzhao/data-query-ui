@@ -5,7 +5,13 @@
         <v-toolbar-title>签名</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-spacer></v-spacer>
-        <v-btn small class="btn btn-primary" variant="outlined" prepend-icon="mdi-plus" @click="addItem">
+        <v-btn
+          small
+          class="btn btn-primary"
+          variant="outlined"
+          prepend-icon="mdi-plus"
+          @click="addItem"
+        >
           新增
         </v-btn>
       </v-toolbar>
@@ -13,24 +19,24 @@
   </v-data-table>
 </template>
 <script setup lang="ts">
-import {ref, onMounted} from "vue";
+import { ref, onMounted } from "vue";
 import SignService from "@/services/sign";
-import {useRoute, useRouter} from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
-const router = useRouter()
-const route = useRoute()
+const router = useRouter();
+const route = useRoute();
 
 const signs = ref([]);
 const headers = ref([
-  {title: "App Id", value: "appId"},
-  {title: "App Secret", value: "appKey"},
-  {title: "申请人", value: "applier"},
+  { title: "App Id", value: "appId" },
+  { title: "App Secret", value: "appKey" },
+  { title: "申请人", value: "applier" }
 ]);
 
 const addItem = () => {
-  router.push(route.name?.toString() + 'new');
-}
+  router.push(route.name?.toString() + "new");
+};
 onMounted(() => {
-  SignService.list().then((res) => (signs.value = res.data));
+  SignService.list().then(res => (signs.value = res.data));
 });
 </script>

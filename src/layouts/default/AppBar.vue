@@ -1,9 +1,7 @@
 <template>
   <v-app-bar :elevation="2" class="bg-primary">
     <template v-slot:prepend>
-      <v-app-bar-nav-icon
-        @click.stop="drawer = !drawer"
-      ></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     </template>
 
     <!-- link -->
@@ -14,22 +12,27 @@
         <v-btn flat :to="item.url"> {{ item.title }}</v-btn>
       </template>
       <!-- </v-toolbar-items> -->
+    </template>
 
+    <template #append>
+      <v-btn
+        :prepend-icon="
+          theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'
+        "
+        slim
+        @click="theme === 'light' ? (theme = 'dark') : (theme = 'light')"
+      ></v-btn>
       <div v-if="isLogin">
-        <v-menu open-on-hover>
-          <template v-slot:activator="{ props }">
-            <v-btn
-              v-bind="props"
-            >
-              Admin
-            </v-btn>
-          </template>
-          <v-list>
-            <v-list-item to="/admin/profile">个人信息</v-list-item>
-            <v-list-item to="/admin/change_password">修改密码</v-list-item>
-            <v-list-item to="/logout">注销</v-list-item>
-          </v-list>
-        </v-menu>
+        <v-btn class="ms-1">
+          Admin
+          <v-menu activator="parent" origin="top">
+            <v-list>
+              <v-list-item link to="/admin/profile" title="个人信息" />
+              <v-list-item link to="/admin/change_password" title="修改密码" />
+              <v-list-item link to="/logout" title="注销" />
+            </v-list>
+          </v-menu>
+        </v-btn>
       </div>
       <div v-else>
         <v-btn flat to="/login">登录</v-btn>
@@ -45,44 +48,48 @@
 </template>
 -->
   </v-app-bar>
-  <v-navigation-drawer
-    v-model="drawer"
-    :location="$vuetify.display.mobile ? 'bottom' : undefined"
-    temporary
-  >
-    <v-list>
-      <template v-for="item in urls">
-        <v-list-item :to="item.url" link>{{ item.title }}</v-list-item>
-      </template>
+  <v-navigation-drawer v-model="drawer" color="primary" disable-resize-watcher>
+    <v-list nav>
+      <v-list-item
+        v-for="(item, i) in urls"
+        :key="i"
+        :active="i === 0"
+        :to="item.url"
+        link
+        :title="item.title"
+      />
     </v-list>
   </v-navigation-drawer>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch, computed } from "vue";
+import { ref, watch, computed } from "vue";
 import parseJwt from "@/util/jwt-util";
 
+const theme = defineModel({
+  dark: false
+});
 const urls = ref([
   {
     title: "首页",
-    url: "/admin/home",
+    url: "/admin/home"
   },
   {
     title: "数据源管理",
-    url: "/admin/data_sources",
+    url: "/admin/data_sources"
   },
   {
     title: "查询配置管理",
-    url: "/admin/query_configs",
+    url: "/admin/query_configs"
   },
   {
     title: "签名管理",
-    url: "/admin/signs",
+    url: "/admin/signs"
   },
   {
     title: "查询日志管理",
-    url: "/admin/query_logs",
-  },
+    url: "/admin/query_logs"
+  }
 ]);
 
 const drawer = ref(false);

@@ -1,27 +1,27 @@
 <template>
-    <v-sparkline
-        :auto-line-width="autoLineWidth"
-        :fill="fill"
-        :gradient="gradient"
-        :gradient-direction="gradientDirection"
-        :line-width="width"
-        :model-value="value"
-        :padding="padding"
-        :smooth="radius || false"
-        :stroke-linecap="lineCap"
-        :type="type"
-    ></v-sparkline>
+  <v-sparkline
+    :auto-line-width="autoLineWidth"
+    :fill="fill"
+    :gradient="gradient"
+    :gradient-direction="gradientDirection"
+    :line-width="width"
+    :model-value="value"
+    :padding="padding"
+    :smooth="radius || false"
+    :stroke-linecap="lineCap"
+    :type="type"
+  ></v-sparkline>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 const gradients = ref([
-    ["#222"],
-    ["#42b3f4"],
-    ["red", "orange", "yellow"],
-    ["purple", "violet"],
-    ["#00c6ff", "#F0F", "#FF0"],
-    ["#f72047", "#ffd200", "#1feaea"],
+  ["#222"],
+  ["#42b3f4"],
+  ["red", "orange", "yellow"],
+  ["purple", "violet"],
+  ["#00c6ff", "#F0F", "#FF0"],
+  ["#f72047", "#ffd200", "#1feaea"]
 ]);
 
 const width = ref(2);

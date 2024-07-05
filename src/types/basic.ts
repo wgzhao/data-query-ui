@@ -1,4 +1,4 @@
 interface Basic {
-  createdAt: Date,
-  updatedAt: Date
+  createdAt: Date;
+  updatedAt: Date;
 }
