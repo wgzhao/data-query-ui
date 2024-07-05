@@ -6,7 +6,12 @@
     density="compact"
     :expanded="expanded"
     item-value="selectId"
+    class="bg-transparent"
+    striped
     show-expand
+    show-select
+    select-strategy="single"
+    v-model="selectedItem"
   >
     <template v-slot:top>
       <v-toolbar density="compact">
@@ -20,15 +25,16 @@
           hide-details
         ></v-text-field>
         <v-spacer></v-spacer>
-        <v-btn
-          small
-          class="btn btn-primary"
-          variant="outlined"
-          prepend-icon="mdi-plus"
-          @click="addItem"
-        >
-          新增
-        </v-btn>
+        <div class="d-flex justify-space-between">
+          <v-btn class="bg-primary mr-2" @click="doAction('edit')">编辑</v-btn>
+          <v-btn class="bg-primary mr-2" @click="doAction('delete')"
+            >删除</v-btn
+          >
+          <v-btn class="bg-primary mr-2" @click="doAction('deleteCache')"
+            >删除存储</v-btn
+          >
+          <v-btn class="bg-primary mr-2" @click="addItem"> 新增 </v-btn>
+        </div>
       </v-toolbar>
     </template>
     <template v-slot:item.dataSource="{ item }">
@@ -36,6 +42,7 @@
         :to="`/admin/data_sources/${item.dataSource}`"
         type="button"
         target="_blank"
+        class="text-decoration-none"
       >
         {{ item.dataSource }}
         <v-icon>mdi-open-in-new</v-icon>
@@ -47,17 +54,6 @@
           <highlightjs language="sql" :code="item.querySql" />
         </td>
       </tr>
-    </template>
-    <template v-slot:item.actions="{ item }">
-      <v-icon size="small" @click="editItem(item.selectId)">mdi-pencil</v-icon>
-      <v-icon @click="deleteItem(item.selectId)">mdi-delete</v-icon>
-      <v-tooltip location="bottom" activator="parent" text="删除缓存">
-        <template v-slot:activator="{ props }">
-          <v-icon @click="deleteCache(item.selectId)" v-bind="props"
-            >mdi-cached</v-icon
-          >
-        </template>
-      </v-tooltip>
     </template>
   </v-data-table>
 </template>
@@ -82,30 +78,48 @@ const headers = ref([
   { title: "创建时间", key: "createdAt" },
   { title: "修改时间", key: "updatedAt" },
   { title: "备注", key: "note" },
-  { title: "操作", key: "actions", fixed: true },
   { title: "SQL", key: "data-table-expand" }
 ]);
 const search = ref();
 
+const selectedItem = ref([]);
+
 const addItem = () => {
   router.push(route.name?.toString() + "new");
 };
-const editItem = (id: string) => {
+
+function doAction(dtype: string) {
+  if (selectedItem.value.length > 0) {
+    let id = selectedItem.value[0];
+    if (dtype === "edit") {
+      editItem(id);
+    } else if (dtype === "delete") {
+      deleteItem(id);
+    } else if (dtype === "deleteCache") {
+      deleteCache(id);
+    }
+  } else {
+    return;
+  }
+}
+
+function editItem(id: string) {
   router.push(route.name?.toString() + id);
-};
-const deleteItem = (id: string) => {
+}
+
+function deleteItem(id: string) {
   if (confirm("确认删除？")) {
-    QueryconfigService.remove(id).then(res => {
+    QueryconfigService.remove(id).then(() => {
       data.value = data.value.filter(item => item.selectId !== id);
     });
   }
-};
+}
 
-const deleteCache = (id: string) => {
+function deleteCache(id: string) {
   QueryconfigService.deleteCache(id).then(res => {
     alert("缓存已删除, 删除数量: " + res.data);
   });
-};
+}
 
 onMounted(() => {
   QueryconfigService.list().then(res => (data.value = res.data));

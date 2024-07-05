@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar :elevation="2" class="bg-primary">
+  <v-app-bar elevation="4" class="bg-primary px-3">
     <template v-slot:prepend>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     </template>
