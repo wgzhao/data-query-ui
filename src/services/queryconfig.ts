@@ -1,51 +1,47 @@
 import { ref } from "vue";
 
 import Request from "@/util/request";
-const baseURL = ref("/queryConfig");
+import QueryConfig from "@/types/query-config";
+const baseURL = "/queryConfig";
 class QueryconfigService {
   list() {
-    return Request.get(baseURL.value);
+    return Request.get(baseURL);
   }
 
-  get(id) {
-    console.log("invoke get with id: " + id);
-    return Request.get(`${baseURL.value}/${id}`);
+  get(id: string) {
+    return Request.get(`${baseURL}/${id}`);
   }
 
   getDbSources() {
-    return Request.get(`${baseURL.value}/datasources`);
+    return Request.get(`${baseURL}/datasources`);
   }
 
-  testConnection(item) {
-    return Request.post(`${baseURL.value}/testConnection`, item);
+  save(item: QueryConfig) {
+    return Request.post(`${baseURL}`, item);
   }
 
-  save(item) {
-    return Request.post(`${baseURL.value}`, item);
+  remove(id: string) {
+    return Request.delete(`${baseURL}/${id}`);
   }
 
-  remove(id) {
-    return Request.delete(`${baseURL.value}/${id}`);
-  }
-
-  exists(id) {
+  exists(id: string) {
     const flag = ref(false);
-    Request.get(`${baseURL.value}/checkNo/${id}`)
+    Request.get(`${baseURL}/checkNo/${id}`)
       .then(res => (flag.value = res.data))
       .catch(err => console.log(err));
     return flag;
   }
 
-  getParams(id) {
-    return Request.get(`${baseURL.value}/params/${id}`);
+  getParams(id: string) {
+    return Request.get(`${baseURL}/params/${id}`);
   }
 
-  saveParams(params) {
-    return Request.put(`${baseURL.value}/params`, params);
+  saveParams(params: any) {
+    return Request.put(`${baseURL}/params`, params);
   }
 
-  deleteCache(selectId) {
-    return Request.delete(`${baseURL.value}/cache/${selectId}`);
+  deleteCache(selectId: string) {
+    return Request.delete(`${baseURL}/cache/${selectId}`);
   }
 }
 

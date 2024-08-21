@@ -1,36 +1,37 @@
 import { ref } from "vue";
 
 import Request from "@/util/request";
-const baseURL = ref("/sign");
+import Sign from "@/types/sign-type";
+
+const baseURL = "/sign";
 
 class SignService {
   list() {
-    return Request.get(baseURL.value);
+    return Request.get(baseURL);
   }
 
-  get(id) {
-    console.log("invoke get with id: " + id);
-    return Request.get(`${baseURL.value}/${id}`);
+  get(id: string) {
+    return Request.get(`${baseURL}/${id}`);
   }
 
-  save(item) {
-    return Request.post(`${baseURL.value}`, item);
+  save(item: Sign) {
+    return Request.post(`${baseURL}`, item);
   }
 
-  remove(id) {
-    return Request.delete(`${baseURL.value}/${id}`);
+  remove(id: string) {
+    return Request.delete(`${baseURL}/${id}`);
   }
 
-  exists(id) {
+  exists(id: string) {
     const flag = ref(false);
-    Request.get(`${baseURL.value}/checkNo/${id}`)
+    Request.get(`${baseURL}/checkNo/${id}`)
       .then(res => (flag.value = res.data))
       .catch(err => console.log(err));
     return flag;
   }
 
   gen() {
-    return Request.get(`${baseURL.value}/gen`);
+    return Request.get(`${baseURL}/gen`);
   }
 }
 

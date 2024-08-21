@@ -61,7 +61,7 @@
 
             <v-divider />
             <div class="d-flex justify-space-between mt-2">
-              <v-btn type="reset" class="pl-4" @click="reset">取消</v-btn>
+              <v-btn type="reset" class="pl-4">取消</v-btn>
               <v-btn
                 type="submit"
                 :disabled="!valid"
@@ -141,10 +141,6 @@ const checkNo = (no: string) => {
     return false;
   }
   return true;
-};
-
-const reset = () => {
-  this.$refs.form.reset();
 };
 
 const save = () => {

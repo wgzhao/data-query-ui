@@ -66,9 +66,8 @@
 import { ref, watch, computed } from "vue";
 import parseJwt from "@/util/jwt-util";
 
-const theme = defineModel({
-  dark: false
-});
+const theme = defineModel();
+
 const urls = ref([
   {
     title: "首页",

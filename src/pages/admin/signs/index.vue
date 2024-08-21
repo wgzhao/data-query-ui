@@ -21,12 +21,13 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import SignService from "@/services/sign";
+import Sign from "@/types/sign-type";
 import { useRoute, useRouter } from "vue-router";
 
 const router = useRouter();
 const route = useRoute();
 
-const signs = ref([]);
+const signs = ref<Sign[]>([]);
 const headers = ref([
   { title: "App Id", value: "appId" },
   { title: "App Secret", value: "appKey" },

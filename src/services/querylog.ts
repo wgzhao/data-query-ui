@@ -3,7 +3,7 @@ import Request from "@/util/request";
 
 const apiPrefix = ref("/queryLog");
 
-const list = (page: number, pageSize: number, sortBy) => {
+const list = (page: number, pageSize: number, sortBy: Map<string, any>) => {
   return Request.get(`${apiPrefix.value}`, {
     page: page,
     size: pageSize,
@@ -12,7 +12,12 @@ const list = (page: number, pageSize: number, sortBy) => {
   });
 };
 
-const search = (q: string, page: number, pageSize: number, sortBy) => {
+const search = (
+  q: string,
+  page: number,
+  pageSize: number,
+  sortBy: Map<string, any>
+) => {
   return Request.get(`${apiPrefix.value}/search`, {
     q: q,
     page: page,

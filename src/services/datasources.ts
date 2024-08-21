@@ -1,32 +1,34 @@
 import { ref } from "vue";
 
 import Request from "@/util/request";
-const baseURL = ref("/dataSource");
+import DataSource from "@/types/data-source";
+const baseURL = "/dataSource";
+
 class DataSourcesService {
   list() {
-    return Request.get(baseURL.value);
+    return Request.get(baseURL);
   }
 
-  get(id) {
+  get(id: string) {
     console.log("invoke get with id: " + id);
-    return Request.get(`${baseURL.value}/${id}`);
+    return Request.get(`${baseURL}/${id}`);
   }
 
-  testConnection(item) {
-    return Request.post(`${baseURL.value}/testConnection`, item);
+  testConnection(item: DataSource) {
+    return Request.post(`${baseURL}/testConnection`, item);
   }
 
-  save(item) {
-    return Request.post(`${baseURL.value}`, item);
+  save(item: DataSource) {
+    return Request.post(`${baseURL}`, item);
   }
 
-  remove(id) {
-    return Request.delete(`${baseURL.value}/${id}`);
+  remove(id: string) {
+    return Request.delete(`${baseURL}/${id}`);
   }
 
-  exists(id) {
+  exists(id: string) {
     const flag = ref(false);
-    Request.get(`${baseURL.value}/checkNo/${id}`)
+    Request.get(`${baseURL}/checkNo/${id}`)
       .then(res => (flag.value = res.data))
       .catch(err => console.log(err));
     return flag;
