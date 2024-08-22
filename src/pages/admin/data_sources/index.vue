@@ -70,7 +70,7 @@
 import { ref, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import DataSourcesService from "@/services/datasources";
-import DataSource from "@/types/data-source";
+import { DataSource } from "@/types";
 
 const router = useRouter();
 const route = useRoute();

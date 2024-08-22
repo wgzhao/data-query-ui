@@ -79,7 +79,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import DataSourcesService from "@/services/datasources";
-import DataSource from "@/types/data-source";
+import { DataSource } from "@/types";
 
 import { useRouter, useRoute } from "vue-router";
 const data = ref<DataSource>({

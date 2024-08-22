@@ -60,7 +60,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import QueryconfigService from "@/services/queryconfig";
-import QueryConfig from "@/types/query-config";
+import { QueryConfig } from "@/types";
 import { useRoute, useRouter } from "vue-router";
 
 const router = useRouter();

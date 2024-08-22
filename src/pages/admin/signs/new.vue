@@ -38,11 +38,8 @@
 import { ref, onMounted } from "vue";
 import { useRouter, Router } from "vue-router";
 import SignService from "@/services/sign";
-const form = ref({
-  appKey: "",
-  appId: "",
-  applier: ""
-});
+import { Sign } from "@/types";
+const form: Sign = ref();
 const valid = ref<boolean>(false);
 
 const router: Router = useRouter();

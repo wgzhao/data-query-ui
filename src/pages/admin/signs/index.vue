@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import SignService from "@/services/sign";
-import Sign from "@/types/sign-type";
+import { Sign } from "@/types";
 import { useRoute, useRouter } from "vue-router";
 
 const router = useRouter();

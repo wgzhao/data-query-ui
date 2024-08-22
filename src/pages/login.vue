@@ -41,7 +41,6 @@
 import axios from "axios";
 import { ref } from "vue";
 import { useAuthStore } from "@/store";
-import router from "@/router";
 
 import authService from "@/services/auth.service";
 
@@ -52,7 +51,6 @@ const auth = ref({
 });
 
 const loading = ref<boolean>(false);
-const sessionExpired = ref<boolean>(false);
 
 function onSubmit() {
   if (!form.value) return;

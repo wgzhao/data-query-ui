@@ -5,7 +5,7 @@ include:
     - argocd-nodejs-ci-new-bak.yml
 build:
   stage: build
-  image: "nexus.gp51.com/library/node:18-alpine"
+  image: "node:18-alpine"
   script: |
     rm -rf dist
     yarn config set registry https://registry.npmmirror.com

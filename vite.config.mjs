@@ -5,6 +5,7 @@ import Vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 import ViteFonts from "unplugin-fonts/vite";
 import Layouts from "vite-plugin-vue-layouts";
 import VueRouter from "unplugin-vue-router/vite";
+import eslintPlugin from "vite-plugin-eslint";
 import { loadEnv } from "vite";
 
 // Utilities
@@ -38,7 +39,8 @@ export default defineConfig(({ mode }) => {
             }
           ]
         }
-      })
+      }),
+      eslintPlugin()
     ],
     define: { "process.env": {} },
     resolve: {
