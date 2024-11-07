@@ -1,4 +1,14 @@
 <template>
+  <div>
+    <v-snackbar
+      v-model="toastCtl.showToast"
+      multi-line
+      location="top"
+      :color="toastCtl.color"
+    >
+      {{ toastCtl.msg }}
+    </v-snackbar>
+  </div>
   <v-row>
     <v-col cols="12">
       <v-card flat title="编辑查询">
@@ -62,9 +72,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import QueryConfigService from "@/services/queryconfig";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
+const router = useRouter();
 const valid = ref(false);
 const rules = ref({
   required: (value: any) => !!value || "Field is required"
@@ -80,13 +91,37 @@ const form = ref({
   note: ""
 });
 
+const toastCtl = ref({
+  showToast: false,
+  msg: "",
+  color: ""
+});
+
+const setToast = (msg: str, isError: boolean = true) => {
+  toastCtl.value = {
+    color: isError ? "error" : "success",
+    showToast: true,
+    msg: msg
+  };
+};
+
 const dbsources = ref([]);
 
 const sqlError = ref("");
 
 const save = () => {
+  if (
+    route.params.id === "new" &&
+    QueryConfigService.exists(form.value.selectId)
+  ) {
+    setToast("查询ID已存在", true);
+    return;
+  }
   QueryConfigService.save(form.value).then(res => {
-    alert("保存成功");
+    setToast("保存成功", false);
+    setTimeout(() => {
+      router.push("/admin/query_configs");
+    }, 1000);
   });
 };
 

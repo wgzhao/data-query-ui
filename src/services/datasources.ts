@@ -30,10 +30,8 @@ class DataSourcesService {
     const flag = ref(false);
     Request.get(`${baseURL}/${id}`)
       .then(res => {
-        console.log(res.data['no']);
-        flag.value = res.data['no'] == id;
-      }
-      )
+        flag.value = res.data["selectId"] == id;
+      })
       .catch(err => console.log(err));
     return flag;
   }

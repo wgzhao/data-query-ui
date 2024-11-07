@@ -128,6 +128,14 @@ const toastCtl = ref({
   color: ""
 });
 
+const setToast = (msg: str, isError: boolean = true) => {
+  toastCtl.value = {
+    color: isError ? "error" : "success",
+    showToast: true,
+    msg: msg
+  };
+};
+
 const testConn = () => {
   if (data.value.url == null || data.value.url == "") {
     alert("地址不能为空");
@@ -137,45 +145,33 @@ const testConn = () => {
     .then(res => {
       if (res.data.code != 200) {
         connFlag.value = "mdi-close";
-        toastCtl.value = {
-          color: "error",
-          showToast: true,
-          msg: res.data.message
-        };
+        setToast(res.data.message, true);
         // alert("连接失败:\n" + res.data.message);
       } else {
         connFlag.value = "mdi-check";
-        toastCtl.value = {
-          color: "success",
-          showToast: true,
-          msg: "连接成功"
-        };
+        setToast("连接成功", false);
       }
     })
     .catch(err => {
       connFlag.value = "mdi-close";
-      toastCtl.value = {
-        color: "error",
-        showToast: true,
-        msg: "连接失败" + err
-      };
+      setToast("连接失败" + err, true);
     });
 };
 const checkNo = (no: string) => {
-  if (no == "") {
-    alert("编号不能为空");
+  if (no == "" || no.trim() == "") {
+    setToast("编号不能为空", true);
     return false;
   }
-  // if (DataSourcesService.exists(no)) {
-  //   alert("编号已存在");
-  //   return false;
-  // }
+  if (route.params.id === "new" && DataSourcesService.exists(no)) {
+    setToast("编号已存在", true);
+    return false;
+  }
   return true;
 };
 
 const save = () => {
   if (valid.value == false) {
-    alert("请检查输入");
+    setToast("请检查输入", true);
     return;
   }
   if (!checkNo(data.value.no)) {
@@ -185,18 +181,20 @@ const save = () => {
   DataSourcesService.save(data.value)
     .then(res => {
       if (res.data.success == false) {
-        toastCtl.value = {
-          color: "error",
-          showToast: true,
-          msg: "保存失败:\n" + res.data.message
-        };
+        setToast("保存失败:\n" + res.data.message, true);
         // alert("保存失败:\n" + res.data.message);
       } else {
-        alert("保存成功");
-        router.push("/admin/data_sources");
+        setToast("保存成功", false);
+        // Delay the redirection to allow the toast message to be visible
+        setTimeout(() => {
+          router.push("/admin/data_sources");
+        }, 1000);
+        // router.push("/admin/data_sources");
       }
     })
-    .catch(err => alert("保存失败" + err));
+    .catch(err => {
+      setToast("保存失败" + err);
+    });
 };
 
 onMounted(() => {

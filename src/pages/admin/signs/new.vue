@@ -39,7 +39,11 @@ import { ref, onMounted } from "vue";
 import { useRouter, Router } from "vue-router";
 import SignService from "@/services/sign";
 import { Sign } from "@/types";
-const form: Sign = ref();
+const form: Sign = ref({
+  appId: "",
+  appKey: "",
+  applier: ""
+});
 const valid = ref<boolean>(false);
 
 const router: Router = useRouter();
@@ -49,7 +53,7 @@ const rules = ref({
 
 const save = () => {
   SignService.save(form.value).then(res => {
-    if (res.data.success == true) {
+    if (res.status == 200) {
       alert("保存成功");
       router.push({ name: "/admin/signs/" });
     } else {
