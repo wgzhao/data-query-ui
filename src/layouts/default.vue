@@ -15,4 +15,5 @@ import AppBar from "./default/AppBar.vue";
 import Footer from "./default/Footer.vue";
 const theme = ref("dark");
 </script>
-<style></style>
+<style>
+</style>

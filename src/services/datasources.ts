@@ -28,8 +28,12 @@ class DataSourcesService {
 
   exists(id: string) {
     const flag = ref(false);
-    Request.get(`${baseURL}/checkNo/${id}`)
-      .then(res => (flag.value = res.data))
+    Request.get(`${baseURL}/${id}`)
+      .then(res => {
+        console.log(res.data['no']);
+        flag.value = res.data['no'] == id;
+      }
+      )
       .catch(err => console.log(err));
     return flag;
   }

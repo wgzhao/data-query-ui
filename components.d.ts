@@ -10,5 +10,7 @@ declare module 'vue' {
     BackButton: typeof import('./src/components/BackButton.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SnackBar: typeof import('./src/components/snack-bar.vue')['default']
+    Toast: typeof import('./src/components/Toast.vue')['default']
   }
 }
