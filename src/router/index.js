@@ -6,18 +6,34 @@
 
 // Composables
 import { createRouter, createWebHistory } from "vue-router/auto";
-
+import { routes } from "vue-router/auto-routes";
 const router = createRouter({
-  extendRoutes: routes => {
-    const adminRoute = routes.find(r => r.name === "/admin");
-    if (adminRoute) {
-      adminRoute.meta ??= {};
-      adminRoute.meta.requiresAuth = true;
+  history: createWebHistory(process.env.BASE_URL),
+  routes
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.path.startsWith("/admin")) {
+    if (!to.meta.requiresAuth) {
+      to.meta.requiresAuth = true;
     }
-    // completely optional since we are modifying the routes in place
-    return routes;
-  },
-  history: createWebHistory(process.env.BASE_URL)
+  }
+  next();
+});
+
+router.beforeEach((to, from, next) => {
+  console.log("to.meta = " + JSON.stringify(to.meta));
+  // console.log("route = " + JSON.stringify(router.options.routes));
+  const isAuthenticated = localStorage.getItem("token") != null; // Replace with your actual authentication check
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    console.log("prepare redirect to login");
+    next({
+      path: "/login",
+      query: { redirect: to.fullPath }
+    });
+  } else {
+    next();
+  }
 });
 
 export default router;

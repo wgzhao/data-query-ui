@@ -5,9 +5,6 @@ console.log("mode = " + import.meta.env.MODE);
 const token = localStorage.getItem("token");
 if (token !== null) {
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-} else {
-  // not logged int , redirect login page
-  router.push("/login");
 }
 
 axios.interceptors.response.use(
@@ -15,9 +12,13 @@ axios.interceptors.response.use(
     return response;
   },
   function (error) {
-    if (error.response.status === 401) {
-      router.push("/login");
-    }
+    // if (error.response.status === 401) {
+    //   const url = new URL(location.href);
+    //   console.log("401 : " + url.pathname);
+    //   router.push("/login", params => {
+    //     path: url.pathname;
+    //   });
+    // }
     return Promise.reject(error);
   }
 );

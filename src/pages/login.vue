@@ -41,7 +41,7 @@
 import axios from "axios";
 import { ref } from "vue";
 import { useAuthStore } from "@/store";
-
+import { useRouter, useRoute } from "vue-router";
 import authService from "@/services/auth.service";
 
 const form = ref(false);
@@ -51,6 +51,8 @@ const auth = ref({
 });
 
 const loading = ref<boolean>(false);
+const route = useRoute();
+const router = useRouter();
 
 function onSubmit() {
   if (!form.value) return;
@@ -75,8 +77,9 @@ function login() {
       // // update the authorization header
       axios.defaults.headers.common["Authorization"] =
         `Bearer ${res.data.result.token}`;
+      const redirectPath = route.query.redirect || "/admin/home";
+      router.push(redirectPath);
     }
-    location.href = "/admin/home";
   });
 
   // extract the user role from the token

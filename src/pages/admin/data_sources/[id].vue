@@ -1,6 +1,11 @@
 <template>
   <div>
-    <v-snackbar v-model="toastCtl.showToast" multi-line location="top" :color="toastCtl.color">
+    <v-snackbar
+      v-model="toastCtl.showToast"
+      multi-line
+      location="top"
+      :color="toastCtl.color"
+    >
       {{ toastCtl.msg }}
     </v-snackbar>
   </div>
@@ -9,30 +14,71 @@
       <v-card-title>
         数据源
         <span class="ml-auto pl-4">
-          <v-btn icon size="small" class="bg-secondary" @click="$router.go(-1)"><v-icon>mdi-arrow-left</v-icon></v-btn>
+          <v-btn icon size="small" class="bg-secondary" @click="$router.go(-1)"
+            ><v-icon>mdi-arrow-left</v-icon></v-btn
+          >
         </span>
       </v-card-title>
       <v-divider />
       <v-card-text>
         <v-sheet max-width="800" class="mx-auto pa-4">
           <v-form ref="form" v-model="valid" fast-fail @submit.prevent>
-            <v-text-field :rules="[rules.required]" v-model="data.no" label="编号" required
-              spellcheck="false"></v-text-field>
-            <v-text-field :rules="[rules.required]" v-model="data.name" label="名称" required focused
-              spellcheck="false"></v-text-field>
-            <v-text-field :rules="[rules.required]" v-model="data.url" label="地址" required spellcheck="false"
-              :append-inner-icon="connFlag"></v-text-field>
+            <v-text-field
+              :rules="[rules.required]"
+              v-model="data.no"
+              label="编号"
+              required
+              spellcheck="false"
+            ></v-text-field>
+            <v-text-field
+              :rules="[rules.required]"
+              v-model="data.name"
+              label="名称"
+              required
+              focused
+              spellcheck="false"
+            ></v-text-field>
+            <v-text-field
+              :rules="[rules.required]"
+              v-model="data.url"
+              label="地址"
+              required
+              spellcheck="false"
+              :append-inner-icon="connFlag"
+            ></v-text-field>
             <v-btn button @click="testConn">测试</v-btn>
-            <v-text-field :rules="[rules.required]" v-model="data.username" label="用户名" required
-              spellcheck="false"></v-text-field>
-            <v-text-field v-model="data.password" label="密码" :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-              :type="showPassword ? 'text' : 'password'" @click:append="showPassword = !showPassword"></v-text-field>
-            <v-select :rules="[rules.required]" v-model="data.driver" label="驱动类" :items="drivers" required></v-select>
+            <v-text-field
+              :rules="[rules.required]"
+              v-model="data.username"
+              label="用户名"
+              required
+              spellcheck="false"
+            ></v-text-field>
+            <v-text-field
+              v-model="data.password"
+              label="密码"
+              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="showPassword ? 'text' : 'password'"
+              @click:append="showPassword = !showPassword"
+            ></v-text-field>
+            <v-select
+              :rules="[rules.required]"
+              v-model="data.driver"
+              label="驱动类"
+              :items="drivers"
+              required
+            ></v-select>
 
             <v-divider />
             <div class="d-flex justify-space-between mt-2">
               <v-btn type="reset" class="pl-4">取消</v-btn>
-              <v-btn type="submit" :disabled="!valid" class="bg-primary" @click="save">保存</v-btn>
+              <v-btn
+                type="submit"
+                :disabled="!valid"
+                class="bg-primary"
+                @click="save"
+                >保存</v-btn
+              >
             </div>
           </v-form>
         </v-sheet>
@@ -80,8 +126,7 @@ const toastCtl = ref({
   showToast: false,
   msg: "",
   color: ""
-})
-
+});
 
 const testConn = () => {
   if (data.value.url == null || data.value.url == "") {
