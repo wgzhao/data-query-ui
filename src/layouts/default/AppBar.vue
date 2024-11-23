@@ -24,7 +24,7 @@
       ></v-btn>
       <div v-if="isLogin">
         <v-btn class="ms-1">
-          Admin
+          {{ curUser }}
           <v-menu activator="parent" origin="top">
             <v-list>
               <v-list-item link to="/admin/profile" title="个人信息" />
@@ -93,16 +93,18 @@ const urls = ref([
 
 const drawer = ref(false);
 const group = ref(null);
-
+const curUser = ref();
 watch(group, () => {
   drawer.value = false;
 });
 
 const isLogin = computed(() => {
   const token = localStorage.getItem("token");
-  if (token && parseJwt(token)) {
-    return true;
+  const jwt = parseJwt(token);
+  if (jwt == null) {
+    return false;
   }
-  return false;
+  curUser.value = jwt.sub;
+  return true;
 });
 </script>

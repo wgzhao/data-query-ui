@@ -1,5 +1,5 @@
 <template>
-  <v-data-table :headers="headers" :items="signs">
+  <v-data-table :headers="headers" :items="signs" class="striped-rows">
     <template v-slot:top>
       <v-toolbar density="compact">
         <v-toolbar-title>签名</v-toolbar-title>
@@ -41,3 +41,4 @@ onMounted(() => {
   SignService.list().then(res => (signs.value = res.data));
 });
 </script>
+<style></style>

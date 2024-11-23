@@ -1,3 +1,19 @@
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; */
+
+.striped-rows tbody tr:nth-child(odd) {
+  background-color: var(--v-theme-surface);
+}
+
+.theme--light .striped-rows tbody tr:nth-child(odd) {
+  background-color: var(--v-theme-surface-light);
+}
+
+.theme--dark .striped-rows tbody tr:nth-child(odd) {
+  background-color: #444;
+}
+
+/* .striped-rows tbody tr:nth-child(odd) {
+  background-color: #444;
+} */

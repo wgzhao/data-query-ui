@@ -1,4 +1,7 @@
-function parseJwt(token: string): Map<string, any> {
+function parseJwt(token: string | null): Map<string, any> | null {
+  if (token == null) {
+    return null;
+  }
   var base64Url = token.split(".")[1];
   var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
   var jsonPayload = decodeURIComponent(
