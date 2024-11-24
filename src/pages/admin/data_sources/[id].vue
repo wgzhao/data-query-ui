@@ -1,86 +1,116 @@
 <template>
   <div>
     <ToastInfo :toast="toastCtl" />
-    <v-container class="pa-md-12">
-      <v-card flat class="mx-auto" max-width="700" rounded="lg">
-        <v-card-title>
-          数据源
-          <span class="ml-auto pl-4">
-            <v-btn
-              icon
-              size="small"
-              class="bg-secondary"
-              @click="$router.go(-1)"
-              ><v-icon>mdi-arrow-left</v-icon></v-btn
-            >
-          </span>
-        </v-card-title>
-        <v-divider />
-        <v-card-text>
-          <v-sheet max-width="800" class="mx-auto pa-4">
-            <v-form ref="form" v-model="valid" fast-fail @submit.prevent>
+    <v-card flat class="mx-auto" rounded="lg" title="数据源详情">
+      <v-divider />
+      <v-card-text>
+        <v-form ref="form" v-model="valid" fast-fail @submit.prevent>
+          <v-row gutters="1" justify="start">
+            <v-col align-self="center" cols="12" md="1">
+              <v-label for="no" text="编号" />
+            </v-col>
+            <v-col align-self="center" cols="12" md="5">
               <v-text-field
+                id="no"
                 :rules="[rules.required, rules.checkNo]"
                 v-model="data.no"
-                label="编号"
                 required
+                small
                 spellcheck="false"
               ></v-text-field>
+            </v-col>
+
+            <v-col align-self="center" cols="12" md="1">
+              <v-label for="name">名称</v-label>
+            </v-col>
+            <v-col align-self="center" cols="12" md="5">
               <v-text-field
+                id="name"
                 :rules="[rules.required]"
                 v-model="data.name"
-                label="名称"
                 required
                 focused
                 spellcheck="false"
               ></v-text-field>
+            </v-col>
+            <v-col align-self="center" cols="12" md="1">
+              <v-label for="url">JDBC 地址</v-label>
+            </v-col>
+            <v-col align-self="center" cols="12" md="10">
               <v-text-field
                 :rules="[rules.required, rules.validJdbcUrl]"
                 v-model="data.url"
-                label="JDBC 地址"
                 required
                 spellcheck="false"
                 :append-inner-icon="connFlag"
               ></v-text-field>
+            </v-col>
+            <v-col align-self="center" cols="12" md="1">
               <v-btn button @click="testConn">测试</v-btn>
+            </v-col>
+
+            <v-col align-self="center" cols="12" md="1">
+              <v-label for="username">用户名</v-label>
+            </v-col>
+            <v-col align-self="center" cols="12" md="5">
               <v-text-field
+                id="username"
                 :rules="[rules.required]"
                 v-model="data.username"
-                label="用户名"
                 required
+                focused
                 spellcheck="false"
               ></v-text-field>
+            </v-col>
+
+            <v-col align-self="center" cols="12" md="1">
+              <v-label for="password">密码</v-label>
+            </v-col>
+            <v-col align-self="center" cols="12" md="5">
               <v-text-field
-                v-model="data.password"
-                label="密码"
+                id="password"
+                :rules="[rules.required]"
+                v-model="data.paswword"
+                required
+                focused
+                spellcheck="false"
                 :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                 :type="showPassword ? 'text' : 'password'"
                 @click:append="showPassword = !showPassword"
               ></v-text-field>
+            </v-col>
+
+            <v-col align-self="center" cols="12" md="1">
+              <v-label for="driver">驱动类</v-label>
+            </v-col>
+            <v-col align-self="center" cols="12" md="11">
               <v-select
+                id="driver"
                 :rules="[rules.required]"
                 v-model="data.driver"
-                label="驱动类"
                 :items="drivers"
                 required
               ></v-select>
+            </v-col>
 
-              <v-divider />
-              <div class="d-flex justify-space-between mt-2">
-                <v-btn type="reset" class="pl-4">取消</v-btn>
-                <v-btn
-                  type="submit"
-                  :disabled="!valid"
-                  class="bg-primary"
-                  @click="save"
-                  >保存</v-btn
-                >
-              </div>
-            </v-form>
-          </v-sheet>
-        </v-card-text>
-      </v-card>
-    </v-container>
+            <v-divider />
+
+            <v-col align-self="center" cols="12" md="6">
+              <v-btn type="reset" class="pl-4">取消</v-btn>
+            </v-col>
+            <v-col align-self="center" cols="12" md="6">
+              <v-btn
+                type="submit"
+                :disabled="!valid"
+                class="bg-primary"
+                @click="save"
+                >保存</v-btn
+              >
+            </v-col>
+          </v-row>
+        </v-form>
+      </v-card-text>
+    </v-card>
   </div>
 </template>
 <script setup lang="ts">

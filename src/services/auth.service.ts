@@ -1,5 +1,5 @@
 import User from "@/types/user";
-import Request from "@/util/request";
+import Request from "@/utils/request";
 
 class AuthService {
   login(user: User) {

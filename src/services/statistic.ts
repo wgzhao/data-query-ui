@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import Request from "@/util/request";
+import Request from "@/utils/request";
 const baseURL = ref("/statistic");
 
 class Statistic {

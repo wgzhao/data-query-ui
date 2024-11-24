@@ -1,6 +1,6 @@
 import { ref } from "vue";
 
-import Request from "@/util/request";
+import Request from "@/utils/request";
 import Sign from "@/types/sign-type";
 
 const baseURL = "/sign";

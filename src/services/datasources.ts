@@ -1,6 +1,6 @@
 import { ref } from "vue";
 
-import Request from "@/util/request";
+import Request from "@/utils/request";
 import DataSource from "@/types/data-source";
 const baseURL = "/dataSource";
 

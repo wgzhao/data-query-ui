@@ -1,6 +1,6 @@
 import { ref } from "vue";
 
-import Request from "@/util/request";
+import Request from "@/utils/request";
 import QueryConfig from "@/types/query-config";
 const baseURL = "/queryConfig";
 class QueryconfigService {

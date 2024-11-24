@@ -1,4 +1,39 @@
 <template>
+  <v-card title="查询配置">
+    <v-card-text>
+      <v-row justify="end" gutters="2">
+        <v-col cols="3" md="5">
+          <v-text-field
+            density="compact"
+            v-model="search"
+            label="搜索"
+            single-line
+            hide-details
+          ></v-text-field>
+        </v-col>
+        <v-col cols="3" md="1"
+          ><v-btn class="bg-primary" @click="doAction('edit')"
+            >编辑</v-btn
+          ></v-col
+        >
+        <v-col cols="3" md="1"
+          ><v-btn class="bg-primary" @click="doAction('delete')"
+            >删除</v-btn
+          ></v-col
+        >
+        <v-col cols="3" md="1"
+          ><v-btn class="bg-primary" @click="doAction('deleteCache')"
+            >删除存储</v-btn
+          ></v-col
+        >
+
+        <v-col cols="3" md="1"
+          ><v-btn class="bg-primary" @click="addItem"> 新增 </v-btn></v-col
+        >
+      </v-row>
+    </v-card-text>
+  </v-card>
+
   <v-data-table
     :headers="headers"
     :search="search"
@@ -11,32 +46,9 @@
     show-expand
     show-select
     select-strategy="single"
+    fixed-header
     v-model="selectedItem"
   >
-    <template v-slot:top>
-      <v-toolbar density="compact">
-        <v-toolbar-title>查询配置</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-text-field
-          density="compact"
-          v-model="search"
-          label="搜索"
-          single-line
-          hide-details
-        ></v-text-field>
-        <v-spacer></v-spacer>
-        <div class="d-flex justify-space-between">
-          <v-btn class="bg-primary mr-2" @click="doAction('edit')">编辑</v-btn>
-          <v-btn class="bg-primary mr-2" @click="doAction('delete')"
-            >删除</v-btn
-          >
-          <v-btn class="bg-primary mr-2" @click="doAction('deleteCache')"
-            >删除存储</v-btn
-          >
-          <v-btn class="bg-primary mr-2" @click="addItem"> 新增 </v-btn>
-        </div>
-      </v-toolbar>
-    </template>
     <template v-slot:item.dataSource="{ item }">
       <router-link
         :to="`/admin/data_sources/${item.dataSource}`"

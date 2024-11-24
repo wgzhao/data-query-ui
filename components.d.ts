@@ -7,11 +7,15 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    BackButton: typeof import('./src/components/BackButton.vue')['default']
+    CardStatisticsHorizontal: typeof import('./src/@core/components/cards/CardStatisticsHorizontal.vue')['default']
+    CardStatisticsVertical: typeof import('./src/@core/components/cards/CardStatisticsVertical.vue')['default']
+    CardStatisticsWithImages: typeof import('./src/@core/components/cards/CardStatisticsWithImages.vue')['default']
+    ErrorHeader: typeof import('./src/components/ErrorHeader.vue')['default']
+    MoreBtn: typeof import('./src/@core/components/MoreBtn.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SnackBar: typeof import('./src/components/snack-bar.vue')['default']
-    Toast: typeof import('./src/components/Toast.vue')['default']
-    ToastInfo: typeof import('./src/components/ToastInfo.vue')['default']
+    ThemeSwitcher: typeof import('./src/@core/components/ThemeSwitcher.vue')['default']
+    UpgradeToPro: typeof import('./src/components/UpgradeToPro.vue')['default']
+    VueApexCharts: typeof import('vue3-apexcharts')['default']
   }
 }

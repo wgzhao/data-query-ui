@@ -1,32 +1,65 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "esnext",
     "useDefineForClassFields": true,
-    "module": "ESNext",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "skipLibCheck": true,
-
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
+    "module": "esnext",
+    "moduleResolution": "Bundler",
     "isolatedModules": true,
-    "noImplicitAny": false,
-    "allowJs": true,
-    "noEmit": true,
-    "jsx": "preserve",
-
-    /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "types": ["unplugin-vue-router/client"],
-    "baseUrl": "./",
+    "jsx": "preserve",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "paths": {
-      "@/*": ["src/*"]
-    }
+      "@/*": [
+        "./src/*"
+      ],
+      "@layouts/*": [
+        "./src/@layouts/*"
+      ],
+      "@layouts": [
+        "./src/@layouts"
+      ],
+      "@core/*": [
+        "./src/@core/*"
+      ],
+      "@core": [
+        "./src/@core"
+      ],
+      "@images/*": [
+        "./src/assets/images/*"
+      ],
+      "@styles/*": [
+        "./src/styles/*"
+      ]
+    },
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ],
+    "skipLibCheck": true,
+    "types": [
+      "vite/client",
+      "vite-plugin-vue-layouts/client"
+    ]
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": [
+    "./typed-router.d.ts",
+    "./vite.config.*",
+    "./env.d.ts",
+    "./shims.d.ts",
+    "./src/**/*",
+    "./src/**/*.vue",
+    "./themeConfig.ts",
+    "./auto-imports.d.ts",
+    "./components.d.ts"
+  ],
+  "exclude": [
+    "./dist",
+    "./node_modules"
+  ]
 }

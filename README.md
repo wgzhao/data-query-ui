@@ -1,46 +1,35 @@
-# Data Query management
+# vue
 
-This project is a frontend for [data-query](https://github.com/wgzhao/data-query) project. It is built with Vue 3 and Vuetify 3.
+This template should help get you started developing with Vue 3 in Vite.
 
-## 💿 Install
+## Recommended IDE Setup
 
-Set up your project using your preferred package manager. Use the corresponding command to install the dependencies:
+[VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) (and disable Vetur).
 
-| Package Manager                                           | Command        |
-| --------------------------------------------------------- | -------------- |
-| [yarn](https://yarnpkg.com/getting-started)               | `yarn install` |
-| [npm](https://docs.npmjs.com/cli/v7/commands/npm-install) | `npm install`  |
-| [pnpm](https://pnpm.io/installation)                      | `pnpm install` |
-| [bun](https://bun.sh/#getting-started)                    | `bun install`  |
+## Type Support for `.vue` Imports in TS
 
-After completing the installation, your environment is ready for Vuetify development.
+Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates.
 
-## 💡 Usage
+However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can run `Volar: Switch TS Plugin on/off` from VS Code command palette.
 
-This section covers how to start the development server and build your project for production.
+## Customize configuration
 
-### Starting the Development Server
+See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-To start the development server with hot-reload, run the following command. The server will be accessible at [http://localhost:3000](http://localhost:3000):
+## Project Setup
 
-```bash
-yarn dev
+```sh
+npm install
 ```
 
-(Repeat for npm, pnpm, and bun with respective commands.)
+### Compile and Hot-Reload for Development
 
-### Building for Production
-
-To build your project for production, use:
-
-```bash
-yarn build
+```sh
+npm run dev
 ```
 
-(Repeat for npm, pnpm, and bun with respective commands.)
+### Type-Check, Compile and Minify for Production
 
-Once the build process is completed, your application will be ready for deployment in a production environment.
-
-## 📑 License
-
-[MIT](http://opensource.org/licenses/MIT)
+```sh
+npm run build
+```

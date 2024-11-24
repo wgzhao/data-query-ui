@@ -1,70 +1,49 @@
 <template>
-  <v-container class="p-0 md-0">
-    <section>
-      <h3
-        class="d-flex justify-space-between align-center text-subtitle-1 font-weight-bold"
-      >
-        数据源
+  <v-card>
+    <v-card-title class="d-flex align-center">
+      <span class="headline">数据源</span>
+      <v-spacer></v-spacer>
+      <v-btn
+        class="text-none"
+        color="primary"
+        rounded="md"
+        text="新增"
+        variant="flat"
+        @click="add"
+      />
+    </v-card-title>
 
-        <v-btn
-          class="text-none"
-          color="primary"
-          prepend-icon="mdi-plus"
-          rounded="md"
-          slim
-          text="新增"
-          variant="flat"
-          @click="add"
-        />
-      </h3>
-      <div class="text-body-2 text-medium-emphasis mb-4 w-100 w-md-75">
-        以下为当前的数据源列表，您可以查看、编辑或删除数据源。
-      </div>
-      <!-- data sources-->
-      <v-data-table
-        :headers="headers"
-        :search="search"
-        :items="data"
-        class="bg-transparent"
-        hide-default-footer
-      >
-        <!-- <template v-slot:top>
-          <v-toolbar density="compact">
-            <v-spacer></v-spacer>
-            <v-text-field
-              density="compact"
-              v-model="search"
-              label="搜索"
-              single-line
-              hide-details
-            ></v-text-field>
-          </v-toolbar>
-        </template> -->
-        <template v-slot:item.actions="{ item }">
-          <div class="d-flex mx-auto">
-            <v-btn
-              class="text-none"
-              color="primary"
-              min-width="0"
-              slim
-              text="编辑"
-              variant="text"
-              @click="edit(item)"
-            />
-            <v-btn
-              class="text-none"
-              color="primary"
-              min-width="0"
-              slim
-              text="删除"
-              variant="text"
-              @click="remove(item)"
-            />
-          </div>
-        </template>
-      </v-data-table>
-    </section>
-  </v-container>
+    <v-data-table
+      :headers="headers"
+      :search="search"
+      :items="data"
+      class="bg-transparent"
+      hide-default-footer
+    >
+      <template v-slot:item.actions="{ item }">
+        <div class="d-flex mx-auto">
+          <v-btn
+            class="text-none"
+            color="primary"
+            min-width="0"
+            slim
+            text="编辑"
+            variant="text"
+            @click="edit(item)"
+          />
+          <v-btn
+            class="text-none"
+            color="primary"
+            min-width="0"
+            slim
+            text="删除"
+            variant="text"
+            @click="remove(item)"
+          />
+        </div>
+      </template>
+    </v-data-table>
+  </v-card>
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
@@ -92,11 +71,12 @@ const headers = ref([
 ]);
 
 const add = () => {
-  router.push(route.name?.toString() + "new");
+  console.log("route", route.path);
+  router.push(`${route.path}new`);
 };
 
 const edit = (item: DataSource) => {
-  router.push(route.name?.toString() + item.no);
+  router.push(`${route.path}${item.no}`);
 };
 const remove = (item: DataSource) => {
   // remove from data
