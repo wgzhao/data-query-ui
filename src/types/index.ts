@@ -26,6 +26,7 @@ interface Sign extends Basic {
   appId: string;
   appKey: string;
   applier: string;
+  enabled: boolean;
 }
 
 interface User {
@@ -33,4 +34,10 @@ interface User {
   password: string;
 }
 
-export { User, Sign, DataSource, QueryConfig };
+type Toast = {
+  showToast: boolean;
+  msg: string;
+  color: string;
+};
+
+export { User, Sign, DataSource, QueryConfig, Toast };

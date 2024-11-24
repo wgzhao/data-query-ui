@@ -2,11 +2,14 @@
 import { defineStore } from "pinia";
 
 export const useAuthStore = defineStore("auth", {
-  state: () => ({
-    isAuthenticated: false,
-    userRole: null,
-    token: null
-  }),
+  state: () => {
+    return {
+      isAuthenticated: false,
+      userRole: null,
+      token: null,
+      name: null
+    };
+  },
   persist: {
     enabled: true,
     strategies: [
@@ -25,12 +28,16 @@ export const useAuthStore = defineStore("auth", {
     login(user) {
       this.isAuthenticated = true;
       this.userRole = user.role;
-      this.token = user.accessToken;
+      this.token = user.token;
     },
     logout() {
       this.isAuthenticated = false;
       this.userRole = null;
       this.token = null;
+      this.name = null;
+    },
+    setToken(newToken: string) {
+      this.token = newToken;
     }
   }
 });

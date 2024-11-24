@@ -26,14 +26,14 @@ class DataSourcesService {
     return Request.delete(`${baseURL}/${id}`);
   }
 
-  exists(id: string) {
+  exists(id: string): boolean {
     const flag = ref(false);
     Request.get(`${baseURL}/${id}`)
       .then(res => {
-        flag.value = res.data["selectId"] == id;
+        flag.value = res != null || res != "";
       })
       .catch(err => console.log(err));
-    return flag;
+    return flag.value;
   }
 }
 

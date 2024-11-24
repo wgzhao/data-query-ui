@@ -53,6 +53,7 @@ const auth = ref({
 const loading = ref<boolean>(false);
 const route = useRoute();
 const router = useRouter();
+const authStore = useAuthStore();
 
 function onSubmit() {
   if (!form.value) return;
@@ -66,17 +67,11 @@ function required(v: string): boolean | string {
 function login() {
   // reset the error message
   // clearMessages();
-  const authStore = useAuthStore();
   authService.login(auth.value).then(res => {
-    console.log(res.data);
-    if (res.data.code != 200) {
-      alert("登录失败: " + res.data.message);
+    if (res.code != 200) {
+      alert("登录失败: " + res.message);
     } else {
-      authStore.login(res.data);
-      localStorage.setItem("token", res.data.result.token);
-      // // update the authorization header
-      axios.defaults.headers.common["Authorization"] =
-        `Bearer ${res.data.result.token}`;
+      authStore.login(res.result);
       const redirectPath = route.query.redirect || "/admin/home";
       router.push(redirectPath);
     }

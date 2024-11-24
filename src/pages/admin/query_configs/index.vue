@@ -117,11 +117,11 @@ function deleteItem(id: string) {
 
 function deleteCache(id: string) {
   QueryconfigService.deleteCache(id).then(res => {
-    alert("缓存已删除, 删除数量: " + res.data);
+    alert("缓存已删除, 删除数量: " + res);
   });
 }
 
 onMounted(() => {
-  QueryconfigService.list().then(res => (data.value = res.data));
+  QueryconfigService.list().then(res => (data.value = res));
 });
 </script>

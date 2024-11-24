@@ -74,15 +74,15 @@ const loadItems = ({ page, itemsPerPage, sortBy }) => {
   loading.value = true;
   if (q.value != "") {
     QueryLogService.search(q.value, page - 1, itemsPerPage, sorts).then(res => {
-      logs.value = res.data["content"];
-      totalItems.value = res.data["totalElements"];
+      logs.value = res["content"];
+      totalItems.value = res["totalElements"];
       loading.value = false;
     });
     return;
   }
   QueryLogService.list(page - 1, itemsPerPage, sorts).then(res => {
-    logs.value = res.data["content"];
-    totalItems.value = res.data["totalElements"];
+    logs.value = res["content"];
+    totalItems.value = res["totalElements"];
     loading.value = false;
   });
 };

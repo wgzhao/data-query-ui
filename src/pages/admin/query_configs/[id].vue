@@ -127,11 +127,11 @@ const save = () => {
 
 onMounted(async () => {
   QueryConfigService.getDbSources().then(res => {
-    dbsources.value = res.data;
+    dbsources.value = res;
   });
   if (route.params.id === "new") return;
   QueryConfigService.get(route.params.id).then(res => {
-    form.value = res.data;
+    form.value = res;
   });
 });
 </script>

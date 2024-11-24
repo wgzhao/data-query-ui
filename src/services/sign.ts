@@ -18,6 +18,10 @@ class SignService {
     return Request.post(`${baseURL}`, item);
   }
 
+  update(item: Sign) {
+    return Request.put(`${baseURL}`, item);
+  }
+
   remove(id: string) {
     return Request.delete(`${baseURL}/${id}`);
   }

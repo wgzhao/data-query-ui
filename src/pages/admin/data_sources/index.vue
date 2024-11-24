@@ -107,15 +107,15 @@ const remove = (item: DataSource) => {
   //then post to api
   DataSourcesService.remove(item.no)
     .then(res => {
-      if (res.data.success) {
+      if (res.code == 200) {
         alert("删除成功");
       } else {
-        alert("删除失败:\n" + res.data.message);
+        alert("删除失败:\n" + res.message);
       }
     })
     .catch(err => alert("删除失败" + err));
 };
 onMounted(() => {
-  DataSourcesService.list().then(res => (data.value = res.data));
+  DataSourcesService.list().then(res => (data.value = res));
 });
 </script>
