@@ -25,9 +25,9 @@ class QueryconfigService {
   }
 
   exists(id: string) {
-    const flag = ref(false);
+    const flag = false;
     Request.get(`${baseURL}/${id}`)
-      .then(res => (flag.value = res.data["id"] == id))
+      .then(res => (flag = res.data["id"] == id))
       .catch(err => console.log(err));
     return flag;
   }

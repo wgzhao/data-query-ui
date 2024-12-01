@@ -9,18 +9,36 @@
       {{ toastCtl.msg }}
     </v-snackbar>
   </div>
-  <v-row>
-    <v-col cols="12">
-      <v-card flat title="编辑查询">
-        <v-sheet class="mx-auto" max-width="800">
-          <v-form v-model="valid" fast-fail @submit.prevent="save">
+  <v-card class="p-2">
+    <v-card-title>
+      <span v-if="route.params.id == 'new'">新增查询</span>
+      <span v-else>编辑查询</span>
+    </v-card-title>
+    <v-card-text>
+      <v-form v-model="valid" fast-fail @submit.prevent="save">
+        <v-row
+          justify="space-evenly"
+          align="start"
+          align-content="center"
+          dense
+        >
+          <v-col align-self="center">
+            <v-checkbox label="是否启用" v-model="form.enabled"></v-checkbox>
+          </v-col>
+          <v-col align-self="center">
             <v-text-field
-              :rules="[rules.required]"
+              id="selectId"
               label="查询ID"
+              :rules="[rules.required]"
               v-model="form.selectId"
               required
+              small
             ></v-text-field>
+          </v-col>
+
+          <v-col>
             <v-select
+              id="dataSource"
               label="数据源"
               v-model="form.dataSource"
               :items="dbsources"
@@ -31,48 +49,76 @@
               required
             >
             </v-select>
+          </v-col>
+          <v-col align-self="center">
             <v-checkbox
-              label="是否启用缓存"
+              label="启用缓存"
               v-model="form.enableCache"
             ></v-checkbox>
+          </v-col>
+
+          <v-col>
             <v-text-field
-              v-if="form.enableCache"
-              label="缓存时间"
+              label="缓存时间(秒)"
               v-model="form.cacheTime"
               required
             ></v-text-field>
-            <v-textarea
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col>
+            <v-text-field
+              label="备注"
+              id="note"
+              v-model="form.note"
+              required
+            ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="1" align-self="center">
+            <v-label for="querySql">查询语句</v-label>
+          </v-col>
+          <v-col cols="11">
+            <!-- <v-textarea
               :rules="[rules.required]"
               label="查询语句"
               v-model="form.querySql"
               required
               rows="5"
               :error-messages="sqlError"
-            ></v-textarea>
-            <v-checkbox label="是否启用" v-model="form.enabled"></v-checkbox>
-            <v-text-field
-              label="备注"
-              v-model="form.note"
-              required
-            ></v-text-field>
+            >
+            </v-textarea> -->
+            <codemirror
+              v-model="form.querySql"
+              placeholder="Code goes here..."
+              :style="{ height: '400px' }"
+              :autofocus="true"
+              :indent-with-tab="true"
+              :tab-size="2"
+              :extensions="extensions"
+            />
+          </v-col>
+          <v-col cols="12" class="d-flex gap-4">
             <v-btn type="submit" :disabled="!valid" color="primary">提交</v-btn>
             <v-btn
               type="button"
               color="secondary"
-              class="ml-2"
+              variant="outlined"
               @click="$router.go(-1)"
               >返回</v-btn
             >
-          </v-form>
-        </v-sheet>
-      </v-card>
-    </v-col>
-  </v-row>
+          </v-col>
+        </v-row>
+      </v-form>
+    </v-card-text>
+  </v-card>
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import QueryConfigService from "@/services/queryconfig";
 import { useRoute, useRouter } from "vue-router";
+import { Codemirror } from "vue-codemirror";
+import { sql } from "@codemirror/lang-sql";
 
 const route = useRoute();
 const router = useRouter();
@@ -97,6 +143,8 @@ const toastCtl = ref({
   color: ""
 });
 
+const extensions = [sql()];
+
 const setToast = (msg: str, isError: boolean = true) => {
   toastCtl.value = {
     color: isError ? "error" : "success",
@@ -118,10 +166,11 @@ const save = () => {
     return;
   }
   QueryConfigService.save(form.value).then(res => {
-    setToast("保存成功", false);
-    setTimeout(() => {
-      router.push("/admin/query_configs");
-    }, 1000);
+    alert("保存成功");
+    router.push("/admin/query_configs");
+    // setTimeout(() => {
+    //   router.push("/admin/query_configs");
+    // }, 1000);
   });
 };
 

@@ -68,28 +68,28 @@ import VerticalNavLink from "@layouts/components/VerticalNavLink.vue";
     :item="{
       title: '查询配置',
       icon: 'ri-settings-4-line',
-      to: '/admin/query_configs/'
+      to: '/admin/query_configs'
     }"
   />
   <VerticalNavLink
     :item="{
       title: '数据源管理',
       icon: 'ri-database-2-line',
-      to: '/admin/data_sources/'
+      to: '/admin/data_sources'
     }"
   />
   <VerticalNavLink
     :item="{
       title: '签名管理',
       icon: 'ri-key-2-line',
-      to: '/admin/signs/'
+      to: '/admin/signs'
     }"
   />
   <VerticalNavLink
     :item="{
       title: '查询历史日志',
       icon: 'ri-article-line',
-      to: '/admin/query_logs/'
+      to: '/admin/query_logs'
     }"
   />
 

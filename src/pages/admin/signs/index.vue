@@ -1,38 +1,33 @@
 <template>
-  <v-data-table :headers="headers" :items="signs" class="striped-rows">
-    <template v-slot:top>
-      <v-toolbar density="compact">
-        <v-toolbar-title>签名</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-spacer></v-spacer>
-        <v-btn
-          small
-          class="btn btn-primary"
-          variant="outlined"
-          prepend-icon="mdi-plus"
-          @click="addItem"
-        >
-          新增
-        </v-btn>
-      </v-toolbar>
-    </template>
-    <template v-slot:item.enabled="{ item }">
-      <v-chip
-        :color="item.enabled ? 'success' : 'error'"
-        text-color="white"
-        small
-        >{{ item.enabled ? "已启用" : "已禁用" }}</v-chip
-      >
-    </template>
-    <template v-slot:item.actions="{ item }">
-      <v-btn type="button" class="primary" @click="deleteSign(item.appId)"
-        >删除</v-btn
-      >
-      <v-btn type="button" class="primary" @click="toggle(item.appId)">
-        {{ item.enabled ? "禁用" : "启用" }}
+  <v-card>
+    <v-card-title class="d-flex align-center">
+      <v-text class="primary">签名</v-text>
+      <v-spacer></v-spacer>
+      <v-btn small class="btn btn-primary" variant="outlined" @click="addItem">
+        新增
       </v-btn>
-    </template>
-  </v-data-table>
+    </v-card-title>
+    <v-card-text>
+      <v-data-table :headers="headers" :items="signs" class="striped-rows">
+        <template v-slot:item.enabled="{ item }">
+          <v-chip
+            :color="item.enabled ? 'success' : 'error'"
+            text-color="white"
+            small
+            >{{ item.enabled ? "已启用" : "已禁用" }}</v-chip
+          >
+        </template>
+        <template v-slot:item.actions="{ item }">
+          <v-btn type="button" class="primary" @click="deleteSign(item.appId)"
+            >删除</v-btn
+          >
+          <v-btn type="button" class="primary" @click="toggle(item.appId)">
+            {{ item.enabled ? "禁用" : "启用" }}
+          </v-btn>
+        </template>
+      </v-data-table>
+    </v-card-text>
+  </v-card>
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from "vue";

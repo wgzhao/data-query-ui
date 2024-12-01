@@ -6,30 +6,30 @@
 
 html,
 body {
-  min-block-size: 100%;
+    min-block-size: 100%;
 }
 
 .layout-page-content {
-  @include mixins.boxed-content(true);
+    @include mixins.boxed-content(true);
 
-  flex-grow: 1;
+    flex-grow: 1;
 
-  // TODO: Use grid gutter variable here
-  padding-block: 1.5rem;
+    // TODO: Use grid gutter variable here
+    // padding-block: 1.5rem;
 }
 
 .layout-footer {
-  .footer-content-container {
-    block-size: variables.$layout-vertical-nav-footer-height;
-  }
+    .footer-content-container {
+        block-size: variables.$layout-vertical-nav-footer-height;
+    }
 
-  .layout-footer-sticky & {
-    position: sticky;
-    inset-block-end: 0;
-    will-change: transform;
-  }
+    .layout-footer-sticky & {
+        position: sticky;
+        inset-block-end: 0;
+        will-change: transform;
+    }
 
-  .layout-footer-hidden & {
-    display: none;
-  }
+    .layout-footer-hidden & {
+        display: none;
+    }
 }

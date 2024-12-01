@@ -1,7 +1,41 @@
 <template>
-  <v-card title="查询配置">
+  <v-card class="align-center">
+    <v-card-title>
+      <v-row justify="space-evenly" align="start" align-content="center" dense>
+        <v-col align-self="center">
+          <v-text>查询配置</v-text>
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col>
+          <v-text-field
+            density="compact"
+            v-model="search"
+            label="搜索"
+            single-line
+            hide-details
+            width="400"
+          ></v-text-field>
+        </v-col>
+        <v-col
+          ><v-btn class="bg-primary" @click="doAction('edit')"
+            >编辑</v-btn
+          ></v-col
+        >
+        <v-col
+          ><v-btn class="bg-primary" @click="doAction('delete')"
+            >删除</v-btn
+          ></v-col
+        >
+        <v-col
+          ><v-btn class="bg-primary" @click="doAction('deleteCache')"
+            >删除存储</v-btn
+          ></v-col
+        >
+        <v-col><v-btn class="bg-primary" @click="addItem"> 新增 </v-btn></v-col>
+      </v-row>
+    </v-card-title>
     <v-card-text>
-      <v-row justify="end" gutters="2">
+      <!-- <v-row justify="end" gutters="2">
         <v-col cols="3" md="5">
           <v-text-field
             density="compact"
@@ -30,44 +64,44 @@
         <v-col cols="3" md="1"
           ><v-btn class="bg-primary" @click="addItem"> 新增 </v-btn></v-col
         >
-      </v-row>
+      </v-row> -->
+
+      <v-data-table
+        :headers="headers"
+        :search="search"
+        :items="data"
+        density="compact"
+        :expanded="expanded"
+        item-value="selectId"
+        class="bg-transparent"
+        striped
+        show-expand
+        show-select
+        select-strategy="single"
+        fixed-header
+        v-model="selectedItem"
+      >
+        <template v-slot:item.dataSource="{ item }">
+          <router-link
+            :to="`/admin/data_sources/${item.dataSource}`"
+            type="button"
+            target="_blank"
+            class="text-decoration-none"
+          >
+            {{ item.dataSource }}
+            <v-icon>mdi-open-in-new</v-icon>
+          </router-link>
+        </template>
+        <template v-slot:expanded-row="{ columns, item }">
+          <tr>
+            <td :colspan="columns.length">
+              <highlightjs language="sql" :code="item.querySql" />
+            </td>
+          </tr>
+        </template>
+      </v-data-table>
     </v-card-text>
   </v-card>
-
-  <v-data-table
-    :headers="headers"
-    :search="search"
-    :items="data"
-    density="compact"
-    :expanded="expanded"
-    item-value="selectId"
-    class="bg-transparent"
-    striped
-    show-expand
-    show-select
-    select-strategy="single"
-    fixed-header
-    v-model="selectedItem"
-  >
-    <template v-slot:item.dataSource="{ item }">
-      <router-link
-        :to="`/admin/data_sources/${item.dataSource}`"
-        type="button"
-        target="_blank"
-        class="text-decoration-none"
-      >
-        {{ item.dataSource }}
-        <v-icon>mdi-open-in-new</v-icon>
-      </router-link>
-    </template>
-    <template v-slot:expanded-row="{ columns, item }">
-      <tr>
-        <td :colspan="columns.length">
-          <highlightjs language="sql" :code="item.querySql" />
-        </td>
-      </tr>
-    </template>
-  </v-data-table>
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
@@ -97,7 +131,7 @@ const search = ref();
 const selectedItem = ref([]);
 
 const addItem = () => {
-  router.push(route.name?.toString() + "new");
+  router.push(`${route.path}/new`);
 };
 
 function doAction(dtype: string) {
@@ -116,7 +150,7 @@ function doAction(dtype: string) {
 }
 
 function editItem(id: string) {
-  router.push(route.name?.toString() + id);
+  router.push(route.path + "/" + id);
 }
 
 function deleteItem(id: string) {
