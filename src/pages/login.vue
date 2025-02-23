@@ -38,11 +38,11 @@
   </v-sheet>
 </template>
 <script setup lang="ts">
-import axios from "axios";
 import { ref } from "vue";
-import { useAuthStore } from "@/store";
+import { useAuthStore } from "@/store/auth";
 import { useRouter, useRoute } from "vue-router";
 import authService from "@/services/auth.service";
+import parseJwt from "@/util/jwt-util.ts";
 
 const form = ref(false);
 const auth = ref({
@@ -71,7 +71,9 @@ function login() {
     if (res.code != 200) {
       alert("登录失败: " + res.message);
     } else {
-      authStore.login(res.result);
+      authStore.setToken(res.result.token);
+      const  info = parseJwt(res.result.token);
+      authStore.setUserName(info['sub']);
       const redirectPath = route.query.redirect || "/admin/home";
       router.push(redirectPath);
     }

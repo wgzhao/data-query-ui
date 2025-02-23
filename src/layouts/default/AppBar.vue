@@ -22,7 +22,7 @@
         slim
         @click="theme === 'light' ? (theme = 'dark') : (theme = 'light')"
       ></v-btn>
-      <div v-if="isLogin">
+      <div v-if="curUser">
         <v-btn class="ms-1">
           {{ curUser }}
           <v-menu activator="parent" origin="top">
@@ -65,9 +65,11 @@
 <script setup lang="ts">
 import { ref, watch, computed } from "vue";
 import parseJwt from "@/util/jwt-util";
+import { useAuthStore} from "@/store/auth.ts";
 
 const theme = defineModel();
-
+const authStore = useAuthStore();
+const curUser = authStore.username;
 const urls = ref([
   {
     title: "首页",
@@ -93,18 +95,9 @@ const urls = ref([
 
 const drawer = ref(false);
 const group = ref(null);
-const curUser = ref();
+
 watch(group, () => {
   drawer.value = false;
 });
 
-const isLogin = computed(() => {
-  const token = localStorage.getItem("token");
-  const jwt = parseJwt(token);
-  if (jwt == null) {
-    return false;
-  }
-  curUser.value = jwt.sub;
-  return true;
-});
 </script>
