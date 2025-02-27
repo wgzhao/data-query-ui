@@ -4,7 +4,9 @@
       <v-card-text>
         <v-row dense align="center" class="mb-2">
           <v-col cols="auto">
-            <v-toolbar-title class="text-h5 font-weight-bold">查询配置</v-toolbar-title>
+            <v-toolbar-title class="text-h5 font-weight-bold"
+              >查询配置</v-toolbar-title
+            >
           </v-col>
           <v-spacer />
           <v-col cols="auto">
@@ -41,6 +43,7 @@
           show-expand
           show-select
           select-strategy="single"
+          return-object
           v-model="selectedItem"
         >
           <template v-slot:top>
@@ -55,7 +58,7 @@
                 variant="outlined"
                 clearable
                 prepend-inner-icon="mdi-magnify"
-                style="max-width: 300px;"
+                style="max-width: 300px"
               />
               <v-spacer />
               <div class="d-flex gap-2">
@@ -63,6 +66,7 @@
                   size="small"
                   color="primary"
                   variant="outlined"
+                  class="mx-2"
                   @click="doAction('edit')"
                 >
                   编辑
@@ -71,6 +75,7 @@
                   size="small"
                   color="primary"
                   variant="outlined"
+                  class="mx-2"
                   @click="doAction('delete')"
                 >
                   删除
@@ -134,7 +139,7 @@ const headers = ref([
   { title: "创建时间", key: "createdAt", width: "15%" },
   { title: "修改时间", key: "updatedAt", width: "15%" },
   { title: "备注", key: "note", width: "10%" },
-  { title: "SQL", key: "data-table-expand", sortable: false, width: "15%" },
+  { title: "SQL", key: "data-table-expand", sortable: false, width: "15%" }
 ]);
 const search = ref("");
 const selectedItem = ref([]);
@@ -166,9 +171,9 @@ const deleteItem = (id: string) => {
     loading.value = true;
     QueryconfigService.remove(id)
       .then(() => {
-        data.value = data.value.filter((item) => item.selectId !== id);
+        data.value = data.value.filter(item => item.selectId !== id);
       })
-      .catch((err) => {
+      .catch(err => {
         alert(`删除失败: ${err.message}`);
       })
       .finally(() => {
@@ -180,10 +185,10 @@ const deleteItem = (id: string) => {
 const deleteCache = (id: string) => {
   loading.value = true;
   QueryconfigService.deleteCache(id)
-    .then((res) => {
+    .then(res => {
       alert(`缓存已删除, 删除数量: ${res}`);
     })
-    .catch((err) => {
+    .catch(err => {
       alert(`删除缓存失败: ${err.message}`);
     })
     .finally(() => {
@@ -194,10 +199,10 @@ const deleteCache = (id: string) => {
 onMounted(() => {
   loading.value = true;
   QueryconfigService.list()
-    .then((res) => {
+    .then(res => {
       data.value = res;
     })
-    .catch((err) => {
+    .catch(err => {
       console.error("Error fetching query configs:", err);
       alert(`加载查询配置失败: ${err.message}`);
     })
@@ -206,4 +211,3 @@ onMounted(() => {
     });
 });
 </script>
-

@@ -118,7 +118,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import QueryConfigService from "@/services/queryconfig";
 import { useRoute, useRouter } from "vue-router";
 
@@ -126,7 +126,7 @@ const route = useRoute();
 const router = useRouter();
 const valid = ref(false);
 const rules = ref({
-  required: (value: any) => !!value || "Field is required",
+  required: (value: any) => !!value || "Field is required"
 });
 
 const form = ref({
@@ -136,20 +136,20 @@ const form = ref({
   cacheTime: 600,
   querySql: "",
   enabled: true,
-  note: "",
+  note: ""
 });
 
 const toastCtl = ref({
   showToast: false,
   msg: "",
-  color: "",
+  color: ""
 });
 
 const setToast = (msg: string, isError: boolean = true) => {
   toastCtl.value = {
     color: isError ? "error" : "success",
     showToast: true,
-    msg,
+    msg
   };
 };
 
@@ -165,13 +165,13 @@ const save = () => {
     return;
   }
   QueryConfigService.save(form.value)
-    .then((res) => {
+    .then(res => {
       setToast("保存成功", false);
       setTimeout(() => {
         router.push("/admin/query_configs");
       }, 1000);
     })
-    .catch((error) => {
+    .catch(error => {
       setToast(`保存失败: ${error.message}`, true);
     });
 };

@@ -65,7 +65,7 @@
 <script setup lang="ts">
 import { ref, watch, computed } from "vue";
 import parseJwt from "@/util/jwt-util";
-import { useAuthStore} from "@/store/auth.ts";
+import { useAuthStore } from "@/store/auth.ts";
 
 const theme = defineModel();
 const authStore = useAuthStore();
@@ -77,11 +77,11 @@ const urls = ref([
   },
   {
     title: "数据源管理",
-    url: "/admin/data_sources"
+    url: "/admin/data-sources"
   },
   {
     title: "查询配置管理",
-    url: "/admin/query_configs"
+    url: "/admin/query-configs"
   },
   {
     title: "签名管理",
@@ -89,7 +89,7 @@ const urls = ref([
   },
   {
     title: "查询日志管理",
-    url: "/admin/query_logs"
+    url: "/admin/query-logs"
   }
 ]);
 
@@ -99,5 +99,4 @@ const group = ref(null);
 watch(group, () => {
   drawer.value = false;
 });
-
 </script>

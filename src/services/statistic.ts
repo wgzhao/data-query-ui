@@ -4,7 +4,7 @@ const baseURL = ref("/statistic");
 
 class Statistic {
   byDate() {
-    return Request.get(`${baseURL.value}/byDate`, null);
+    return Request.get(`${baseURL.value}/byDate`);
   }
 }
 

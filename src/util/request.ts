@@ -1,115 +1,117 @@
-// import axios from "axios";
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { useAuthStore } from '@/store/auth';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import { useAuthStore } from "@/store/auth";
 
-// axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
-// axios.defaults.timeout = 5000;
-console.log("mode = " + import.meta.env.MODE);
+// 控制台输出当前环境模式
+console.log(`Current mode: ${import.meta.env.MODE}`);
 
-interface ResponseData<T> {
+/**
+ * API响应数据的标准格式
+ */
+interface ResponseData<T = any> {
   code: number;
   message: string;
   result: T;
 }
-class Requests {
+
+/**
+ * HTTP请求工具类
+ */
+class Request {
   private instance: AxiosInstance;
 
   constructor(baseURL: string, timeout = 5000) {
-    // 创建 Axios 实例
+    // 创建Axios实例
     this.instance = axios.create({
       baseURL,
       timeout
     });
-    // 配置请求拦截器
+
+    // 请求拦截器
     this.instance.interceptors.request.use(
-      (config) => {
+      config => {
         const authStore = useAuthStore();
-        const token = authStore.token; // 从 Pinia Store 获取 Token
+        const token = authStore.token;
+
         if (token) {
-          config.headers.Authorization = `Bearer ${token}`; // 在请求头中添加 Authorization
+          config.headers = config.headers || {};
+          config.headers.Authorization = `Bearer ${token}`;
         }
 
         return config;
       },
-      (error) => {
-        return Promise.reject(error); // 请求发生错误时直接抛出
-      }
+      error => Promise.reject(error)
     );
 
-    // 配置响应拦截器
+    // 响应拦截器
     this.instance.interceptors.response.use(
-      (response) => {
-        return response.data; // 根据实际需要，可以直接返回 data，简化业务层操作
-      },
-      (error) => {
-        // 处理响应错误
+      (response: AxiosResponse) => response.data,
+      error => {
+        // 处理401认证错误
         if (error.response?.status === 401) {
           const authStore = useAuthStore();
-          authStore.logout(); // Token 失效时，自动登出
-          window.location.href = '/login'; // 跳转至登录页
+          authStore.logout();
+          window.location.href = "/login";
         }
 
-        return Promise.reject(error); // 将错误内容抛出给业务逻辑去处理
+        return Promise.reject(error);
       }
     );
-
-  }
-  // get(url: string, params?: Map<any, any>) {
-  //   return axios.get(url, { params: params });
-  // }
-
-  // post(url: string, data: Map<any, any>) {
-  //   return axios.post(url, data);
-  // }
-
-  // delete(url: string, params?: Map<any, any>) {
-  //   return axios.delete(url, { params });
-  // }
-
-  // put(url: string, data: Map<any, any>) {
-  //   return axios.put(url, data);
-  // }
-
-  // GET 方法
-  get<T = any>(url: string, params?: any, config?: AxiosRequestConfig): Promise<ResponseData<T>> {
-    return this.instance.get<T>(url, { params, ...config });
   }
 
-  // POST 方法
-  post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ResponseData<T>> {
-    return this.instance.post<T>(url, data, { ...config });
+  /**
+   * GET请求
+   * @param url 请求路径
+   * @param params 查询参数
+   * @param config 额外配置
+   */
+  get<T = any>(
+    url: string,
+    params?: Record<string, any>,
+    config?: AxiosRequestConfig
+  ): Promise<ResponseData<T>> {
+    return this.instance.get(url, { params, ...config });
   }
 
-  // PUT 方法
-  put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ResponseData<T>> {
-    return this.instance.put<T>(url, data, { ...config });
+  /**
+   * POST请求
+   * @param url 请求路径
+   * @param data 请求体数据
+   * @param config 额外配置
+   */
+  post<T = any>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): Promise<ResponseData<T>> {
+    return this.instance.post(url, data, config);
   }
 
-  // DELETE 方法
-  delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<ResponseData<T>> {
-    return this.instance.delete<T>(url, { ...config });
+  /**
+   * PUT请求
+   * @param url 请求路径
+   * @param data 请求体数据
+   * @param config 额外配置
+   */
+  put<T = any>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): Promise<ResponseData<T>> {
+    return this.instance.put(url, data, config);
+  }
+
+  /**
+   * DELETE请求
+   * @param url 请求路径
+   * @param config 额外配置
+   */
+  delete<T = any>(
+    url: string,
+    config?: AxiosRequestConfig
+  ): Promise<ResponseData<T>> {
+    return this.instance.delete(url, config);
   }
 }
-// export function get(url, params) {
-//   const data = ref()
-//   if (params === undefined ) {
-//     axios.get(url).then(res => data.value = res.data).catch(err => {alert("请求(" + url + ")失败:\n" + err.message); console.log(err)})
-//   } else {
-//     axios.get(url, {
-//       params: params,
-//     }).then(res => data.value = res.data)
-//     .catch(err => {alert("请求(" + url + ")失败:\n" + err.message); console.log(err)})
-//   }
-//   return data
-// }
 
-// export function post(url, data) {
-//   axios.post(url, data).then(res => alert("请求成功")).catch(err => {alert("请求(" + url + ")失败:\n" + err.message); console.log(err)})
-// }
-
-// export function remove(url, params) {
-//   axios.delete(url, {
-//     params: params,
-//   }).then(res => alert("请求成功")).catch(err => {alert("请求(" + url + ")失败:\n" + err.message); console.log(err)})
-// }
-export default new Requests(import.meta.env.VITE_API_BASE_URL);
+// 导出API请求实例
+export default new Request(import.meta.env.VITE_API_BASE_URL);

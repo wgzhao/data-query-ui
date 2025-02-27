@@ -40,4 +40,4 @@ type Toast = {
   color: string;
 };
 
-export { User, Sign, DataSource, QueryConfig, Toast };
+export type { User, Sign, DataSource, QueryConfig, Toast };

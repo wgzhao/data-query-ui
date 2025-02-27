@@ -1,48 +1,78 @@
 import { ref } from "vue";
-
 import Request from "@/util/request";
-import QueryConfig from "@/types/query-config";
-const baseURL = "/queryConfig";
-class QueryconfigService {
+import { QueryConfig } from "@/types";
+
+const BASE_URL = "/queryConfig";
+
+class QueryConfigService {
+  /**
+   * Get all query configurations
+   */
   list() {
-    return Request.get(baseURL);
+    return Request.get(BASE_URL);
   }
 
+  /**
+   * Get a specific query configuration by ID
+   */
   get(id: string) {
-    return Request.get(`${baseURL}/${id}`);
+    return Request.get(`${BASE_URL}/${id}`);
   }
 
+  /**
+   * Get available database sources
+   */
   getDbSources() {
-    return Request.get(`${baseURL}/datasources`);
+    return Request.get(`${BASE_URL}/datasources`);
   }
 
+  /**
+   * Save a query configuration
+   */
   save(item: QueryConfig) {
-    return Request.post(`${baseURL}`, item);
+    return Request.post(BASE_URL, item);
   }
 
+  /**
+   * Delete a query configuration by ID
+   */
   remove(id: string) {
-    return Request.delete(`${baseURL}/${id}`);
+    return Request.delete(`${BASE_URL}/${id}`);
   }
 
+  /**
+   * Check if a query configuration with the given ID exists
+   */
   exists(id: string) {
     const flag = ref(false);
-    Request.get(`${baseURL}/${id}`)
-      .then(res => (flag.value = res.data["id"] == id))
-      .catch(err => console.log(err));
+
+    Request.get(`${BASE_URL}/${id}`)
+      .then(response => (flag.value = response.data.id === id))
+      .catch(error => console.error("Error checking if config exists:", error));
+
     return flag;
   }
 
+  /**
+   * Get parameters for a specific query configuration
+   */
   getParams(id: string) {
-    return Request.get(`${baseURL}/params/${id}`);
+    return Request.get(`${BASE_URL}/params/${id}`);
   }
 
+  /**
+   * Save parameters for a query configuration
+   */
   saveParams(params: any) {
-    return Request.put(`${baseURL}/params`, params);
+    return Request.put(`${BASE_URL}/params`, params);
   }
 
-  deleteCache(selectId: string) {
-    return Request.delete(`${baseURL}/cache/${selectId}`);
+  /**
+   * Delete cache for a specific query configuration
+   */
+  deleteCache(id: string) {
+    return Request.delete(`${BASE_URL}/cache/${id}`);
   }
 }
 
-export default new QueryconfigService();
+export default new QueryConfigService();
