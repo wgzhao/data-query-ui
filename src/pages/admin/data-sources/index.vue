@@ -37,6 +37,7 @@
           class="elevation-1"
           :items-per-page="10"
           :loading="loading"
+          item-value="no" 
         >
           <template v-slot:top>
             <v-toolbar density="compact" class="mb-2">
@@ -80,6 +81,25 @@
         </v-data-table>
       </v-card-text>
     </v-card>
+
+    <!-- 对话框组件 -->
+    <v-dialog v-model="dialog" max-width="1200px" persistent>
+      <v-card>
+        <v-card-title class="d-flex justify-space-between pt-4 px-4">
+          {{ currentItem ? '编辑数据源' : '新增数据源' }}
+          <v-btn icon @click="closeDialog" variant="text">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text>
+          <DataSourceComp
+            :data-source="currentItem" 
+            @saved="onSaved" 
+            @cancel="closeDialog"
+          />
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -88,12 +108,15 @@ import { ref, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import DataSourcesService from "@/services/datasources";
 import { DataSource } from "@/types";
+import DataSourceComp from "@/components/DataSource.vue";
 
 const router = useRouter();
 const route = useRoute();
 const search = ref("");
 const data = ref<DataSource[]>([]);
-const loading = ref(false); // 添加加载状态
+const loading = ref(false);
+const dialog = ref(false);
+const currentItem = ref<DataSource | null>(null);
 
 const headers = ref([
   { title: "编号", value: "no", width: "10%" },
@@ -110,13 +133,23 @@ const headers = ref([
 ]);
 
 const add = () => {
-  const basePath = `/${route.name}`; // 确保以单斜杠开头
-  router.push(`${basePath}/new`.replace(/\/+/g, "/")); // 去除多余斜杠
+  currentItem.value = null;
+  dialog.value = true;
 };
 
 const edit = (item: DataSource) => {
-  const basePath = `/${route.name}`; // 确保以单斜杠开头
-  router.push(`${basePath}/${item.no}`.replace(/\/+/g, "/")); // 去除多余斜杠
+  currentItem.value = { ...item };
+  dialog.value = true;
+};
+
+const closeDialog = () => {
+  dialog.value = false;
+  currentItem.value = null;
+};
+
+const onSaved = () => {
+  loadData();
+  closeDialog();
 };
 
 const remove = (item: DataSource) => {
@@ -145,10 +178,11 @@ const remove = (item: DataSource) => {
     });
 };
 
-onMounted(() => {
-  loading.value = true; // 开始加载
+const loadData = () => {
+  loading.value = true;
   DataSourcesService.list()
     .then((res) => {
+      // 直接更新数据，Vue 会根据 item-value="no" 识别唯一键
       data.value = res;
     })
     .catch((err) => {
@@ -156,8 +190,12 @@ onMounted(() => {
       alert(`加载数据失败: ${err.message}`);
     })
     .finally(() => {
-      loading.value = false; // 加载完成
+      loading.value = false;
     });
+};
+
+onMounted(() => {
+  loadData();
 });
 </script>
 

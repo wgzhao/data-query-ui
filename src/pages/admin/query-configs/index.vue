@@ -41,10 +41,6 @@
           item-value="selectId"
           striped
           show-expand
-          show-select
-          select-strategy="single"
-          return-object
-          v-model="selectedItem"
         >
           <template v-slot:top>
             <v-toolbar density="compact" class="mb-2">
@@ -60,47 +56,65 @@
                 prepend-inner-icon="mdi-magnify"
                 style="max-width: 300px"
               />
-              <v-spacer />
-              <div class="d-flex gap-2">
-                <v-btn
-                  size="small"
-                  color="primary"
-                  variant="outlined"
-                  class="mx-2"
-                  @click="doAction('edit')"
-                >
-                  编辑
-                </v-btn>
-                <v-btn
-                  size="small"
-                  color="primary"
-                  variant="outlined"
-                  class="mx-2"
-                  @click="doAction('delete')"
-                >
-                  删除
-                </v-btn>
-                <v-btn
-                  size="small"
-                  color="primary"
-                  variant="outlined"
-                  @click="doAction('deleteCache')"
-                >
-                  删除缓存
-                </v-btn>
-              </div>
             </v-toolbar>
           </template>
 
           <template v-slot:item.dataSource="{ item }">
-            <router-link
-              :to="`/admin/data_sources/${item.dataSource}`"
-              target="_blank"
+            <a 
+              href="#" 
               class="text-decoration-none text-primary"
+              @click.prevent="viewDataSource(item.dataSource)"
             >
               {{ item.dataSource }}
-              <v-icon size="small" class="ml-1">mdi-open-in-new</v-icon>
-            </router-link>
+              <v-icon size="small" class="ml-1">mdi-eye</v-icon>
+            </a>
+          </template>
+          
+          <template v-slot:item.enableCache="{ item }">
+            <v-icon :color="item.enableCache ? 'success' : 'error'">
+              {{ item.enableCache ? 'mdi-check-circle' : 'mdi-close-circle' }}
+            </v-icon>
+          </template>
+          
+          <template v-slot:item.enabled="{ item }">
+            <v-icon :color="item.enabled ? 'success' : 'error'">
+              {{ item.enabled ? 'mdi-check-circle' : 'mdi-close-circle' }}
+            </v-icon>
+          </template>
+
+          <template v-slot:item.actions="{ item }">
+            <div class="d-flex gap-1 justify-center">
+              <v-btn
+                size="x-small"
+                color="primary"
+                variant="text"
+                icon
+                @click="editItem(item)"
+                title="编辑"
+              >
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+              <v-btn
+                size="x-small"
+                color="error"
+                variant="text"
+                icon
+                @click="deleteItem(item.selectId)"
+                title="删除"
+              >
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
+              <v-btn
+                size="x-small"
+                color="warning"
+                variant="text"
+                icon
+                @click="deleteCache(item.selectId)"
+                title="删除缓存"
+              >
+                <v-icon>mdi-trash-can</v-icon>
+              </v-btn>
+            </div>
           </template>
 
           <template v-slot:expanded-row="{ columns, item }">
@@ -117,53 +131,101 @@
         </v-data-table>
       </v-card-text>
     </v-card>
+
+    <!-- 对话框组件 -->
+    <v-dialog v-model="dialog" max-width="1200px" persistent>
+      <v-card>
+        <v-card-title class="d-flex justify-space-between pt-4 px-4">
+          {{ currentItem ? '编辑查询配置' : '新增查询配置' }}
+          <v-btn icon @click="closeDialog" variant="text">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text>
+          <QueryConfigComp
+            :config-data="currentItem"
+            @saved="onSaved"
+            @cancel="closeDialog"
+          />
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+
+    <!-- 数据源查看对话框 -->
+    <v-dialog v-model="dataSourceDialog" max-width="1200px" persistent>
+      <v-card>
+        <v-card-title class="d-flex justify-space-between pt-4 px-4">
+          查看数据源详情
+          <v-btn icon @click="closeDataSourceDialog" variant="text">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text>
+          <DataSourceComp
+            :data-source="dataSourceItem"
+            :view-only="true"
+            @cancel="closeDataSourceDialog"
+          />
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import QueryconfigService from "@/services/queryconfig";
-import { QueryConfig } from "@/types";
+import DataSourcesService from "@/services/datasources";
+import { QueryConfig, DataSource } from "@/types";
 import { useRoute, useRouter } from "vue-router";
+import QueryConfigComp from "@/components/QueryConfigComp.vue";
+import DataSourceComp from "@/components/DataSource.vue";
 
 const router = useRouter();
 const route = useRoute();
+// 移除 tableKey
 const data = ref<QueryConfig[]>([]);
 const expanded = ref([]);
 const headers = ref([
-  { title: "查询ID", key: "selectId", width: "15%" },
+  { title: "查询ID", key: "selectId", width: "18%" },
   { title: "数据源", key: "dataSource", width: "15%" },
-  { title: "启用缓存", key: "enableCache", width: "10%" },
+  { title: "启用缓存", key: "enableCache", width: "8%", align: 'center' },
   { title: "缓存时间(s)", key: "cacheTime", width: "10%" },
-  { title: "启用", key: "enabled", width: "10%" },
-  { title: "创建时间", key: "createdAt", width: "15%" },
-  { title: "修改时间", key: "updatedAt", width: "15%" },
+  { title: "启用", key: "enabled", width: "8%", align: 'center' },
+  { title: "创建时间", key: "createdAt", width: "12%" },
+  { title: "修改时间", key: "updatedAt", width: "12%" },
   { title: "备注", key: "note", width: "10%" },
-  { title: "SQL", key: "data-table-expand", sortable: false, width: "15%" }
+  { 
+    title: "操作", 
+    key: "actions", 
+    sortable: false, 
+    width: "7%", 
+    align: 'center' 
+  }
 ]);
 const search = ref("");
-const selectedItem = ref([]);
-const loading = ref(false); // 添加加载状态
+const loading = ref(false);
+const dialog = ref(false);
+const currentItem = ref<QueryConfig | null>(null);
 
 const addItem = () => {
-  router.push(`${route.name?.toString()}/new`.replace(/\/+/g, "/"));
+  currentItem.value = null;
+  dialog.value = true;
 };
 
-const doAction = (dtype: string) => {
-  if (selectedItem.value.length > 0) {
-    const id = selectedItem.value[0].selectId; // 确保获取 selectId
-    if (dtype === "edit") {
-      editItem(id);
-    } else if (dtype === "delete") {
-      deleteItem(id);
-    } else if (dtype === "deleteCache") {
-      deleteCache(id);
-    }
-  }
+const editItem = (item: QueryConfig) => {
+  currentItem.value = { ...item };
+  dialog.value = true;
 };
 
-const editItem = (id: string) => {
-  router.push(`${route.name?.toString()}/${id}`.replace(/\/+/g, "/"));
+const closeDialog = () => {
+  dialog.value = false;
+  currentItem.value = null;
+};
+
+const onSaved = () => {
+  loadData();
+  closeDialog();
 };
 
 const deleteItem = (id: string) => {
@@ -196,10 +258,11 @@ const deleteCache = (id: string) => {
     });
 };
 
-onMounted(() => {
+const loadData = () => {
   loading.value = true;
   QueryconfigService.list()
     .then(res => {
+      // 直接更新数据，Vue 会根据 item-value="selectId" 识别唯一键
       data.value = res;
     })
     .catch(err => {
@@ -209,5 +272,43 @@ onMounted(() => {
     .finally(() => {
       loading.value = false;
     });
+};
+
+// 数据源查看相关
+const dataSourceDialog = ref(false);
+const dataSourceItem = ref<DataSource | null>(null);
+
+const viewDataSource = async (sourceId: string) => {
+  try {
+    loading.value = true;
+    // 修复：确保从服务器获取完整的数据源对象
+    const source = await DataSourcesService.get(sourceId);
+    if (source && typeof source === 'object') {
+      dataSourceItem.value = source;
+      dataSourceDialog.value = true;
+    } else {
+      alert(`数据源信息无效: ${sourceId}`);
+    }
+  } catch (err) {
+    console.error("Error fetching data source:", err);
+    alert(`加载数据源失败: ${err.message}`);
+  } finally {
+    loading.value = false;
+  }
+};
+
+const closeDataSourceDialog = () => {
+  dataSourceDialog.value = false;
+  dataSourceItem.value = null;
+};
+
+onMounted(() => {
+  loadData();
 });
 </script>
+
+<style scoped>
+.gap-1 {
+  gap: 4px;
+}
+</style>
