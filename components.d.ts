@@ -10,6 +10,7 @@ declare module 'vue' {
     BackButton: typeof import('./src/components/BackButton.vue')['default']
     DataSource: typeof import('./src/components/DataSource.vue')['default']
     QueryConfigComp: typeof import('./src/components/QueryConfigComp.vue')['default']
+    QueryConfigSign: typeof import('./src/components/QueryConfigSign.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SnackBar: typeof import('./src/components/snack-bar.vue')['default']

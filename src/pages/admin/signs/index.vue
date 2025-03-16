@@ -81,6 +81,14 @@
               >
                 {{ item.enabled ? "禁用" : "启用" }}
               </v-btn>
+              <v-btn
+                size="small"
+                color="info"
+                variant="text"
+                @click="openQueryConfigsDialog(item.appId)"
+              >
+                关联查询
+              </v-btn>
             </div>
           </template>
         </v-data-table>
@@ -102,14 +110,22 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!-- 关联查询配置对话框 -->
+    <v-dialog v-model="queryConfigsDialog" max-width="700">
+      <QueryConfigSign  :appId="currentSignAppId"/>
+    </v-dialog>
   </v-container>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, reactive } from "vue";
 import SignService from "@/services/sign";
-import { Sign } from "@/types";
+import QueryConfigService from "@/services/queryConfig";
+import DataSourceService from "@/services/dataSource";
+import { Sign, QueryConfig, DataSource } from "@/types";
 import { useRoute, useRouter } from "vue-router";
+import QueryConfigSign from "@/components/QueryConfigSign.vue";
 
 const router = useRouter();
 const route = useRoute();
@@ -118,6 +134,10 @@ const signs = ref<Sign[]>([]);
 const loading = ref(false); // 添加加载状态
 const confirmDialog = ref(false); // 确认对话框状态
 const itemToDelete = ref<string>(""); // 待删除的 appId
+// 查询配置管理相关
+const queryConfigsDialog = ref(false);
+const currentSignAppId = ref<string>("");
+
 
 const headers = ref([
   { title: "App Id", value: "appId", width: "20%" },
@@ -165,7 +185,7 @@ const toggle = (appId: string) => {
   if (sign) {
     sign.enabled = !sign.enabled;
     loading.value = true;
-    SignService.update(sign)
+    SignService.update(sign.appId, sign)
       .then(() => {
         signs.value = signs.value.map((s) =>
           s.appId === appId ? sign : s
@@ -179,6 +199,16 @@ const toggle = (appId: string) => {
       });
   }
 };
+
+
+
+
+
+const openQueryConfigsDialog = async (appId: string) => {
+  currentSignAppId.value = appId;
+  queryConfigsDialog.value = true;
+};
+
 
 onMounted(() => {
   loading.value = true;

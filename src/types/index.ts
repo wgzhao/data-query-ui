@@ -12,7 +12,10 @@ interface DataSource extends Basic {
   driver: string;
 }
 
-interface QueryConfig extends Basic {
+export interface QueryConfig extends Basic {
+  id: number;
+  name: string;
+  description: string;
   selectId: string;
   querySql: string;
   dataSource: string;
@@ -22,7 +25,7 @@ interface QueryConfig extends Basic {
   enableCache: boolean;
 }
 
-interface Sign extends Basic {
+export interface Sign extends Basic {
   appId: string;
   appKey: string;
   applier: string;
@@ -40,4 +43,4 @@ type Toast = {
   color: string;
 };
 
-export type { User, Sign, DataSource, QueryConfig, Toast };
+export type { User, DataSource, Toast };

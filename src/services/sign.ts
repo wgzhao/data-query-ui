@@ -1,7 +1,6 @@
-import { ref } from "vue";
-
+import {ref} from "vue";
+import { Sign, QueryConfig } from "@/types";
 import Request from "@/util/request";
-import Sign from "@/types/sign-type";
 
 const baseURL = "/sign";
 
@@ -18,8 +17,8 @@ class SignService {
     return Request.post(`${baseURL}`, item);
   }
 
-  update(item: Sign) {
-    return Request.put(`${baseURL}`, item);
+  update(appId: string, item: Sign) {
+    return Request.put(`${baseURL}/${appId}`, item);
   }
 
   remove(id: string) {
@@ -36,6 +35,18 @@ class SignService {
 
   gen() {
     return Request.get(`${baseURL}/gen`);
+  }
+
+   getAllQueryConfigs()  {
+    return Request.get(`${baseURL}/query-configs`);
+  }
+
+  getSignQueryRelations(appId: string) {
+    return Request.get(`${baseURL}/query-configs/${appId}`);
+  }
+
+  updateSignQueryRelations(appId: string, queryConfigIds: string[]) {
+    return Request.put(`${baseURL}/query-configs/${appId}`, { queryConfigIds });
   }
 }
 
