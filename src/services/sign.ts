@@ -46,7 +46,7 @@ class SignService {
   }
 
   updateSignQueryRelations(appId: string, queryConfigIds: string[]) {
-    return Request.put(`${baseURL}/query-configs/${appId}`, { queryConfigIds });
+    return Request.post(`${baseURL}/query-configs/${appId}`, queryConfigIds );
   }
 }
 

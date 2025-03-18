@@ -73,6 +73,13 @@ class QueryConfigService {
   deleteCache(id: string) {
     return Request.delete(`${BASE_URL}/cache/${id}`);
   }
+
+  testQuery(dataSource: String, querySql: String) {
+    return Request.post(`${BASE_URL}/testQuery`, {
+      dataSource,
+      querySql
+    });
+  }
 }
 
 export default new QueryConfigService();

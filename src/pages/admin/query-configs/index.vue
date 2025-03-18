@@ -60,8 +60,8 @@
           </template>
 
           <template v-slot:item.dataSource="{ item }">
-            <a 
-              href="#" 
+            <a
+              href="#"
               class="text-decoration-none text-primary"
               @click.prevent="viewDataSource(item.dataSource)"
             >
@@ -69,13 +69,13 @@
               <v-icon size="small" class="ml-1">mdi-eye</v-icon>
             </a>
           </template>
-          
+
           <template v-slot:item.enableCache="{ item }">
             <v-icon :color="item.enableCache ? 'success' : 'error'">
               {{ item.enableCache ? 'mdi-check-circle' : 'mdi-close-circle' }}
             </v-icon>
           </template>
-          
+
           <template v-slot:item.enabled="{ item }">
             <v-icon :color="item.enabled ? 'success' : 'error'">
               {{ item.enabled ? 'mdi-check-circle' : 'mdi-close-circle' }}
@@ -177,12 +177,9 @@ import { ref, onMounted } from "vue";
 import QueryconfigService from "@/services/queryconfig";
 import DataSourcesService from "@/services/datasources";
 import { QueryConfig, DataSource } from "@/types";
-import { useRoute, useRouter } from "vue-router";
 import QueryConfigComp from "@/components/QueryConfigComp.vue";
 import DataSourceComp from "@/components/DataSource.vue";
 
-const router = useRouter();
-const route = useRoute();
 // 移除 tableKey
 const data = ref<QueryConfig[]>([]);
 const expanded = ref([]);
@@ -195,12 +192,12 @@ const headers = ref([
   { title: "创建时间", key: "createdAt", width: "12%" },
   { title: "修改时间", key: "updatedAt", width: "12%" },
   { title: "备注", key: "note", width: "10%" },
-  { 
-    title: "操作", 
-    key: "actions", 
-    sortable: false, 
-    width: "7%", 
-    align: 'center' 
+  {
+    title: "操作",
+    key: "actions",
+    sortable: false,
+    width: "7%",
+    align: 'center'
   }
 ]);
 const search = ref("");

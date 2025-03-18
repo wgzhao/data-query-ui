@@ -113,17 +113,15 @@
 
     <!-- 关联查询配置对话框 -->
     <v-dialog v-model="queryConfigsDialog" max-width="700">
-      <QueryConfigSign  :appId="currentSignAppId"/>
+      <QueryConfigSign :appId="currentSignAppId" @close="closeQueryConfigDialog" @save="closeQueryConfigDialog" />
     </v-dialog>
   </v-container>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, reactive } from "vue";
+import { ref, onMounted } from "vue";
 import SignService from "@/services/sign";
-import QueryConfigService from "@/services/queryConfig";
-import DataSourceService from "@/services/dataSource";
-import { Sign, QueryConfig, DataSource } from "@/types";
+import { Sign } from "@/types";
 import { useRoute, useRouter } from "vue-router";
 import QueryConfigSign from "@/components/QueryConfigSign.vue";
 
@@ -200,15 +198,15 @@ const toggle = (appId: string) => {
   }
 };
 
-
-
-
-
 const openQueryConfigsDialog = async (appId: string) => {
   currentSignAppId.value = appId;
   queryConfigsDialog.value = true;
 };
 
+// 新增：关闭查询配置对话框的方法
+const closeQueryConfigDialog = () => {
+  queryConfigsDialog.value = false;
+};
 
 onMounted(() => {
   loading.value = true;
