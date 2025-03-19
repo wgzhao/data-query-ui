@@ -390,14 +390,14 @@ const executeTestQuery = async () => {
     }
 
     // 调用后端测试API
-    const res = await QueryConfigService.testQuery({
-      dataSource: form.value.dataSource,
-      querySql: finalSql
-    });
+    const res = await QueryConfigService.testQuery(
+      form.value.dataSource,
+      finalSql
+    );
 
-    if (res.code === 200) {
+    if (res.status === 200) {
       testSuccess.value = true;
-      testResult.value = res.data || [];
+      testResult.value = res.data.result || [];
     } else {
       testError.value = res.message || '测试失败';
     }

@@ -74,11 +74,12 @@ class QueryConfigService {
     return Request.delete(`${BASE_URL}/cache/${id}`);
   }
 
-  testQuery(dataSource: String, querySql: String) {
+  testQuery(dataSourceId: String, querySql: String) {
     return Request.post(`${BASE_URL}/testQuery`, {
-      dataSource,
-      querySql
-    });
+      sourceId: dataSourceId,
+      querySql: querySql,
+    }
+    );
   }
 }
 
