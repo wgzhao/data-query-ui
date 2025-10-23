@@ -23,7 +23,7 @@ build:
       - dist
     expire_in: 20 minutes
   tags:
-    - node
+    - host
   only:
     - test
     - uat
