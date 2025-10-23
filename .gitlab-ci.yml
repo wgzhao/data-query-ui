@@ -8,7 +8,7 @@ build:
   #image: "nexus.gp51.com/library/node:18-alpine"
   script: |
     rm -rf dist
-    nvm use 18
+    nvm use 20
     npm install -g yarn
     yarn config set registry https://registry.npmmirror.com
     yarn install
