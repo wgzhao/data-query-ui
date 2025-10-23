@@ -9,7 +9,7 @@ build:
   script: |
     rm -rf dist
     nvm use 18
-    npm instlal -g yarn
+    npm install -g yarn
     yarn config set registry https://registry.npmmirror.com
     yarn install
     yarn global add vite@latest
