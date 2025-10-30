@@ -74,7 +74,7 @@ class QueryConfigService {
   }
 
   testQuery(dataSourceId: String, querySql: String) {
-    return Request.post(`${this.prefix}/test-query`, {
+    return Request.post(`${this.prefix}/testQuery`, {
       sourceId: dataSourceId,
       querySql: querySql
     });

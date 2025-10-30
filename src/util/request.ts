@@ -8,6 +8,7 @@ import axios, {
 } from "axios";
 
 import { useAuthStore } from "@/store/auth";
+import router from "@/router";
 
 // axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
 // axios.defaults.timeout = 5000;
@@ -55,15 +56,24 @@ class Requests {
         // 统一处理非 2xx 状态码的错误
         let message = "请求发生错误";
         if (error.response) {
-          // 服务器返回了错误响应
-          const data: any = error.response.data;
-          // 尝试从响应体中获取更具体的错误信息
-          if (data && typeof data === "string") {
-            message = data;
-          } else if (data && data.message) {
-            message = data.message;
+          // 检查是否为 401 未授权状态码
+          if (error.response.status === 401) {
+            // 清除认证状态
+            this.authStore.logout();
+            // 重定向到登录页面
+            router.push('/login');
+            message = "登录已过期，请重新登录";
           } else {
-            message = `请求错误: ${error.response.status} ${error.response.statusText}`;
+            // 服务器返回了其他错误响应
+            const data: any = error.response.data;
+            // 尝试从响应体中获取更具体的错误信息
+            if (data && typeof data === "string") {
+              message = data;
+            } else if (data && data.message) {
+              message = data.message;
+            } else {
+              message = `请求错误: ${error.response.status} ${error.response.statusText}`;
+            }
           }
         } else {
           // 设置请求时触发了一个错误
