@@ -5,7 +5,6 @@ include:
     - argocd-nodejs-ci-new-bak.yml
 build:
   stage: build
-  #image: "nexus.gp51.com/library/node:18-alpine"
   script: |
     rm -rf dist
     nvm use 20

@@ -155,7 +155,7 @@
 </template>
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import DataSourcesService from "@/services/datasources.ts";
+import DataSourcesService from "@/services/data-sources";
 import DataSource from "@/types/data-source.ts";
 
 const headers = ref([
