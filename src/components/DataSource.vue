@@ -66,7 +66,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from "vue";
-import DataSourcesService from "@/services/datasources";
+import DataSourcesService from "@/services/data-sources";
 import { DataSource, type Toast } from "@/types";
 import ToastInfo from "@/components/ToastInfo.vue";
 

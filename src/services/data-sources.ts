@@ -2,7 +2,7 @@ import { ref } from "vue";
 
 import Request from "@/util/request";
 import type {DataSource} from "@/types";
-const baseURL = "/dataSource";
+const baseURL = "/data-sources";
 
 class DataSourcesService {
   list() {
@@ -15,7 +15,7 @@ class DataSourcesService {
   }
 
   testConnection(item: DataSource) {
-    return Request.post(`${baseURL}/testConnection`, item);
+    return Request.post(`${baseURL}/test-connection`, item);
   }
 
   save(item: DataSource) {

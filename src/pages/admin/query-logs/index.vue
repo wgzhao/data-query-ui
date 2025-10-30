@@ -64,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import QueryLogService from "@/services/querylog";
+import QueryLogService from "@/services/query-logs";
 import { ref } from "vue";
 
 const logs = ref([]);

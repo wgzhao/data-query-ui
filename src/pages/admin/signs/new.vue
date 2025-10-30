@@ -43,7 +43,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useRouter, Router } from "vue-router";
-import SignService from "@/services/sign";
+import SignService from "@/services/signs";
 import { Sign } from "@/types";
 const form: Sign = ref({
   appId: "",

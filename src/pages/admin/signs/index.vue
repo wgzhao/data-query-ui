@@ -120,7 +120,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import SignService from "@/services/sign";
+import SignService from "@/services/signs";
 import { Sign } from "@/types";
 import { useRoute, useRouter } from "vue-router";
 import QueryConfigSign from "@/components/QueryConfigSign.vue";

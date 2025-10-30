@@ -68,7 +68,7 @@ function login() {
   // reset the error message
   // clearMessages();
   authService.login(auth.value).then(res => {
-    if (res.code != 200) {
+    if (res.code != 0) {
       alert("登录失败: " + res.message);
     } else {
       authStore.setToken(res.result.token);

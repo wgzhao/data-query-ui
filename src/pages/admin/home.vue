@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
-import Statistic from "@/services/statistic";
+import Statistic from "@/services/statistics";
 
 const gradient = ["#1867C0", "#5CBBF6"];
 const easing = "cubic-bezier(0.4, 0, 0.2, 1)";

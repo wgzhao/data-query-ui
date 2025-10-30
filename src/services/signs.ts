@@ -2,7 +2,7 @@ import {ref} from "vue";
 import { Sign, QueryConfig } from "@/types";
 import Request from "@/util/request";
 
-const baseURL = "/sign";
+const baseURL = "/signs";
 
 class SignService {
   list() {

@@ -174,8 +174,8 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import QueryconfigService from "@/services/queryconfig";
-import DataSourcesService from "@/services/datasources";
+import queryConfigService from "@/services/query-configs";
+import DataSourcesService from "@/services/data-sources";
 import { QueryConfig, DataSource } from "@/types";
 import QueryConfigComp from "@/components/QueryConfigComp.vue";
 import DataSourceComp from "@/components/DataSource.vue";
@@ -228,7 +228,7 @@ const onSaved = () => {
 const deleteItem = (id: string) => {
   if (confirm("确认删除？")) {
     loading.value = true;
-    QueryconfigService.remove(id)
+    queryConfigService.remove(id)
       .then(() => {
         data.value = data.value.filter(item => item.selectId !== id);
       })
@@ -243,7 +243,7 @@ const deleteItem = (id: string) => {
 
 const deleteCache = (id: string) => {
   loading.value = true;
-  QueryconfigService.deleteCache(id)
+  queryConfigService.deleteCache(id)
     .then(res => {
       alert(`缓存已删除, 删除数量: ${res}`);
     })
@@ -257,7 +257,7 @@ const deleteCache = (id: string) => {
 
 const loadData = () => {
   loading.value = true;
-  QueryconfigService.list()
+  queryConfigService.list()
     .then(res => {
       // 直接更新数据，Vue 会根据 item-value="selectId" 识别唯一键
       data.value = res;

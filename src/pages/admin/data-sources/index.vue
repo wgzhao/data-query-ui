@@ -106,7 +106,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import DataSourcesService from "@/services/datasources";
+import DataSourcesService from "@/services/data-sources";
 import { DataSource } from "@/types";
 import DataSourceComp from "@/components/DataSource.vue";
 

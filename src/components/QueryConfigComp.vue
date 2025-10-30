@@ -201,7 +201,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from "vue";
-import QueryConfigService from "@/services/queryconfig";
+import QueryConfigService from "@/services/query-configs";
 import { QueryConfig, type Toast } from "@/types";
 import ToastInfo from "@/components/ToastInfo.vue";
 
@@ -268,15 +268,10 @@ const save = async () => {
   loading.value = true;
   try {
     const res = await QueryConfigService.save(form.value);
-    if (res.code === 201 || res.code === 200) {
-      const message = res.code === 201 ? "创建成功" : "更新成功";
-      setToast(message, false);
+      setToast("保存成功", false);
       setTimeout(() => {
         emit('saved');
       }, 1000);
-    } else {
-      setToast(`操作失败: ${res.message}`, true);
-    }
   } catch (error) {
     setToast(`保存失败: ${error.message}`, true);
   } finally {

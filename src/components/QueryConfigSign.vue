@@ -39,8 +39,8 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import SignService from "@/services/sign";
-import QueryConfigService from "@/services/queryconfig";
+import SignService from "@/services/signs";
+import QueryConfigService from "@/services/query-configs";
 import type { QueryConfig } from "@/types";
 
 const props = defineProps<{
