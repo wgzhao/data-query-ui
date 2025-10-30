@@ -37,7 +37,7 @@
           class="elevation-1"
           :items-per-page="10"
           :loading="loading"
-          item-value="no" 
+          item-value="no"
         >
           <template v-slot:top>
             <v-toolbar density="compact" class="mb-2">
@@ -51,7 +51,7 @@
                 variant="outlined"
                 clearable
                 prepend-inner-icon="mdi-magnify"
-                style="max-width: 300px;"
+                style="max-width: 300px"
               />
             </v-toolbar>
           </template>
@@ -86,15 +86,15 @@
     <v-dialog v-model="dialog" max-width="1200px" persistent>
       <v-card>
         <v-card-title class="d-flex justify-space-between pt-4 px-4">
-          {{ currentItem ? '编辑数据源' : '新增数据源' }}
+          {{ currentItem ? "编辑数据源" : "新增数据源" }}
           <v-btn icon @click="closeDialog" variant="text">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
         <v-card-text>
           <DataSourceComp
-            :data-source="currentItem" 
-            @saved="onSaved" 
+            :data-source="currentItem"
+            @saved="onSaved"
             @cancel="closeDialog"
           />
         </v-card-text>
@@ -128,8 +128,8 @@ const headers = ref([
     value: "actions",
     sortable: false,
     width: "20%",
-    align: "center",
-  },
+    align: "center"
+  }
 ]);
 
 const add = () => {
@@ -159,7 +159,7 @@ const remove = (item: DataSource) => {
   }
   loading.value = true; // 显示加载状态
   DataSourcesService.remove(item.no)
-    .then((res) => {
+    .then(res => {
       if (res.code === 200) {
         alert("删除成功");
       } else {
@@ -168,7 +168,7 @@ const remove = (item: DataSource) => {
         data.value.splice(index, 0, item);
       }
     })
-    .catch((err) => {
+    .catch(err => {
       alert(`删除失败: ${err.message}`);
       // 错误时恢复数据
       data.value.splice(index, 0, item);
@@ -181,11 +181,11 @@ const remove = (item: DataSource) => {
 const loadData = () => {
   loading.value = true;
   DataSourcesService.list()
-    .then((res) => {
+    .then(res => {
       // 直接更新数据，Vue 会根据 item-value="no" 识别唯一键
       data.value = res;
     })
-    .catch((err) => {
+    .catch(err => {
       console.error("Error fetching data sources:", err);
       alert(`加载数据失败: ${err.message}`);
     })

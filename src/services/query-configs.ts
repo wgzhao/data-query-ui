@@ -2,8 +2,6 @@ import { ref } from "vue";
 import Request from "@/util/request";
 import { QueryConfig } from "@/types";
 
-
-
 class QueryConfigService {
   private prefix = "/query-configs";
   /**
@@ -78,9 +76,8 @@ class QueryConfigService {
   testQuery(dataSourceId: String, querySql: String) {
     return Request.post(`${this.prefix}/test-query`, {
       sourceId: dataSourceId,
-      querySql: querySql,
-    }
-    );
+      querySql: querySql
+    });
   }
 }
 

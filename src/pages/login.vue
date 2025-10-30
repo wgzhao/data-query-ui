@@ -72,8 +72,8 @@ function login() {
       alert("登录失败: " + res.message);
     } else {
       authStore.setToken(res.result.token);
-      const  info = parseJwt(res.result.token);
-      authStore.setUserName(info['sub']);
+      const info = parseJwt(res.result.token);
+      authStore.setUserName(info["sub"]);
       const redirectPath = route.query.redirect || "/admin/home";
       router.push(redirectPath);
     }

@@ -1,52 +1,54 @@
-import {ref} from "vue";
-import { Sign, QueryConfig } from "@/types";
+import { ref } from "vue";
+import { Sign } from "@/types";
 import Request from "@/util/request";
 
-const baseURL = "/signs";
-
 class SignService {
+  prefix = "/signs";
   list() {
-    return Request.get(baseURL);
+    return Request.get(this.prefix);
   }
 
   get(id: string) {
-    return Request.get(`${baseURL}/${id}`);
+    return Request.get(`${this.prefix}/${id}`);
   }
 
   save(item: Sign) {
-    return Request.post(`${baseURL}`, item);
+    return Request.post(`${this.prefix}`, item);
   }
 
   update(appId: string, item: Sign) {
-    return Request.put(`${baseURL}/${appId}`, item);
+    return Request.put(`${this.prefix}/${appId}`, item);
   }
 
   remove(id: string) {
-    return Request.delete(`${baseURL}/${id}`);
+    return Request.delete(`${this.prefix}/${id}`);
   }
 
   exists(id: string) {
     const flag = ref(false);
-    Request.get(`${baseURL}/checkNo/${id}`)
+    Request.get(`${this.prefix}/checkNo/${id}`)
       .then(res => (flag.value = res.data))
       .catch(err => console.log(err));
     return flag;
   }
 
   gen() {
-    return Request.get(`${baseURL}/gen`);
+    return Request.get(`${this.prefix}/gen`);
   }
 
-   getAllQueryConfigs()  {
-    return Request.get(`${baseURL}/query-configs`);
+  getAllQueryConfigs() {
+    return Request.get(`${this.prefix}/query-configs`);
   }
 
   getSignQueryRelations(appId: string) {
-    return Request.get(`${baseURL}/query-configs/${appId}`);
+    return Request.get(`${this.prefix}/query-configs/${appId}`);
   }
 
   updateSignQueryRelations(appId: string, queryConfigIds: string[]) {
-    return Request.post(`${baseURL}/query-configs/${appId}`, queryConfigIds );
+    return Request.post(
+      `${this.prefix}/query-configs/${appId}`,
+      queryConfigIds
+    );
   }
 }
 

@@ -72,13 +72,13 @@
 
           <template v-slot:item.enableCache="{ item }">
             <v-icon :color="item.enableCache ? 'success' : 'error'">
-              {{ item.enableCache ? 'mdi-check-circle' : 'mdi-close-circle' }}
+              {{ item.enableCache ? "mdi-check-circle" : "mdi-close-circle" }}
             </v-icon>
           </template>
 
           <template v-slot:item.enabled="{ item }">
             <v-icon :color="item.enabled ? 'success' : 'error'">
-              {{ item.enabled ? 'mdi-check-circle' : 'mdi-close-circle' }}
+              {{ item.enabled ? "mdi-check-circle" : "mdi-close-circle" }}
             </v-icon>
           </template>
 
@@ -136,7 +136,7 @@
     <v-dialog v-model="dialog" max-width="1200px" persistent>
       <v-card>
         <v-card-title class="d-flex justify-space-between pt-4 px-4">
-          {{ currentItem ? '编辑查询配置' : '新增查询配置' }}
+          {{ currentItem ? "编辑查询配置" : "新增查询配置" }}
           <v-btn icon @click="closeDialog" variant="text">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -186,9 +186,9 @@ const expanded = ref([]);
 const headers = ref([
   { title: "查询ID", key: "selectId", width: "18%" },
   { title: "数据源", key: "dataSource", width: "15%" },
-  { title: "启用缓存", key: "enableCache", width: "8%", align: 'center' },
+  { title: "启用缓存", key: "enableCache", width: "8%", align: "center" },
   { title: "缓存时间(s)", key: "cacheTime", width: "10%" },
-  { title: "启用", key: "enabled", width: "8%", align: 'center' },
+  { title: "启用", key: "enabled", width: "8%", align: "center" },
   { title: "创建时间", key: "createdAt", width: "12%" },
   { title: "修改时间", key: "updatedAt", width: "12%" },
   { title: "备注", key: "note", width: "10%" },
@@ -197,7 +197,7 @@ const headers = ref([
     key: "actions",
     sortable: false,
     width: "7%",
-    align: 'center'
+    align: "center"
   }
 ]);
 const search = ref("");
@@ -228,7 +228,8 @@ const onSaved = () => {
 const deleteItem = (id: string) => {
   if (confirm("确认删除？")) {
     loading.value = true;
-    queryConfigService.remove(id)
+    queryConfigService
+      .remove(id)
       .then(() => {
         data.value = data.value.filter(item => item.selectId !== id);
       })
@@ -243,7 +244,8 @@ const deleteItem = (id: string) => {
 
 const deleteCache = (id: string) => {
   loading.value = true;
-  queryConfigService.deleteCache(id)
+  queryConfigService
+    .deleteCache(id)
     .then(res => {
       alert(`缓存已删除, 删除数量: ${res}`);
     })
@@ -257,7 +259,8 @@ const deleteCache = (id: string) => {
 
 const loadData = () => {
   loading.value = true;
-  queryConfigService.list()
+  queryConfigService
+    .list()
     .then(res => {
       // 直接更新数据，Vue 会根据 item-value="selectId" 识别唯一键
       data.value = res;
@@ -280,7 +283,7 @@ const viewDataSource = async (sourceId: string) => {
     loading.value = true;
     // 修复：确保从服务器获取完整的数据源对象
     const source = await DataSourcesService.get(sourceId);
-    if (source && typeof source === 'object') {
+    if (source && typeof source === "object") {
       dataSourceItem.value = source;
       dataSourceDialog.value = true;
     } else {

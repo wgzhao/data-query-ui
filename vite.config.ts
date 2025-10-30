@@ -61,7 +61,7 @@ export default defineConfig(({ mode }) => {
       alias: {
         "@": fileURLToPath(new URL("./src", import.meta.url))
       },
-      extensions: [ ".json", ".ts", ".tsx", ".vue"]
+      extensions: [".json", ".ts", ".tsx", ".vue"]
     },
 
     // 开发服务器配置

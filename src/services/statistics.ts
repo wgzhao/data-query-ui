@@ -1,10 +1,10 @@
-import { ref } from "vue";
 import Request from "@/util/request";
-const baseURL = ref("/statistic");
 
 class Statistic {
+  prefix = "/statistics";
+
   byDate() {
-    return Request.get(`${baseURL.value}/byDate`);
+    return Request.get(`${this.prefix}/by-date`);
   }
 }
 

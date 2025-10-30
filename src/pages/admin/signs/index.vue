@@ -4,7 +4,9 @@
       <v-card-text>
         <v-row dense align="center" class="mb-2">
           <v-col cols="auto">
-            <v-toolbar-title class="text-h5 font-weight-bold">签名</v-toolbar-title>
+            <v-toolbar-title class="text-h5 font-weight-bold"
+              >签名</v-toolbar-title
+            >
           </v-col>
           <v-spacer />
           <v-col cols="auto">
@@ -48,7 +50,7 @@
                 variant="outlined"
                 clearable
                 prepend-inner-icon="mdi-magnify"
-                style="max-width: 300px;"
+                style="max-width: 300px"
               />
             </v-toolbar>
           </template>
@@ -101,7 +103,11 @@
         <v-card-text>确定要删除此签名吗？</v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn color="secondary" variant="text" @click="confirmDialog = false">
+          <v-btn
+            color="secondary"
+            variant="text"
+            @click="confirmDialog = false"
+          >
             取消
           </v-btn>
           <v-btn color="primary" variant="text" @click="deleteSign">
@@ -113,7 +119,11 @@
 
     <!-- 关联查询配置对话框 -->
     <v-dialog v-model="queryConfigsDialog" max-width="700">
-      <QueryConfigSign :appId="currentSignAppId" @close="closeQueryConfigDialog" @save="closeQueryConfigDialog" />
+      <QueryConfigSign
+        :appId="currentSignAppId"
+        @close="closeQueryConfigDialog"
+        @save="closeQueryConfigDialog"
+      />
     </v-dialog>
   </v-container>
 </template>
@@ -136,7 +146,6 @@ const itemToDelete = ref<string>(""); // 待删除的 appId
 const queryConfigsDialog = ref(false);
 const currentSignAppId = ref<string>("");
 
-
 const headers = ref([
   { title: "App Id", value: "appId", width: "20%" },
   { title: "App Secret", value: "appKey", width: "30%" },
@@ -147,8 +156,8 @@ const headers = ref([
     value: "actions",
     sortable: false,
     width: "15%",
-    align: "center",
-  },
+    align: "center"
+  }
 ]);
 
 const addItem = () => {
@@ -165,10 +174,12 @@ const deleteSign = () => {
   loading.value = true;
   SignService.remove(itemToDelete.value)
     .then(() => {
-      signs.value = signs.value.filter((sign) => sign.appId !== itemToDelete.value);
+      signs.value = signs.value.filter(
+        sign => sign.appId !== itemToDelete.value
+      );
       alert("删除成功");
     })
-    .catch((err) => {
+    .catch(err => {
       alert(`删除失败: ${err.message}`);
     })
     .finally(() => {
@@ -179,17 +190,15 @@ const deleteSign = () => {
 };
 
 const toggle = (appId: string) => {
-  const sign = signs.value.find((sign) => sign.appId === appId);
+  const sign = signs.value.find(sign => sign.appId === appId);
   if (sign) {
     sign.enabled = !sign.enabled;
     loading.value = true;
     SignService.update(sign.appId, sign)
       .then(() => {
-        signs.value = signs.value.map((s) =>
-          s.appId === appId ? sign : s
-        );
+        signs.value = signs.value.map(s => (s.appId === appId ? sign : s));
       })
-      .catch((err) => {
+      .catch(err => {
         alert(`更新失败: ${err.message}`);
       })
       .finally(() => {
@@ -211,10 +220,10 @@ const closeQueryConfigDialog = () => {
 onMounted(() => {
   loading.value = true;
   SignService.list()
-    .then((res) => {
+    .then(res => {
       signs.value = res;
     })
-    .catch((err) => {
+    .catch(err => {
       console.error("Error fetching signs:", err);
       alert(`加载签名失败: ${err.message}`);
     })

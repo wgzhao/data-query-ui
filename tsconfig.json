@@ -22,7 +22,11 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "skipDefaultLibCheck": true,
-    "types": ["vite/client", "unplugin-vue-router/client", "unplugin-vue-router"],
+    "types": [
+      "vite/client",
+      "unplugin-vue-router/client",
+      "unplugin-vue-router"
+    ],
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"]

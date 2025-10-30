@@ -84,7 +84,8 @@
             <v-row class="mt-4">
               <v-col cols="12">
                 <div class="d-flex justify-space-between align-center">
-                  <div></div> <!-- 左侧占位，保持对称 -->
+                  <div></div>
+                  <!-- 左侧占位，保持对称 -->
 
                   <div class="d-flex gap-3">
                     <v-btn
@@ -148,8 +149,18 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="secondary" variant="outlined" @click="showVariableDialog = false">取消</v-btn>
-          <v-btn color="primary" @click="executeTestQuery" :loading="testLoading">执行测试</v-btn>
+          <v-btn
+            color="secondary"
+            variant="outlined"
+            @click="showVariableDialog = false"
+            >取消</v-btn
+          >
+          <v-btn
+            color="primary"
+            @click="executeTestQuery"
+            :loading="testLoading"
+            >执行测试</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -164,7 +175,7 @@
             size="small"
             class="ml-2"
           >
-            {{ testSuccess ? '成功' : '失败' }}
+            {{ testSuccess ? "成功" : "失败" }}
           </v-chip>
         </v-card-title>
         <v-card-text>
@@ -175,7 +186,9 @@
             <v-table density="compact">
               <thead>
                 <tr>
-                  <th v-for="(value, key) in testResult[0]" :key="key">{{ key }}</th>
+                  <th v-for="(value, key) in testResult[0]" :key="key">
+                    {{ key }}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -184,15 +197,25 @@
                 </tr>
               </tbody>
             </v-table>
-            <div class="text-caption text-right mt-2">共 {{ testResult.length }} 行记录</div>
+            <div class="text-caption text-right mt-2">
+              共 {{ testResult.length }} 行记录
+            </div>
           </div>
-          <div v-else-if="testSuccess && (!testResult || testResult.length === 0)" class="text-center py-4">
+          <div
+            v-else-if="testSuccess && (!testResult || testResult.length === 0)"
+            class="text-center py-4"
+          >
             查询执行成功，但没有返回数据
           </div>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" variant="outlined" @click="showResultDialog = false">关闭</v-btn>
+          <v-btn
+            color="primary"
+            variant="outlined"
+            @click="showResultDialog = false"
+            >关闭</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -212,7 +235,7 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['saved', 'cancel']);
+const emit = defineEmits(["saved", "cancel"]);
 
 const defaultForm = {
   selectId: "",
@@ -240,7 +263,7 @@ const rules = ref({
   }
 });
 
-const form = ref({...defaultForm});
+const form = ref({ ...defaultForm });
 
 const toastCtl = ref<Toast>({
   showToast: false,
@@ -268,10 +291,10 @@ const save = async () => {
   loading.value = true;
   try {
     const res = await QueryConfigService.save(form.value);
-      setToast("保存成功", false);
-      setTimeout(() => {
-        emit('saved');
-      }, 1000);
+    setToast("保存成功", false);
+    setTimeout(() => {
+      emit("saved");
+    }, 1000);
   } catch (error) {
     setToast(`保存失败: ${error.message}`, true);
   } finally {
@@ -280,17 +303,21 @@ const save = async () => {
 };
 
 const cancel = () => {
-  emit('cancel');
+  emit("cancel");
 };
 
 // 监听外部传入的配置数据变化
-watch(() => props.configData, (newVal) => {
-  if (newVal) {
-    form.value = { ...newVal };
-  } else {
-    form.value = { ...defaultForm };
-  }
-}, { immediate: true });
+watch(
+  () => props.configData,
+  newVal => {
+    if (newVal) {
+      form.value = { ...newVal };
+    } else {
+      form.value = { ...defaultForm };
+    }
+  },
+  { immediate: true }
+);
 
 onMounted(async () => {
   try {
@@ -331,10 +358,13 @@ const extractVariables = (sql: string): string[] => {
 };
 
 // 替换SQL中的变量
-const replaceVariables = (sql: string, values: Record<string, string>): string => {
+const replaceVariables = (
+  sql: string,
+  values: Record<string, string>
+): string => {
   let result = sql;
   Object.entries(values).forEach(([key, value]) => {
-    const regex = new RegExp(`\\$\\{${key}\\}`, 'g');
+    const regex = new RegExp(`\\$\\{${key}\\}`, "g");
     result = result.replace(regex, value);
   });
   return result;
@@ -343,7 +373,7 @@ const replaceVariables = (sql: string, values: Record<string, string>): string =
 // 测试查询
 const testQuery = () => {
   if (!form.value.querySql || !form.value.dataSource) {
-    setToast('请先填写查询语句和选择数据源', true);
+    setToast("请先填写查询语句和选择数据源", true);
     return;
   }
 
@@ -354,7 +384,7 @@ const testQuery = () => {
     // 重置变量值
     variableValues.value = {};
     vars.forEach(variable => {
-      variableValues.value[variable] = '';
+      variableValues.value[variable] = "";
     });
     showVariableDialog.value = true;
   } else {
@@ -394,7 +424,7 @@ const executeTestQuery = async () => {
       testSuccess.value = true;
       testResult.value = res.data.result || [];
     } else {
-      testError.value = res.message || '测试失败';
+      testError.value = res.message || "测试失败";
     }
   } catch (error) {
     testError.value = `执行测试查询出错: ${error.message}`;
