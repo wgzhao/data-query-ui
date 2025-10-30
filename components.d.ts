@@ -7,14 +7,11 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    BackButton: typeof import('./src/components/BackButton.vue')['default']
     DataSource: typeof import('./src/components/DataSource.vue')['default']
     QueryConfigComp: typeof import('./src/components/QueryConfigComp.vue')['default']
+    QueryConfigSign: typeof import('./src/components/QueryConfigSign.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SnackBar: typeof import('./src/components/snack-bar.vue')['default']
-    Toast: typeof import('./src/components/Toast.vue')['default']
     ToastInfo: typeof import('./src/components/ToastInfo.vue')['default']
-    VueApexCharts: typeof import('vue3-apexcharts')['default']
   }
 }

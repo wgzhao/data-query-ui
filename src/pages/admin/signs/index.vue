@@ -4,7 +4,9 @@
       <v-card-text>
         <v-row dense align="center" class="mb-2">
           <v-col cols="auto">
-            <v-toolbar-title class="text-h5 font-weight-bold">签名</v-toolbar-title>
+            <v-toolbar-title class="text-h5 font-weight-bold"
+              >签名</v-toolbar-title
+            >
           </v-col>
           <v-spacer />
           <v-col cols="auto">
@@ -48,7 +50,7 @@
                 variant="outlined"
                 clearable
                 prepend-inner-icon="mdi-magnify"
-                style="max-width: 300px;"
+                style="max-width: 300px"
               />
             </v-toolbar>
           </template>
@@ -81,6 +83,14 @@
               >
                 {{ item.enabled ? "禁用" : "启用" }}
               </v-btn>
+              <v-btn
+                size="small"
+                color="info"
+                variant="text"
+                @click="openQueryConfigsDialog(item.appId)"
+              >
+                关联查询
+              </v-btn>
             </div>
           </template>
         </v-data-table>
@@ -93,7 +103,11 @@
         <v-card-text>确定要删除此签名吗？</v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn color="secondary" variant="text" @click="confirmDialog = false">
+          <v-btn
+            color="secondary"
+            variant="text"
+            @click="confirmDialog = false"
+          >
             取消
           </v-btn>
           <v-btn color="primary" variant="text" @click="deleteSign">
@@ -102,14 +116,24 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!-- 关联查询配置对话框 -->
+    <v-dialog v-model="queryConfigsDialog" max-width="700">
+      <QueryConfigSign
+        :appId="currentSignAppId"
+        @close="closeQueryConfigDialog"
+        @save="closeQueryConfigDialog"
+      />
+    </v-dialog>
   </v-container>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import SignService from "@/services/sign";
+import SignService from "@/services/signs";
 import { Sign } from "@/types";
 import { useRoute, useRouter } from "vue-router";
+import QueryConfigSign from "@/components/QueryConfigSign.vue";
 
 const router = useRouter();
 const route = useRoute();
@@ -118,6 +142,9 @@ const signs = ref<Sign[]>([]);
 const loading = ref(false); // 添加加载状态
 const confirmDialog = ref(false); // 确认对话框状态
 const itemToDelete = ref<string>(""); // 待删除的 appId
+// 查询配置管理相关
+const queryConfigsDialog = ref(false);
+const currentSignAppId = ref<string>("");
 
 const headers = ref([
   { title: "App Id", value: "appId", width: "20%" },
@@ -129,8 +156,8 @@ const headers = ref([
     value: "actions",
     sortable: false,
     width: "15%",
-    align: "center",
-  },
+    align: "center"
+  }
 ]);
 
 const addItem = () => {
@@ -147,10 +174,12 @@ const deleteSign = () => {
   loading.value = true;
   SignService.remove(itemToDelete.value)
     .then(() => {
-      signs.value = signs.value.filter((sign) => sign.appId !== itemToDelete.value);
+      signs.value = signs.value.filter(
+        sign => sign.appId !== itemToDelete.value
+      );
       alert("删除成功");
     })
-    .catch((err) => {
+    .catch(err => {
       alert(`删除失败: ${err.message}`);
     })
     .finally(() => {
@@ -161,17 +190,15 @@ const deleteSign = () => {
 };
 
 const toggle = (appId: string) => {
-  const sign = signs.value.find((sign) => sign.appId === appId);
+  const sign = signs.value.find(sign => sign.appId === appId);
   if (sign) {
     sign.enabled = !sign.enabled;
     loading.value = true;
-    SignService.update(sign)
+    SignService.update(sign.appId, sign)
       .then(() => {
-        signs.value = signs.value.map((s) =>
-          s.appId === appId ? sign : s
-        );
+        signs.value = signs.value.map(s => (s.appId === appId ? sign : s));
       })
-      .catch((err) => {
+      .catch(err => {
         alert(`更新失败: ${err.message}`);
       })
       .finally(() => {
@@ -180,13 +207,23 @@ const toggle = (appId: string) => {
   }
 };
 
+const openQueryConfigsDialog = async (appId: string) => {
+  currentSignAppId.value = appId;
+  queryConfigsDialog.value = true;
+};
+
+// 新增：关闭查询配置对话框的方法
+const closeQueryConfigDialog = () => {
+  queryConfigsDialog.value = false;
+};
+
 onMounted(() => {
   loading.value = true;
   SignService.list()
-    .then((res) => {
+    .then(res => {
       signs.value = res;
     })
-    .catch((err) => {
+    .catch(err => {
       console.error("Error fetching signs:", err);
       alert(`加载签名失败: ${err.message}`);
     })

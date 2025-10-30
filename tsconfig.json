@@ -12,7 +12,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noImplicitAny": false,
-    "allowJs": true,
+    "allowJs": false,
     "noEmit": true,
     "jsx": "preserve",
 
@@ -21,7 +21,12 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "types": ["unplugin-vue-router/client", "node"],
+    "skipDefaultLibCheck": true,
+    "types": [
+      "vite/client",
+      "unplugin-vue-router/client",
+      "unplugin-vue-router"
+    ],
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"]

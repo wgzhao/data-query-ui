@@ -5,7 +5,7 @@ import { fileURLToPath, URL } from "node:url";
 import Vue from "@vitejs/plugin-vue";
 import Vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 import VueRouter from "unplugin-vue-router/vite";
-import Layouts from "vite-plugin-vue-layouts";
+import Layouts from "vite-plugin-vue-layouts-next";
 import Components from "unplugin-vue-components/vite";
 import ViteFonts from "unplugin-fonts/vite";
 
@@ -61,7 +61,7 @@ export default defineConfig(({ mode }) => {
       alias: {
         "@": fileURLToPath(new URL("./src", import.meta.url))
       },
-      extensions: [".js", ".json", ".jsx", ".mjs", ".ts", ".tsx", ".vue"]
+      extensions: [".json", ".ts", ".tsx", ".vue"]
     },
 
     // 开发服务器配置

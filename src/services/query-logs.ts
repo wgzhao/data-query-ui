@@ -16,7 +16,7 @@ interface QueryParams {
   q?: string;
 }
 
-const apiPrefix = ref("/queryLog");
+const apiPrefix = ref("/query-logs");
 
 /**
  * 获取查询日志列表

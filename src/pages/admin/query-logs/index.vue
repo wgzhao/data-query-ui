@@ -4,7 +4,9 @@
       <v-card-text>
         <v-row dense align="center" class="mb-2">
           <v-col cols="auto">
-            <v-toolbar-title class="text-h5 font-weight-bold">查询日志</v-toolbar-title>
+            <v-toolbar-title class="text-h5 font-weight-bold"
+              >查询日志</v-toolbar-title
+            >
           </v-col>
         </v-row>
         <div class="text-body-2 text-medium-emphasis mb-4 w-100 w-md-75">
@@ -40,7 +42,7 @@
                 variant="outlined"
                 clearable
                 prepend-inner-icon="mdi-magnify"
-                style="max-width: 300px;"
+                style="max-width: 300px"
                 @keyup.enter="searchLogs"
               />
             </v-toolbar>
@@ -64,7 +66,7 @@
 </template>
 
 <script setup lang="ts">
-import QueryLogService from "@/services/querylog";
+import QueryLogService from "@/services/query-logs";
 import { ref } from "vue";
 
 const logs = ref([]);
@@ -83,11 +85,11 @@ const headers = ref([
     title: "查询SQL",
     key: "data-table-expand",
     sortable: false,
-    width: "20%",
-  },
+    width: "20%"
+  }
 ]);
 
-const createSort = (sortBy) => {
+const createSort = sortBy => {
   let sortKey = [];
   let sortOrder = [];
   if (sortBy.length) {

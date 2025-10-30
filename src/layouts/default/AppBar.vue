@@ -64,12 +64,11 @@
 
 <script setup lang="ts">
 import { ref, watch, computed } from "vue";
-import parseJwt from "@/util/jwt-util";
 import { useAuthStore } from "@/store/auth.ts";
 
 const theme = defineModel();
 const authStore = useAuthStore();
-const curUser = authStore.username;
+const curUser = computed(() => authStore.username);
 const urls = ref([
   {
     title: "首页",

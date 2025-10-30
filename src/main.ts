@@ -12,7 +12,7 @@ import App from "./App.vue";
 
 // Composables
 import { createApp } from "vue";
-import {useAuthStore} from "@/store/auth";
+import { useAuthStore } from "@/store/auth";
 
 const app = createApp(App);
 

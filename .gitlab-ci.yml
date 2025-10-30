@@ -5,9 +5,10 @@ include:
     - argocd-nodejs-ci-new-bak.yml
 build:
   stage: build
-  image: "node:18-alpine"
   script: |
     rm -rf dist
+    nvm use 20
+    npm install -g yarn
     yarn config set registry https://registry.npmmirror.com
     yarn install
     yarn global add vite@latest
@@ -23,7 +24,7 @@ build:
       - dist
     expire_in: 20 minutes
   tags:
-    - node
+    - host
   only:
     - test
     - uat
